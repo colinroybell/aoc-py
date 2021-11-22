@@ -1,5 +1,11 @@
 import sys
+from utils.day_base import DayBase
 from utils.data_input import input_generator
+
+
+class Run_2015_01(DayBase):
+    YEAR = "2015"
+    DAY = "01"
 
 
 def part_a(input, part_b=False):
@@ -22,12 +28,5 @@ def part_b(input):
     return part_a(input, part_b=True)
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/aoc2015/day01.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/aoc2015/day01.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+      Run_2015_01().run_cmdline()

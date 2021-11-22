@@ -1,7 +1,14 @@
 import sys
+from utils.day_base import DayBase
 from utils.data_input import input_generator
 from utils.grid_2d import Grid2d
 from utils.vec_2d import Vec2d
+
+
+
+class Run_2015_03(DayBase):
+    YEAR = "2015"
+    DAY = "03"
 
 
 def part_a(input, part_b=False):
@@ -31,12 +38,7 @@ def part_b(input):
     return part_a(input, part_b=True)
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/aoc2015/day03.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/aoc2015/day03.txt"))
-
 
 if __name__ == "__main__":
-    entry()
+    Run_2015_03().run_cmdline()
+
