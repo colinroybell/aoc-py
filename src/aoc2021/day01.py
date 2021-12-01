@@ -8,11 +8,31 @@ class Run_2021_01(DayBase):
 
 
 def part_a(input):
-    assert 0, "not implemented"
+    last = None
+    count = 0
+    for line in input_generator(input):
+        val = int(line)
+        if last and val > last:
+            count += 1
+        last = val
+    return count
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    window = []
+    last = None
+    count = 0
+    for line in input_generator(input):
+        val = int(line)
+        window.append(val)
+        if len(window) == 3:
+            sum_ = sum(window)
+            print(sum_, window)
+            if last and sum_ > last:
+                count += 1
+            last = sum_
+            window.pop(0)
+    return count
 
 
 if __name__ == "__main__":

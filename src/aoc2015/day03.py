@@ -5,7 +5,6 @@ from utils.grid_2d import Grid2d
 from utils.vec_2d import Vec2d
 
 
-
 class Run_2015_03(DayBase):
     YEAR = "2015"
     DAY = "03"
@@ -38,7 +37,5 @@ def part_b(input):
     return part_a(input, part_b=True)
 
 
-
 if __name__ == "__main__":
     Run_2015_03().run_cmdline()
-

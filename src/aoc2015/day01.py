@@ -29,4 +29,4 @@ def part_b(input):
 
 
 if __name__ == "__main__":
-      Run_2015_01().run_cmdline()
+    Run_2015_01().run_cmdline()

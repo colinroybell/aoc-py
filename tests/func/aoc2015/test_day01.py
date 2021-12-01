@@ -24,6 +24,6 @@ class Test_2015_01:
 
     def test_regression_a(self):
         assert self.day.run_part("a") == 280
-    
-    def test_regression_b(self):    
+
+    def test_regression_b(self):
         assert self.day.run_part("b") == 1797
