@@ -7,15 +7,13 @@ class Test_2021_02:
         self.day = Run_2021_02()
 
     def test_bringup_a(self):
-        pass
+        assert self.day.run_part("a", "test1") == 150
 
     def test_bringup_b(self):
-        pass
+        assert self.day.run_part("b", "test1") == 900
 
-    @pytest.mark.xfail
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        assert self.day.run_part("a") == 1383564
 
-    @pytest.mark.xfail
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == 1488311643

@@ -16,3 +16,6 @@ class Vec2d:
             return Vec2d((self.x - 1, self.y))
         else:
             assert "Bad direction"
+
+    def __add__(self, other):
+        return Vec2d((self.x + other.x, self.y + other.y))
