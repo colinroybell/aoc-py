@@ -36,8 +36,8 @@ def oxygen_bit(counts):
 
 
 def co2_bit(counts):
-    diff = counts["0"] - counts["1"]
-    if diff <= 0:
+    diff = counts["1"] - counts["0"]
+    if diff >= 0:
         return "0"
     else:
         return "1"
@@ -50,10 +50,7 @@ def recurse(entries, function):
     for e in entries:
         counts[e[0]] += 1
     bit = function(counts)
-    entries_reduced = []
-    for e in entries:
-        if e[0] == bit:
-            entries_reduced.append(e[1:])
+    entries_reduced = [e[1:] for e in entries if e[0]==bit]
     return bit + recurse(entries_reduced, function)
 
 

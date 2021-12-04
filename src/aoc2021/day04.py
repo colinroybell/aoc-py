@@ -34,15 +34,15 @@ class Board:
         if self.done:
             # Don't continue once won: needed for part B
             return (False, 0)
-        for col in range(0, self.board_size):
-            for row in range(0, self.board_size):
+        for col in range(0, Board.board_size):
+            for row in range(0, Board.board_size):
                 if self.entries[col][row] == N:
                     self.col_hit[col] += 1
                     self.row_hit[row] += 1
                     self.unhit_total -= N
                     if (
-                        self.col_hit[col] == self.board_size
-                        or self.row_hit[row] == self.board_size
+                        self.col_hit[col] == Board.board_size
+                        or self.row_hit[row] == Board.board_size
                     ):
                         self.done = True
                         return (True, self.unhit_total * N)
