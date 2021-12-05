@@ -20,25 +20,24 @@ def part_a(input, part_b=False):
         y1 = int(m.group(2))
         x2 = int(m.group(3))
         y2 = int(m.group(4))
-        if x1 == x2:
-            for y in range(min(y1, y2), max(y1, y2) + 1):
-                grid.increment(Vec2d((x1, y)))
-        elif y1 == y2:
-            for x in range(min(x1, x2), max(x1, x2) + 1):
-                grid.increment(Vec2d((x, y1)))
-        elif part_b:
-            len = abs(x2 - x1)
 
-            def dir(v1, v2):
-                if v2 > v1:
-                    return 1
-                else:
-                    return -1
+        if x1 != x2 and y1 != y2 and not part_b:
+            continue
 
-            dx = dir(x1, x2)
-            dy = dir(y1, y2)
-            for p in range(0, len + 1):
-                grid.increment(Vec2d((x1 + p * dx, y1 + p * dy)))
+        def dir(v1, v2):
+            if v2 > v1:
+                return 1
+            elif v2 < v1:
+                return -1
+            else:
+                return 0
+
+        dx = dir(x1, x2)
+        dy = dir(y1, y2)
+        len = max(abs(x2 - x1), abs(y2 - y1))
+
+        for p in range(0, len + 1):
+            grid.increment(Vec2d((x1 + p * dx, y1 + p * dy)))
 
     def gtr1(v):
         return v > 1
