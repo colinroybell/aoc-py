@@ -12,11 +12,17 @@ class Grid2d:
             self.c[vec] = 1
         else:
             self.c[vec] += 1
-        print(vec, self.c[vec])
+        # print(vec, self.c[vec])
 
-    def count_non_zero(self):
+    def count_function(self, function):
         count = 0
         for p, v in self.c.items():
-            if v:
+            if function(v):
                 count += 1
         return count
+
+    def count_non_zero(self):
+        def non_zero(v):
+            return v != 0
+
+        return self.count_function(non_zero)

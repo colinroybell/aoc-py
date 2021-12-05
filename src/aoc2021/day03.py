@@ -50,7 +50,7 @@ def recurse(entries, function):
     for e in entries:
         counts[e[0]] += 1
     bit = function(counts)
-    entries_reduced = [e[1:] for e in entries if e[0]==bit]
+    entries_reduced = [e[1:] for e in entries if e[0] == bit]
     return bit + recurse(entries_reduced, function)
 
 
