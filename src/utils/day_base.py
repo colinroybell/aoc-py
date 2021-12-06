@@ -8,14 +8,14 @@ class DayBase:
     DAY = ""
     PART_AS_SUFFIX = False
 
-    def run_part(self, part, input=None):
+    def run_part(self, part, input=None, **kwargs):
         aoc_module = importlib.import_module("aoc{}.day{}".format(self.YEAR, self.DAY))
         if not isinstance(input, list):
             input = self.input_filename(part, input)
         if part == "a":
-            return aoc_module.part_a(input)
+            return aoc_module.part_a(input, **kwargs)
         elif part == "b":
-            return aoc_module.part_b(input)
+            return aoc_module.part_b(input, **kwargs)
         else:
             assert False
             return 0
