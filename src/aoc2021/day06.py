@@ -9,35 +9,34 @@ class Run_2021_06(DayBase):
 
 def part_a(input, days=80):
     line = next(input_generator(input))
-    words=line.split(',')
+    words = line.split(",")
     state = [int(word) for word in words]
-    for day in range(0,days):
+    for day in range(0, days):
         new_state = []
         for fish in state:
             if fish > 0:
-                new_state.append(fish-1)
+                new_state.append(fish - 1)
             else:
                 # Note: this puts things in the middle of the list, not at the end, but that's fine for counting
                 new_state.append(6)
                 new_state.append(8)
         state = new_state
         print(new_state)
-    return len(state)                
+    return len(state)
 
-def part_b(input,days=256):
+
+def part_b(input, days=256):
     line = next(input_generator(input))
     counts = [0] * 9
-    words=line.split(',')
+    words = line.split(",")
     for word in words:
-        counts[int(word)]+=1
-    for day in range(0,days):
+        counts[int(word)] += 1
+    for day in range(0, days):
         split = counts[0]
         counts = counts[1:]
         counts.append(split)
         counts[6] += split
-    return sum(counts)    
-        
-
+    return sum(counts)
 
 
 if __name__ == "__main__":
