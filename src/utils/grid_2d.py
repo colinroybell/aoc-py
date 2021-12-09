@@ -3,8 +3,8 @@ from collections import defaultdict
 
 
 class Grid2d:
-    def __init__(self):
-        self.c = defaultdict(lambda: 0)
+    def __init__(self, unset=0):
+        self.c = defaultdict(lambda: unset)
 
     def increment(self, vector):
         vec = vector.tuple()
@@ -26,3 +26,18 @@ class Grid2d:
             return v != 0
 
         return self.count_function(non_zero)
+
+    def set(self, vec, v):
+        self.c[vec.tuple()] = v
+
+    def get(self, vec):
+        return self.c[vec.tuple()]
+
+    def __repr__(self):
+        string = ""
+        for p, v in self.c.items():
+            string += "{}, {} ".format(p, v)
+            if p == Vec2d((0, 0)):
+                string += "yes "
+        string = string[:-1]
+        return string
