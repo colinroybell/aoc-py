@@ -15,12 +15,7 @@ def lower(a, b):
 
 def part_a(input):
     grid = Grid2d(unset=None)
-    y = 0
-    for line in input_generator(input):
-        for x, v in enumerate(line):
-            grid.set(Vec2d((x, y)), int(v))
-            x += 1
-        y += 1
+    (x, y) = grid.read_from_file(input)
 
     score = 0
     for i in range(0, x):
@@ -52,12 +47,7 @@ def floodfill(base, grid):
 
 def part_b(input):
     grid = Grid2d(unset=None)
-    y = 0
-    for line in input_generator(input):
-        for x, v in enumerate(line):
-            grid.set(Vec2d((x, y)), int(v))
-            x += 1
-        y += 1
+    (x, y) = grid.read_from_file(input)
 
     basin_sizes = []
     score = 0

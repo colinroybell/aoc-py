@@ -1,10 +1,20 @@
 from utils.vec_2d import Vec2d
 from collections import defaultdict
+from utils.data_input import input_generator
 
 
 class Grid2d:
     def __init__(self, unset=0):
         self.c = defaultdict(lambda: unset)
+
+    def read_from_file(self, input):
+        y = 0
+        for line in input_generator(input):
+            for x, v in enumerate(line):
+                self.set(Vec2d((x, y)), int(v))
+                x += 1
+            y += 1
+        return (x, y)
 
     def increment(self, vector):
         vec = vector.tuple()
