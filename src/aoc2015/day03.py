@@ -12,8 +12,8 @@ class Run_2015_03(DayBase):
 
 def part_a(input, part_b=False):
     grid = Grid2d()
-    vec = Vec2d((0, 0))
-    rvec = Vec2d((0, 0))
+    vec = Vec2d(0, 0)
+    rvec = Vec2d(0, 0)
     grid.increment(vec)
     if part_b:
         grid.increment(rvec)

@@ -37,7 +37,7 @@ def part_a(input, part_b=False):
         len = max(abs(x2 - x1), abs(y2 - y1))
 
         for p in range(0, len + 1):
-            grid.increment(Vec2d((x1 + p * dx, y1 + p * dy)))
+            grid.increment(Vec2d(x1 + p * dx, y1 + p * dy))
 
     def gtr1(v):
         return v > 1

@@ -17,16 +17,16 @@ def part_a(input, part_b=False):
     if part_b:
         for x in range(width, 5 * width):
             for y in range(0, height):
-                pos_from = Vec2d((x - width, y))
-                pos_to = Vec2d((x, y))
+                pos_from = Vec2d(x - width, y)
+                pos_to = Vec2d(x, y)
                 val = grid.get(pos_from) + 1
                 if val > 9:
                     val = 1
                 grid.set(pos_to, val)
         for x in range(0, 5 * width):
             for y in range(height, 5 * height):
-                pos_from = Vec2d((x, y - height))
-                pos_to = Vec2d((x, y))
+                pos_from = Vec2d(x, y - height)
+                pos_to = Vec2d(x, y)
                 val = grid.get(pos_from) + 1
                 if val > 9:
                     val = 1
@@ -34,8 +34,8 @@ def part_a(input, part_b=False):
         width *= 5
         height *= 5
 
-    start = Vec2d((0, 0))
-    end = Vec2d((width - 1, height - 1))
+    start = Vec2d(0, 0)
+    end = Vec2d(width - 1, height - 1)
     val_grid = Grid2d(None)
     to_process = PriorityQueue()
     to_process.put((0, start))

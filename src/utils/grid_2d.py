@@ -11,7 +11,7 @@ class Grid2d:
         y = 0
         for line in input_generator(input):
             for x, v in enumerate(line):
-                self.set(Vec2d((x, y)), int(v))
+                self.set(Vec2d(x, y), int(v))
                 x += 1
             y += 1
         return (x, y)
@@ -60,7 +60,7 @@ class Grid2d:
         string = ""
         for y in range(0, height):
             for x in range(0, width):
-                v = Vec2d((x, y))
+                v = Vec2d(x, y)
                 if self.get(v):
                     string += "#"
                 else:

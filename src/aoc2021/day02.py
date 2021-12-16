@@ -26,17 +26,17 @@ class Position:
 
 
 def part_a(input):
-    pos = Vec2d((0, 0))
+    pos = Vec2d(0, 0)
     for line in input_generator(input):
         words = line.split(" ")
         dir = words[0]
         dist = int(words[1])
         if dir == "forward":
-            vec = Vec2d((dist, 0))
+            vec = Vec2d(dist, 0)
         elif dir == "down":
-            vec = Vec2d((0, dist))
+            vec = Vec2d(0, dist)
         elif dir == "up":
-            vec = Vec2d((0, -dist))
+            vec = Vec2d(0, -dist)
         else:
             assert 0, "bad direction {}".format(dir)
         pos = pos + vec

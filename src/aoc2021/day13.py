@@ -23,7 +23,7 @@ def part_a(input, part_b=False):
         coords = line.split(",")
         x = int(coords[0])
         y = int(coords[1])
-        grid.set(Vec2d((x, y)), 1)
+        grid.set(Vec2d(x, y), 1)
         if x >= width:
             width = x + 1
         if y >= height:
@@ -39,8 +39,8 @@ def part_a(input, part_b=False):
         if dir == "y":
             for x in range(0, width):
                 for y in range(val + 1, height):
-                    pos = Vec2d((x, y))
-                    pos_ref = Vec2d((x, 2 * val - y))
+                    pos = Vec2d(x, y)
+                    pos_ref = Vec2d(x, 2 * val - y)
                     if grid.get(pos):
                         grid.unset(pos)
                         grid.set(pos_ref, 1)
@@ -48,8 +48,8 @@ def part_a(input, part_b=False):
         else:
             for x in range(val + 1, width):
                 for y in range(0, height):
-                    pos = Vec2d((x, y))
-                    pos_ref = Vec2d((2 * val - x, y))
+                    pos = Vec2d(x, y)
+                    pos_ref = Vec2d(2 * val - x, y)
                     if grid.get(pos):
                         grid.unset(pos)
                         grid.set(pos_ref, 1)

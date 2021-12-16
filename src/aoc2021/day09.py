@@ -21,7 +21,7 @@ def part_a(input):
     for i in range(0, x):
         for j in range(0, y):
             ok = True
-            base = Vec2d((i, j))
+            base = Vec2d(i, j)
             h = grid.get(base)
             for d in "^>v<":
                 adj = base.move(d)
@@ -53,10 +53,10 @@ def part_b(input):
     score = 0
     for i in range(0, x):
         for j in range(0, y):
-            if grid.get(Vec2d((i, j))) == None:
+            if grid.get(Vec2d(i, j)) == None:
                 continue
             ok = True
-            base = Vec2d((i, j))
+            base = Vec2d(i, j)
             print("trying {}".format(base))
             h = grid.get(base)
             for d in "^>v<":

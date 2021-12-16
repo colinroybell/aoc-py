@@ -20,7 +20,7 @@ def part_a(input, days=100, part_b=False):
         flash_list = []
         for x in range(0, width):
             for y in range(0, height):
-                inc_list.append(Vec2d((x, y)))
+                inc_list.append(Vec2d(x, y))
 
         while inc_list:
             v = inc_list.pop()
