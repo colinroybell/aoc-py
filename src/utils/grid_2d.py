@@ -47,7 +47,8 @@ class Grid2d:
         string = ""
         for p, v in self.c.items():
             string += "{}, {} ".format(p, v)
-            if p == Vec2d((0, 0)):
-                string += "yes "
         string = string[:-1]
         return string
+
+    def __contains__(self, vec):
+        return vec.tuple() in self.c
