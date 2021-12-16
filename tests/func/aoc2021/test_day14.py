@@ -10,13 +10,10 @@ class Test_2021_14:
         assert self.day.run_part("a", "test1") == 1588
 
     def test_bringup_b(self):
-
         assert self.day.run_part("b", "test1") == 2188189693529
 
-    @pytest.mark.xfail
     def test_regression_a(self):
         assert self.day.run_part("a") == 3906
 
-    @pytest.mark.xfail
     def test_regression_b(self):
         assert self.day.run_part("b") == 4441317262452

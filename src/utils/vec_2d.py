@@ -25,6 +25,12 @@ class Vec2d:
                     vecs.append(Vec2d((self.x + x, self.y + y)))
         return vecs
 
+    def get_adjacent_orthogonal(self):
+        vecs = []
+        for d in "^>v<":
+            vecs.append(self.move(d))
+        return vecs
+
     def __add__(self, other):
         return Vec2d((self.x + other.x, self.y + other.y))
 
@@ -33,3 +39,6 @@ class Vec2d:
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
+
+    def __lt__(self, other):
+        return self.x < other.x or (self.x == other.x and self.y < other.y)
