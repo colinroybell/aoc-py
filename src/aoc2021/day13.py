@@ -32,7 +32,6 @@ def part_a(input, part_b=False):
     fold_re = re.compile(r"fold along (.)=(\d+)")
     for line in generator:
         m = fold_re.match(line)
-        print(line)
         assert m
         dir = m.group(1)
         val = int(m.group(2))
@@ -57,8 +56,6 @@ def part_a(input, part_b=False):
             width = val
         if not part_b:
             return grid.count_non_zero()
-    print(width, height)
-    print(grid.to_hash_dot(width, height))
     return grid.to_hash_dot(width, height)
 
 
