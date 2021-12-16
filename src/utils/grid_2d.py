@@ -40,6 +40,9 @@ class Grid2d:
     def set(self, vec, v):
         self.c[vec.tuple()] = v
 
+    def unset(self, vec):
+        del self.c[vec.tuple()]
+
     def get(self, vec):
         return self.c[vec.tuple()]
 
@@ -52,3 +55,15 @@ class Grid2d:
 
     def __contains__(self, vec):
         return vec.tuple() in self.c
+
+    def to_hash_dot(self, width, height):
+        string = ""
+        for y in range(0, height):
+            for x in range(0, width):
+                v = Vec2d((x, y))
+                if self.get(v):
+                    string += "#"
+                else:
+                    string += "."
+            string += "\n"
+        return string
