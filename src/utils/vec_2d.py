@@ -31,6 +31,9 @@ class Vec2d:
             vecs.append(self.move(d))
         return vecs
 
+    def in_box(self, box_min, box_max):
+        return box_min.x <= self.x <= box_max.x and box_min.y <= self.y <= box_max.y
+
     def __add__(self, other):
         return Vec2d(self.x + other.x, self.y + other.y)
 
