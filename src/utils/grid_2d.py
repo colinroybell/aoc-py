@@ -26,7 +26,7 @@ class Grid2d:
 
     def count_function(self, function):
         count = 0
-        for p, v in self.c.items():
+        for _, v in self.c.items():
             if function(v):
                 count += 1
         return count
@@ -36,6 +36,13 @@ class Grid2d:
             return v != 0
 
         return self.count_function(non_zero)
+
+    def sum(self):
+        total = 0
+        for _, v in self.c.items():
+            total += v 
+            print(total, v)
+        return total
 
     def set(self, vec, v):
         self.c[vec.tuple()] = v
