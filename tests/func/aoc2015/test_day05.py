@@ -1,5 +1,5 @@
 import pytest
-from aoc2015.day05 import Run_2015_05,nice,nice_b
+from aoc2015.day05 import Run_2015_05, nice, nice_b
 
 
 class Test_2015_05:

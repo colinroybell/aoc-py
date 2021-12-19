@@ -40,7 +40,7 @@ class Grid2d:
     def sum(self):
         total = 0
         for _, v in self.c.items():
-            total += v 
+            total += v
             print(total, v)
         return total
 

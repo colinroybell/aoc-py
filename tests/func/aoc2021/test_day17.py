@@ -1,6 +1,7 @@
 import pytest
 from aoc2021.day17 import Run_2021_17
 
+
 class Test_2021_17:
     def setup_class(self):
         self.day = Run_2021_17()

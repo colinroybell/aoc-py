@@ -4,14 +4,15 @@ from utils.grid_2d import Grid2d
 from utils.vec_2d import Vec2d
 import re
 
+
 class Run_2015_06(DayBase):
     YEAR = "2015"
     DAY = "06"
 
 
-def part_a(input, part_b = False):
+def part_a(input, part_b=False):
     part_a = not part_b
-    parse_re = re.compile(r'(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)')
+    parse_re = re.compile(r"(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)")
     grid = Grid2d(0)
     for line in input_generator(input):
         m = parse_re.match(line)
@@ -21,16 +22,16 @@ def part_a(input, part_b = False):
         ymin = int(m.group(3))
         xmax = int(m.group(4))
         ymax = int(m.group(5))
-        for x in range(xmin, xmax+1):
-            for y in range(ymin, ymax+1):
-                p = Vec2d(x,y)
+        for x in range(xmin, xmax + 1):
+            for y in range(ymin, ymax + 1):
+                p = Vec2d(x, y)
                 if part_a:
                     if cmd == "turn on":
-                        grid.set(p,1)
+                        grid.set(p, 1)
                     elif cmd == "turn off":
-                        grid.set(p,0)
+                        grid.set(p, 0)
                     else:
-                        grid.set(p,1-grid.get(p))
+                        grid.set(p, 1 - grid.get(p))
                 else:
                     current_val = grid.get(p)
                     if cmd == "turn on":
@@ -40,14 +41,15 @@ def part_a(input, part_b = False):
                             current_val -= 1
                     else:
                         current_val += 2
-                    grid.set(p,current_val)     
-    if part_a: 
+                    grid.set(p, current_val)
+    if part_a:
         return grid.count_non_zero()
-    else:                   
-        return grid.sum()                        
+    else:
+        return grid.sum()
+
 
 def part_b(input):
-    return part_a(input, part_b = True)
+    return part_a(input, part_b=True)
 
 
 if __name__ == "__main__":
