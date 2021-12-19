@@ -2,6 +2,7 @@ from utils.day_base import DayBase
 from utils.data_input import input_generator
 from utils.vec_3d import Vec3d
 import re
+from collections import defaultdict
 
 ORIENTATIONS = 24
 
@@ -45,18 +46,13 @@ class Scanner:
     def match(self, other):
         for orientation in range(ORIENTATIONS):
             trial = other.transform(orientation, Vec3d(0, 0, 0))
+            diff_dict = defaultdict(lambda: 0)
             # TODO: much faster would be to have a dictionary of all differences and spot anything that comes in 12 times or more
             for b1 in self.beacons:
                 for b2 in trial.beacons:
                     diff = b2 - b1
-                    count = 0
-                    matches = []
-                    for b3 in trial.beacons:
-                        if b3 - diff in self.beacons:
-                            count += 1
-                            matches.append(b3 - diff)
-                    # print("Or {}: Trying {} {}, diff {} count {}".format(orientation, b1, b2, diff,count))
-                    if count >= 12:
+                    diff_dict[diff.tuple()] += 1
+                    if diff_dict[diff.tuple()] == 12:
                         # print("other beacons",other.beacons)
                         # print("trial beacons",trial.beacons)
                         # print("Found match", matches)
