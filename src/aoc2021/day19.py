@@ -50,7 +50,7 @@ class Scanner:
             for b1 in self.beacons:
                 for b2 in trial.beacons:
                     diff = b2 - b1
-                    diff_dict[diff.tuple()] +=1 
+                    diff_dict[diff.tuple()] += 1
                     if diff_dict[diff.tuple()] == 12:
                         # print("other beacons",other.beacons)
                         # print("trial beacons",trial.beacons)
