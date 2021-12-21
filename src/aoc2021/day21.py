@@ -57,7 +57,6 @@ def part_a(input):
 
 score_array = defaultdict(lambda: 0)
 
-
 class State:
     def __init__(self, positions, turn, wins):
         self.positions = positions
@@ -96,21 +95,21 @@ class State:
 
 
 def part_b(input):
-
     positions = []
     for line in input_generator(input):
         pos = int(line[-1])
         positions.append(pos)
     state = State(positions, 0, [0, 0])
     state.add_state((0, 0, positions[0], positions[1]), 1)
-
-    for a in range(1, 4):
-        for b in range(1, 4):
-            for c in range(1, 4):
-                score_array[a + b + c] += 1
+    if len(score_array) == 0:
+        for a in range(1, 4):
+            for b in range(1, 4):
+                for c in range(1, 4):
+                    score_array[a + b + c] += 1
 
     while not state.done():
         state = state.advance()
+        print(state.wins)
     return max(state.wins)
 
 
