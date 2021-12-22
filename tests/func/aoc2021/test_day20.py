@@ -15,6 +15,5 @@ class Test_2021_20:
     def test_regression_a(self):
         assert self.day.run_part("a") == 5057
 
-    @pytest.mark.xfail
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == 18502

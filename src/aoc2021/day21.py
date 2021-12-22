@@ -57,6 +57,7 @@ def part_a(input):
 
 score_array = defaultdict(lambda: 0)
 
+
 class State:
     def __init__(self, positions, turn, wins):
         self.positions = positions
