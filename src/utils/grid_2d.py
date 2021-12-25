@@ -16,6 +16,15 @@ class Grid2d:
             y += 1
         return (x, y)
 
+    def read_from_file_strings(self, input):
+        y = 0
+        for line in input_generator(input):
+            for x, v in enumerate(line):
+                self.set(Vec2d(x, y), v)
+                x += 1
+            y += 1
+        return (x, y)
+
     def read_from_generator(self, generator):
         y = 0
         for line in generator:
@@ -85,5 +94,17 @@ class Grid2d:
                     string += "#"
                 else:
                     string += "."
+            string += "\n"
+        return string
+
+    def to_string_as_characters(self, width, height, x_start=0, y_start=0):
+        string = ""
+        for y in range(x_start, height):
+            for x in range(y_start, width):
+                v = Vec2d(x, y)
+                if self.get(v):
+                    string += self.get(v)
+                else:
+                    string += " "
             string += "\n"
         return string
