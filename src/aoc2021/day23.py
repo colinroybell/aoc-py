@@ -172,6 +172,8 @@ class State:
 
 
 def part_a(input, part_b=False):
+    State.next_id = 0
+    State.seen = set()
     to_process = PriorityQueue()
     if part_b:
         State.room_length = 4
@@ -186,7 +188,7 @@ def part_a(input, part_b=False):
         (cost, state) = to_process.get()
         if state.already_processed():
             continue
-        # print("Starting at {}, {}".format(cost,state))
+        print("Starting at {}, {}".format(cost,state))
         state.mark_processed()
         if state.rooms_done == 4:
             break
