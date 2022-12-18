@@ -1,4 +1,4 @@
-year = 2015
+year = 2022
 
 init_filename = "src/aoc{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
@@ -9,8 +9,6 @@ with open(init_tests_filename, "w") as f:
     pass
 
 for num in range(1, 26):
-    if num < 4 or num == 13:
-        continue
     n = "{:02d}".format(num)
 
     main_file = """from utils.day_base import DayBase
