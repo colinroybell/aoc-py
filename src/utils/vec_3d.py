@@ -24,3 +24,13 @@ class Vec3d:
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def adjacencies():
+        return [
+            Vec3d(1, 0, 0),
+            Vec3d(-1, 0, 0),
+            Vec3d(0, 1, 0),
+            Vec3d(0, -1, 0),
+            Vec3d(0, 0, 1),
+            Vec3d(0, 0, -1),
+        ]
