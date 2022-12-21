@@ -7,12 +7,23 @@ class Run_2022_06(DayBase):
     DAY = "06"
 
 
+def marker_position(string, count):
+    pos = count
+    while 1:
+        substring = string[pos - count : pos]
+        if len(set(substring)) == count:
+            return pos
+        pos += 1
+
+
 def part_a(input):
-    assert 0, "not implemented"
+    line = next(input_generator(input))
+    return marker_position(line, 4)
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    line = next(input_generator(input))
+    return marker_position(line, 14)
 
 
 if __name__ == "__main__":
