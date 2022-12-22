@@ -13,10 +13,7 @@ class Test_2022_20:
         assert self.day.run_part("b", "test1") == 1623178306
 
     def test_regression_a(self):
-        # assert self.day.run_part("a") == 5498
-        pass
+        assert self.day.run_part("a") == 5498
 
-    @pytest.mark.xfail
     def test_regression_b(self):
-        # assert self.day.run_part("b") == 0
-        pass
+        assert self.day.run_part("b") == 3390007892081
