@@ -5,6 +5,9 @@ class Vec2d:
     def tuple(self):
         return (self.x, self.y)
 
+    def from_tuple(value):
+        return Vec2d(value[0],value[1])
+
     def move(self, dir):
         if dir == "^":
             return Vec2d(self.x, self.y + 1)
@@ -45,3 +48,4 @@ class Vec2d:
 
     def __lt__(self, other):
         return self.x < other.x or (self.x == other.x and self.y < other.y)
+

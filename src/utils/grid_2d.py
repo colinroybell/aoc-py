@@ -108,3 +108,7 @@ class Grid2d:
                     string += " "
             string += "\n"
         return string
+
+    def generator(self):
+        for item in self.c.items():
+            yield item
