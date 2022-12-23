@@ -6,16 +6,16 @@ class Vec2d:
         return (self.x, self.y)
 
     def from_tuple(value):
-        return Vec2d(value[0],value[1])
+        return Vec2d(value[0], value[1])
 
     def move(self, dir):
-        if dir == "^":
+        if dir == "^" or dir == "U":
             return Vec2d(self.x, self.y + 1)
-        elif dir == ">":
+        elif dir == ">" or dir == "R":
             return Vec2d(self.x + 1, self.y)
-        elif dir == "v":
+        elif dir == "v" or dir == "D":
             return Vec2d(self.x, self.y - 1)
-        elif dir == "<":
+        elif dir == "<" or dir == "L":
             return Vec2d(self.x - 1, self.y)
         else:
             assert "Bad direction"
@@ -48,4 +48,3 @@ class Vec2d:
 
     def __lt__(self, other):
         return self.x < other.x or (self.x == other.x and self.y < other.y)
-

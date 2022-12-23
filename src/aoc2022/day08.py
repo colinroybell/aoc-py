@@ -28,9 +28,8 @@ def part_a(input):
             if visible:
                 break
         if visible:
-            count+= 1
+            count += 1
     return count
-
 
 
 def part_b(input):
@@ -51,8 +50,9 @@ def part_b(input):
                 elif grid.get(pos) >= height:
                     break
             score *= visible
-        best = max(best,score)
+        best = max(best, score)
     return best
+
 
 if __name__ == "__main__":
     Run_2022_08().run_cmdline()
