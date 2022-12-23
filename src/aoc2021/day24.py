@@ -93,7 +93,7 @@ class Inst:
         pass
 
 
-def recurse(instructions, step, z):
+def recurse(instructions, step, z, cmp_fn):
     if step > 9:
         print("Trying", step, z)
     if step == -1 and z == 0:
@@ -114,43 +114,44 @@ def recurse(instructions, step, z):
             # With a match
             z_mod = w - inst.x
             if 0 <= z_mod < 26:
-                best_rec = recurse(instructions, step - 1, z * 26 + z_mod)
+                best_rec = recurse(instructions, step - 1, z * 26 + z_mod, cmp_fn)
                 if best_rec != None:
                     val = best_rec * 10 + w
                     print(step, "Option", val)
                     if best == None:
                         best = val
                     else:
-                        best = min(best, val)
+                        best = cmp_fn(best, val)
             # Without a match
             zz = z - w - inst.y
             if zz >= 0 and zz % 26 == 0:
                 # print("don't match",w)
                 for m in range(0, 26):
-                    best_rec = recurse(instructions, step - 1, zz + m)
+                    best_rec = recurse(instructions, step - 1, zz + m, cmp_fn)
                     if best_rec != None:
                         val = best_rec * 10 + w
                         if best == None:
                             best = val
                         else:
-                            best = min(best, val)
+                            best = cmp_fn(best, val)
 
     else:
         for w in range(1, 10):
             zz = z - w - inst.y
             if zz >= 0 and zz % 26 == 0:
-                best_rec = recurse(instructions, step - 1, zz // 26)
+                best_rec = recurse(instructions, step - 1, zz // 26, cmp_fn)
                 if best_rec != None:
                     val = best_rec * 10 + w
                     if best == None:
                         best = val
                     else:
-                        best = min(best, val)
+                        best = cmp_fn(best, val)
 
     return best
 
 
-def part_a(input):
+def part_a(input, part_b = False):
+    part_a = not part_b
     instructions = []
     for line in input_generator(input):
         words = line.split()
@@ -178,61 +179,15 @@ def part_a(input):
         print(z, z % 26)
 
     # return
-    best = recurse(instructions, 13, 0)
+    if part_a:
+        cmp_fn = max
+    else:
+        cmp_fn = min
+    best = recurse(instructions, 13, 0, cmp_fn)
     return best
 
-
-def part_a_old(input):
-    print(input)
-    instructions = []
-    for line in input_generator(input):
-        instructions.append(Instruction(line))
-
-    input = [9] * 14
-    solved = False
-    while not solved:
-        state = State(input)
-        running = True
-        z_limits = [
-            [239, 1],
-            [221, 26],
-            [203, 26 ** 2],
-            [185, 26 ** 3],
-            [149, 26 ** 4],
-            [131, 26 ** 5],
-            [59, 26 ** 6],
-        ]
-        for i, instruction in enumerate(instructions):
-            inst_num = i + 1
-            print("inst", i + 1)
-            running = instruction.run(state)
-
-            for j in range(7):
-                if inst_num >= z_limits[j][0]:
-                    # print("z is {} compare with {}.".format(state.read('z'),z_limits[j][1]))
-
-                    if state.read("z") >= z_limits[j][1]:
-                        pass
-                        # print("abort")
-                        # running = False
-                    break
-            if not running:
-                break
-            print(state.var)
-            z = state.var["z"]
-            string = ""
-            while z > 0:
-                string += "{},".format(z % 26)
-                z //= 26
-            print(string)
-        solved = 1
-
-    assert 0, "not implemented"
-
-
 def part_b(input):
-    assert 0, "not implemented"
-
+    return part_a(input, part_b = True)
 
 if __name__ == "__main__":
     Run_2021_24().run_cmdline()
