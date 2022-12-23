@@ -40,7 +40,8 @@ def part_a(input, steps=2):
                             or y + ym >= y_end - 1
                         ):
                             pixel = general
-
+                        if pixel == None:
+                            pixel = 0
                         val += pixel
                 if lookup[val] == "#":
                     new_grid.set(Vec2d(x, y), 1)

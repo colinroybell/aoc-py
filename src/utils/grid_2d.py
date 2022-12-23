@@ -16,6 +16,16 @@ class Grid2d:
             y += 1
         return (x, y)
 
+    def read_from_hash_dot_file(self, input):
+        y = 0
+        for line in input_generator(input):
+            for x, v in enumerate(line):
+                if v == "#":
+                    self.set(Vec2d(x, y), 1)
+                x += 1
+            y += 1
+        return (x, y)
+
     def read_from_file_strings(self, input):
         y = 0
         for line in input_generator(input):
@@ -73,7 +83,10 @@ class Grid2d:
         del self.c[vec.tuple()]
 
     def get(self, vec):
-        return self.c[vec.tuple()]
+        if vec.tuple() in self.c:
+            return self.c[vec.tuple()]
+        else:
+            return None
 
     def __repr__(self):
         string = ""
@@ -85,10 +98,23 @@ class Grid2d:
     def __contains__(self, vec):
         return vec.tuple() in self.c
 
+    def get_dimensions(self):
+        x_max = None
+        x_min = None
+        y_max = None
+        y_min = None
+        x = []
+        y = []
+        for pos, _ in self.generator():
+            x.append(pos[0])
+            y.append(pos[1])
+
+        return (min(x), min(y), max(x) + 1, max(y) + 1)
+
     def to_hash_dot(self, width, height, x_start=0, y_start=0):
         string = ""
-        for y in range(x_start, height):
-            for x in range(y_start, width):
+        for y in range(y_start, height):
+            for x in range(x_start, width):
                 v = Vec2d(x, y)
                 if self.get(v):
                     string += "#"
@@ -99,8 +125,8 @@ class Grid2d:
 
     def to_string_as_characters(self, width, height, x_start=0, y_start=0):
         string = ""
-        for y in range(x_start, height):
-            for x in range(y_start, width):
+        for y in range(y_start, height):
+            for x in range(x_start, width):
                 v = Vec2d(x, y)
                 if self.get(v):
                     string += self.get(v)
@@ -110,5 +136,6 @@ class Grid2d:
         return string
 
     def generator(self):
+        # TODO: we get a problem using this if we then want to read the grid for empty items (which changes the dictionary). A couple of fixes for this but need to think through this better.
         for item in self.c.items():
             yield item

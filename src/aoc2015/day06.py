@@ -31,9 +31,14 @@ def part_a(input, part_b=False):
                     elif cmd == "turn off":
                         grid.set(p, 0)
                     else:
-                        grid.set(p, 1 - grid.get(p))
+                        current_val = grid.get(p)
+                        if current_val == None:
+                            current_val = 0
+                        grid.set(p, 1 - current_val)
                 else:
                     current_val = grid.get(p)
+                    if current_val == None:
+                        current_val = 0
                     if cmd == "turn on":
                         current_val += 1
                     elif cmd == "turn off":
