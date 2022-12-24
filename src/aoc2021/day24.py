@@ -150,7 +150,7 @@ def recurse(instructions, step, z, cmp_fn):
     return best
 
 
-def part_a(input, part_b = False):
+def part_a(input, part_b=False):
     part_a = not part_b
     instructions = []
     for line in input_generator(input):
@@ -186,8 +186,10 @@ def part_a(input, part_b = False):
     best = recurse(instructions, 13, 0, cmp_fn)
     return best
 
+
 def part_b(input):
-    return part_a(input, part_b = True)
+    return part_a(input, part_b=True)
+
 
 if __name__ == "__main__":
     Run_2021_24().run_cmdline()
