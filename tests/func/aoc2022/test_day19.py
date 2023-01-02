@@ -6,15 +6,17 @@ class Test_2022_19:
     def setup_class(self):
         self.day = Run_2022_19()
 
+    @pytest.mark.xfail
     def test_bringup_a(self):
-        pass
+        assert self.day.run_part("a","test1") == 33
 
     def test_bringup_b(self):
         pass
 
     @pytest.mark.xfail
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        pass
+        #assert self.day.run_part("a") == 0
 
     @pytest.mark.xfail
     def test_regression_b(self):
