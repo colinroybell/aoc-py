@@ -79,7 +79,7 @@ class State:
         return next_step
 
 
-def part_a(input):
+def incomplete_part_a(input):
     total = 0
     for line in input_generator(input):
         state_queue = []
@@ -120,6 +120,9 @@ def part_a(input):
         total += id * best
     return total
 
+
+def part_a(input):
+    assert 0, "not implemented"
 
 def part_b(input):
     assert 0, "not implemented"
