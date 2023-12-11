@@ -124,6 +124,7 @@ def incomplete_part_a(input):
 def part_a(input):
     assert 0, "not implemented"
 
+
 def part_b(input):
     assert 0, "not implemented"
 

@@ -1,9 +1,11 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
 
+
 class Run_2023_05(DayBase):
-    YEAR='2023'
-    DAY='05'
+    YEAR = "2023"
+    DAY = "05"
+
 
 class Map:
     def __init__(self):
@@ -15,8 +17,8 @@ class Map:
     def do_map(self, value):
         for mapping in self.map:
             diff = value - mapping[1]
-            if 0<= diff < mapping[2]:
-                print(mapping,value,diff)
+            if 0 <= diff < mapping[2]:
+                print(mapping, value, diff)
                 return diff + mapping[0]
         return value
 
@@ -33,6 +35,7 @@ class Map:
                 return (diff + mapping[0], length)
         return (start, length_no_map)
 
+
 def mapping_recurse(maps, start, length):
     maps_next = maps[1:]
     minimum = None
@@ -46,12 +49,13 @@ def mapping_recurse(maps, start, length):
             minimum = value
     return minimum
 
-def part_a(input, part_b = False):
+
+def part_a(input, part_b=False):
     part_a = not part_b
     maps = []
     seeds = []
     generator = input_generator(input)
-    seed_strings = next(generator)[7:].split(' ')
+    seed_strings = next(generator)[7:].split(" ")
     for s in seed_strings:
         seeds.append(int(s))
 
@@ -61,7 +65,7 @@ def part_a(input, part_b = False):
     while not done:
         line = next(generator, None)
 
-        print('map', line)
+        print("map", line)
         map = Map()
         maps.append(map)
         while 1:
@@ -69,9 +73,9 @@ def part_a(input, part_b = False):
             if line == None:
                 done = True
                 break
-            if line == '':
+            if line == "":
                 break
-            nums = [int(x) for x in line.split(' ')]
+            nums = [int(x) for x in line.split(" ")]
             print(line, nums)
             map.add_mapping(nums[0], nums[1], nums[2])
     minimum = None
@@ -79,7 +83,7 @@ def part_a(input, part_b = False):
 
         for s in seeds:
             value = s
-            print('start', value)
+            print("start", value)
             for m in maps:
                 value = m.do_map(value)
                 print(value)

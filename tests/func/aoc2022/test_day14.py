@@ -7,10 +7,10 @@ class Test_2022_14:
         self.day = Run_2022_14()
 
     def test_bringup_a(self):
-        assert self.day.run_part("a","test1") == 24
+        assert self.day.run_part("a", "test1") == 24
 
     def test_bringup_b(self):
-        assert self.day.run_part("b","test1") == 93
+        assert self.day.run_part("b", "test1") == 93
 
     def test_regression_a(self):
         assert self.day.run_part("a") == 808

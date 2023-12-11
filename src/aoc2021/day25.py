@@ -65,5 +65,6 @@ def part_a(input):
 def part_b(input):
     return True
 
+
 if __name__ == "__main__":
     Run_2021_25().run_cmdline()

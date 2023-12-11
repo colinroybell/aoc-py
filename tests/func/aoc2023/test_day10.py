@@ -1,6 +1,7 @@
 import pytest
 from aoc2023.day10 import Run_2023_10
 
+
 class Test_2023_10:
     def setup_class(self):
         self.day = Run_2023_10()
@@ -27,8 +28,7 @@ class Test_2023_10:
         assert self.day.run_part("b", "test7") == 10
 
     def test_regression_a(self):
-        assert(self.day.run_part('a') == 6942)
+        assert self.day.run_part("a") == 6942
 
     def test_regression_b(self):
-        assert(self.day.run_part('b') == 297)
-
+        assert self.day.run_part("b") == 297
