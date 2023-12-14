@@ -26,6 +26,16 @@ class Grid2d:
             y += 1
         return (x, y)
 
+    def read_from_hash_dot_list(self, input):
+        y = 0
+        for line in input:
+            for x, v in enumerate(line):
+                if v == "#":
+                    self.set(Vec2d(x, y), 1)
+                x += 1
+            y += 1
+        return (x, y)
+
     def read_from_file_strings(self, input):
         y = 0
         for line in input_generator(input):
