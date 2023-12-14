@@ -89,6 +89,11 @@ class Grid2d:
     def set(self, vec, v):
         self.c[vec.tuple()] = v
 
+    def append(self, vec, v):
+        if vec.tuple() not in self.c:
+            self.c[vec.tuple()] = []
+        self.c[vec.tuple()].append(v)
+
     def unset(self, vec):
         del self.c[vec.tuple()]
 
