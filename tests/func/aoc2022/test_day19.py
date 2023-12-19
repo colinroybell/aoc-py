@@ -6,19 +6,14 @@ class Test_2022_19:
     def setup_class(self):
         self.day = Run_2022_19()
 
-    @pytest.mark.skip
     def test_bringup_a(self):
-        # assert self.day.run_part("a","test1") == 33
-        pass
+        assert self.day.run_part("a", "test1") == 33
 
-    @pytest.mark.skip
     def test_bringup_b(self):
-        pass
+        assert self.day.run_part("b", "test1") == 56 * 62
 
-    @pytest.mark.skip
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        assert self.day.run_part("a") == 1624
 
-    @pytest.mark.skip
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == 12628

@@ -17,6 +17,8 @@ class Vec2d:
             return Vec2d(self.x, self.y - 1)
         elif dir == "<" or dir == "L":
             return Vec2d(self.x - 1, self.y)
+        elif dir == ".":
+            return Vec2d(self.x, self.y)
         else:
             assert "Bad direction"
 

@@ -15,6 +15,7 @@ class State:
         self,
         id,
         costs,
+        end_time,
         time=0,
         robots=[1, 0, 0, 0],
         resources=[0, 0, 0, 0],
@@ -23,6 +24,7 @@ class State:
     ):
         self.id = id
         self.costs = costs
+        self.end_time = end_time
         self.time = time
         self.robots = robots
         self.resources = resources
@@ -42,46 +44,87 @@ class State:
 
     def copy(self):
         return State(
-            self.id, self.costs, self.time, self.robots.copy(), self.resources.copy()
+            self.id,
+            self.costs,
+            self.end_time,
+            self.time,
+            self.robots.copy(),
+            self.resources.copy(),
         )
 
-    def advance(self):
-        # print("From {}".format(self))
+    def advance(self, best_so_far):
+        time_remaining = self.end_time - self.time
+        max_possible = (
+            self.resources[3]
+            + time_remaining * self.robots[3]
+            + time_remaining * (time_remaining - 1) // 2
+        )
+        # print("From {} {}".format(self,max_possible))
+        if max_possible < best_so_far:
+            return []
         next_step = []
-        none = self.copy()
-        none.time += 1
-        next_step.append(none)
-        for i in range(4):
-            none.resources[i] += none.robots[i]
+
         for i in range(4):
             if i < 3 and self.robots[i] == self.robots_max[i]:
                 continue
-            if none.time == 24:
+            max_t = 0
+            for j in range(4):
+                if self.costs[i][j] > self.resources[j]:
+                    if self.robots[j] == 0:
+                        max_t = 100
+                    else:
+                        t = (
+                            1
+                            + (self.costs[i][j] - self.resources[j] - 1)
+                            // self.robots[j]
+                        )
+                        max_t = max(max_t, t)
+            proposed_time = self.time + max_t
+            if (
+                proposed_time >= self.end_time
+                or proposed_time >= self.end_time - 1
+                and (i == 0 or i == 2)
+                or proposed_time >= self.end_time - 2
+                and i == 1
+            ):
                 continue
-            if none.time >= 23 and (i == 0 or i == 2):
-                continue
-            if none.time >= 22 and i == 1:
-                continue
-            if all([self.resources[j] >= self.costs[i][j] for j in range(4)]):
-                robot_build = none.copy()
-                robot_build.robots[i] += 1
-                for j in range(4):
-                    robot_build.resources[j] -= robot_build.costs[i][j]
-                next_step.append(robot_build)
-        for i in range(len(next_step)):
-            next_step[i].prog_min = self.prog_min + i * (
-                self.prog_max - self.prog_min
-            ) / len(next_step)
-            next_step[i].prog_max = self.prog_min + (i + 1) * (
-                self.prog_max - self.prog_min
-            ) / len(next_step)
-        # next_step.reverse()
+            robot_build = self.copy()
+            robot_build.time = proposed_time + 1
+            for j in range(4):
+                robot_build.resources[j] += (
+                    robot_build.robots[j] * (max_t + 1) - robot_build.costs[i][j]
+                )
+            robot_build.robots[i] += 1
+            next_step.append(robot_build)
+        if not next_step:
+            # can't build anything, so just advance to 24
+            no_build = self.copy()
+            for j in range(4):
+                no_build.resources[j] += no_build.robots[j] * (
+                    self.end_time - self.time
+                )
+            no_build.time = self.end_time
+            next_step.append(no_build)
+        # print(next_step)
         return next_step
 
+    def __repr__(self):
+        return self.__str__()
 
-def incomplete_part_a(input):
+
+def part_a(input, part_b=False):
+    part_a = not part_b
+    if part_a:
+        end_time = 24
+    else:
+        end_time = 32
     total = 0
+    product = 1
+    line_count = 0
     for line in input_generator(input):
+        if part_b and line_count == 3:
+            break
+        line_count += 1
         state_queue = []
         words = line.split()
         id = int(words[1][:-1])
@@ -97,14 +140,14 @@ def incomplete_part_a(input):
             [ob_ore, ob_clay, 0, 0],
             [ge_ore, 0, ge_ob, 0],
         ]
-        initial_state = State(id, costs)
+        initial_state = State(id, costs, end_time)
         state_queue.append(initial_state)
 
         best = 0
         count = 0
         while state_queue and count < 10000000:
             state = state_queue.pop()
-            if state.time == 24:
+            if state.time == end_time:
                 count += 1
                 geodes = state.resources[3]
                 improved = geodes > best
@@ -114,19 +157,19 @@ def incomplete_part_a(input):
                         "{}: {} done with {} best {}".format(count, state, geodes, best)
                     )
             else:
-                advances = state.advance()
+                advances = state.advance(best)
                 state_queue.extend(advances)
 
         total += id * best
-    return total
-
-
-def part_a(input):
-    assert 0, "not implemented"
+        product *= best
+    if part_a:
+        return total
+    else:
+        return product
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    return part_a(input, True)
 
 
 if __name__ == "__main__":
