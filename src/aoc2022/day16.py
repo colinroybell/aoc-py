@@ -11,116 +11,102 @@ class Run_2022_16(DayBase):
 
 
 class State:
-    def __init__(self, time, pos, last_pos, epos, last_epos, opened, delta, score):
+    def __init__(self, count, time, pos, opened, score, residual, path=[]):
+        self.count = count
+        self.first_time = time
         self.time = time
         self.pos = pos
-        self.last_pos = last_pos
-        self.epos = epos
-        self.last_epos = last_epos
         self.opened = opened
-        self.delta = delta
+        self.residual = residual
         self.score = score
-
+        self.path = path
 
     def copy(self):
         return State(
-            self.time,
-            self.pos,
-            self.last_pos,
-            self.epos,
-            self.last_epos,
+            self.count,
+            self.time.copy(),
+            self.pos.copy(),
             self.opened.copy(),
-            self.delta,
             self.score,
+            self.residual,
+            self.path.copy(),
         )
 
     def iterable(self):
-        return (self.time, tuple(set([self.pos,self.epos])), tuple(self.opened), self.score)
+        if self.count == 1:
+            return ((self.time[0], self.pos[0], tuple(self.opened)), self.score)
+        else:
+            positions = tuple(
+                set([(self.time[0], self.pos[0]), (self.time[1], self.pos[1])])
+            )
+            return ((positions, tuple(self.opened)), self.score)
 
     def __repr__(self):
-        return "time {} pos {} last {} epos {} last_epos {}  opened {} delta {} score {}".format(
-            self.time, self.pos, self.last_pos, self.epos, self.last_epos, self.opened, self.delta, self.score
+        return "time {} pos {} opened {} score {} path {}".format(
+            self.time, self.pos, self.opened, self.score, self.path
         )
 
-    def best_possible(self, node, end_time, max_flow, part_a):
-        time_left = end_time - self.time
-        best_possible = self.score + time_left * self.delta
-        eff_time_left = time_left
-        if self.pos in self.opened or node.flow_rate == 0:
-            eff_time_left = time_left - 1
-        if eff_time_left % 2 == 0:
-            best_possible += (eff_time_left // 2) * (eff_time_left // 2) * max_flow
-        else:
-            best_possible += (eff_time_left // 2) * (eff_time_left // 2 + 1) * max_flow
-        if not part_a:
-            eff_time_left = time_left
-            if self.epos in self.opened or node.flow_rate == 0:
-                eff_time_left = time_left -1
-            if eff_time_left % 2 == 0:
-                best_possible += (eff_time_left // 2) * (eff_time_left // 2) * max_flow
-            else:
-                best_possible += (eff_time_left // 2) * (eff_time_left // 2 + 1) * max_flow
+    def advance(self, end_time, best):
 
-        #print(best_possible, time_left, max_flow)
-        return best_possible
+        advances = []
 
-    def advance(self, nodes, end_time, best_found, max_flow):
-        part_a = (self.epos == None)
-        node = nodes[self.pos]
-        best_possible = self.best_possible(node, end_time, max_flow, part_a)
-        if best_possible <= best_found:
-            #print("Cull: {} vs {}".format(best_possible, best_found))
+        first_time = min(self.time)
+
+        for i in range(self.count):
+            if self.time[i] == first_time:
+                adv = i
+
+        time_offset = 1
+        # TODO: incorporate this in distance calculations
+        if self.pos[adv].name == "AA":
+            time_offset = 0
+
+        best_possible = self.score
+        for (t, dist) in self.pos[adv].tunnels:
+            if t.name not in self.opened:
+                best_possible += (end_time - first_time - 1) * t.flow_rate
+
+        if best_possible <= best:
+            # print("Cull {} vs {}".format(best_possible,best))
             return []
-        advances = []
-        self.time += 1
-        self.score += self.delta
+        advanced = False
 
-        for t in node.tunnels:
-            if t != self.last_pos:
-                new = self.copy()
-                new.last_pos = new.pos
-                new.pos = t
-                if part_a:
-                    advances.append(new)
-                else:
-                    advances.extend(new.advance_e(nodes))
-        # Prioritise opening one
-        if self.pos not in self.opened and node.flow_rate > 0:
+        for (t, dist) in self.pos[adv].tunnels:
+            if t.name in self.opened:
+                continue
+            if t.name == "AA":
+                continue
+            dist += time_offset
+            if self.time[adv] + dist >= end_time:
+                continue
             new = self.copy()
-            new.opened.add(self.pos)
-            new.delta += node.flow_rate
-            new.last_pos = None
-            if part_a:
-                advances.append(new)
-            else:
-                advances.extend(new.advance_e(nodes))
+            # print(new)
+            new.time[adv] += dist
+            new.pos[adv] = t
+            new.opened.add(t.name)
+            new.score += (end_time - new.time[adv] - 1) * t.flow_rate
+            new.residual -= t.flow_rate
+            new.path.append((new.pos[adv].name, new.time[adv]))
+            # print('to',new)
+            # print("Advance to ",new)
+            advances.append(new)
+            advanced = True
 
-        return advances
-
-    def advance_e(self,nodes):
-        advances = []
-        node = nodes[self.epos]
-
-        for t in node.tunnels:
-            if t != self.last_epos:
-                new = self.copy()
-                new.last_epos = new.epos
-                new.epos = t
-
-                advances.append(new)
-
-        # Prioritise opening one
-        if self.epos not in self.opened and node.flow_rate > 0:
+        if not advanced:
+            # Just sit there
             new = self.copy()
-            new.opened.add(self.epos)
-            new.delta += node.flow_rate
-            new.last_epos = None
-
+            new.time[adv] = end_time
             advances.append(new)
 
+        def sort_func(e):
+            return e.score
+
+        advances.sort(key=sort_func)
+
         return advances
 
-class Node:
+
+class InputNode:
     def init_class():
         Node.match_re = re.compile(r"Valve (\w+).+?(\d+).+?valves? (.+)")
 
@@ -132,52 +118,98 @@ class Node:
         self.tunnels = m.group(3).split(", ")
 
 
-def part_a(input, part_b = False):
+class Node:
+    def __init__(self, name, flow_rate):
+        self.name = name
+        self.flow_rate = flow_rate
+        self.tunnels = []
+
+    def set_distances(self, input_nodes, nodes):
+        seen = set()
+        node_queue = [(self.name, 0)]
+        print("From", self.name)
+        while node_queue:
+            (name, dist) = node_queue[0]
+            node_queue = node_queue[1:]
+            if name in seen:
+                continue
+            seen.add(name)
+            if name in nodes and dist > 0:
+                print("To {} at {}".format(name, dist))
+                self.tunnels.append((nodes[name], dist))
+            for t in input_nodes[name].tunnels:
+                if t not in seen:
+                    node_queue.append((t, dist + 1))
+
+        def sort_func(e):
+            return e[0].flow_rate
+
+        self.tunnels.sort(key=sort_func)
+
+    def __repr__(self):
+        return self.name
+
+
+def part_a(input, part_b=False):
     part_a = not part_b
+    input_nodes = {}
     nodes = {}
-    Node.init_class()
+    InputNode.init_class()
     max_flow = 0
     for line in input_generator(input):
-        node = Node(line)
-        nodes[node.name] = node
-        max_flow = max(max_flow, node.flow_rate)
+        input_node = InputNode(line)
+        input_nodes[input_node.name] = input_node
 
-    state_queue = []
+        if input_node.flow_rate or input_node.name == "AA":
+            node = Node(input_node.name, input_node.flow_rate)
+            nodes[node.name] = node
+
+    for node in nodes.values():
+        node.set_distances(input_nodes, nodes)
+
+    total_flow = sum(node.flow_rate for node in nodes.values())
+
     if part_a:
-        state_queue.append(State(0, "AA", None, None, None, set(), 0, 0))
-    else:
-        state_queue.append(State(0, "AA", None, "AA", None, set(), 0, 0))
-    best_found = 0
-    if part_a:
+        initial_state = State(1, [0], [nodes["AA"]], set(), 0, total_flow)
         end_time = 30
     else:
+        initial_state = State(
+            2, [0, 0], [nodes["AA"], nodes["AA"]], set(), 0, total_flow
+        )
         end_time = 26
+
+    state_queue = [initial_state]
+    states_considered = {}
     count = 0
-    states_considered = set()
+    best_found = 0
 
     while state_queue:
         state = state_queue.pop()
-        #print("Considering ", state)
+        # print("Considering {} with {} left on queue".format(state,len(state_queue)))
+
         count += 1
-        it = state.iterable()
-        if it in states_considered:
+        if len(state.path) == 3:
+            print(count, state.path, best_found)
+        (it, score) = state.iterable()
+        if it in states_considered and states_considered[it] >= score:
             continue
         else:
-            states_considered.add(it)
-        if state.time == end_time:
-
+            states_considered[it] = score
+        if min(state.time) == end_time:
             if state.score > best_found:
-                print(count, "best so far ", state.score)
+                print(count, "best so far", state.score)
                 best_found = state.score
         else:
-            advances = state.advance(nodes, end_time, best_found, max_flow)
+            advances = state.advance(end_time, best_found)
             state_queue.extend(advances)
-
     return best_found
+
+    return 0
 
 
 def part_b(input):
     return part_a(input, True)
+
 
 if __name__ == "__main__":
     Run_2022_16().run_cmdline()
