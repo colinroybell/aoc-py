@@ -15,6 +15,6 @@ class Test_2022_16:
     def test_regression_a(self):
         assert self.day.run_part("a") == 1789
 
-    @pytest.mark.xfail
+    @pytest.mark.skip
     def test_regression_b(self):
         assert self.day.run_part("b") == 0
