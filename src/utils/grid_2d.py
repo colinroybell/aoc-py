@@ -7,6 +7,12 @@ class Grid2d:
     def __init__(self, unset=0):
         self.c = defaultdict(lambda: unset)
 
+    def copy(self):
+        new_grid = __init__()
+        for p, v in self.c.items():
+            new_grid.c[p] = v
+        return new_grid
+
     def read_from_file(self, input):
         y = 0
         for line in input_generator(input):
