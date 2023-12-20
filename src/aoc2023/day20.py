@@ -99,10 +99,7 @@ def part_a(input, part_b=False):
     presses = 0
     part_b_done = False
     not_seen = set(modules.keys())
-    track_state = "dc"
-    track_module = modules[track_state]
-    track_state = track_module.get_state()
-    print(0, track_state)
+
     while 1:
         presses += 1
         # print(presses)
@@ -113,8 +110,6 @@ def part_a(input, part_b=False):
                 not_seen.remove(target.name)
                 # print(presses,target.name, 'seen. Remaining', len(not_seen), not_seen)
             queue = queue[1:]
-            if target == track_module and pulse == False:
-                print(presses, source, pulse, target, target.get_state())
             if pulse == False:
                 low_count += 1
             else:
@@ -123,10 +118,6 @@ def part_a(input, part_b=False):
                 return presses
             queue.extend(target.receive(source, pulse))
             # print(queue)
-        new_track_state = track_module.get_state()
-        if new_track_state != track_state:
-            print(presses, new_track_state)
-            track_state = new_track_state
         if part_a and presses == 1000:
             return low_count * high_count
 

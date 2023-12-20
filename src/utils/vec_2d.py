@@ -22,6 +22,20 @@ class Vec2d:
         else:
             assert "Bad direction"
 
+    def move_y_flipped(self, dir):
+        if dir == "^" or dir == "U":
+            return Vec2d(self.x, self.y - 1)
+        elif dir == ">" or dir == "R":
+            return Vec2d(self.x + 1, self.y)
+        elif dir == "v" or dir == "D":
+            return Vec2d(self.x, self.y + 1)
+        elif dir == "<" or dir == "L":
+            return Vec2d(self.x - 1, self.y)
+        elif dir == ".":
+            return Vec2d(self.x, self.y)
+        else:
+            assert "Bad direction"
+
     def get_adjacent_diagonals(self):
         vecs = []
         for x in range(-1, 2):

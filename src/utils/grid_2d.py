@@ -44,12 +44,15 @@ class Grid2d:
 
     def read_from_file_strings(self, input):
         y = 0
+        max_x = 0
         for line in input_generator(input):
+            max_x = max(max_x, len(line))
             for x, v in enumerate(line):
+
                 self.set(Vec2d(x, y), v)
                 x += 1
             y += 1
-        return (x, y)
+        return (max_x, y)
 
     def read_from_generator(self, generator):
         y = 0
