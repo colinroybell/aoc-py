@@ -7,7 +7,7 @@ class Test_2023_25:
         self.day = Run_2023_25()
 
     def test_bringup_a(self):
-        pass
+        assert self.day.run_part("a") == 54
 
     def test_bringup_b(self):
         pass

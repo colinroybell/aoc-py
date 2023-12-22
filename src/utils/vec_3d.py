@@ -19,11 +19,20 @@ class Vec3d:
     def __sub__(self, other):
         return Vec3d(self.x - other.x, self.y - other.y, self.z - other.z)
 
+    def __mul__(self, mul):
+        return Vec3d(self.x * mul, self.y * mul, self.z * mul)
+
+    def __truediv__(self, div):
+        return Vec3d(self.x / div, self.y / div, self.z / div)
+
     def __repr__(self):
         return "({},{},{})".format(self.x, self.y, self.z)
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z
 
     def adjacencies():
         return [
