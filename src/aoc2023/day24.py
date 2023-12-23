@@ -36,27 +36,25 @@ def part1(data):
     return valid
 
 import sympy as sym
-def part2(data):
-    print(data[:4])
-    a = [[l[0], l[1], l[2]] for l in data[:4]]
-    b = [[l[3], l[4], l[5]] for l in data[:4]]
 
-    t0, t1, t2, t3, l1, l2 = sym.symbols("t0, t1, t2, t3, l1, l2")
-    eqs = [sym.Eq((a[2][i]-a[0][i]) + t2*b[2][i] - t0*b[0][i],
-                  l1*((a[1][i]-a[0][i]) + t1*b[1][i] - t0*b[0][i]))
-           for i in range(3)]
-    eqs += [sym.Eq((a[3][i]-a[0][i]) + t3*b[3][i] - t0*b[0][i],
-                   l2*((a[1][i]-a[0][i]) + t1*b[1][i] - t0*b[0][i]))
-           for i in range(3)]
-    s = sym.solve(eqs, [t0, t1, t2, t3, l1, l2])[0]
-    print('a',a)
-    print('b',b)
-    print('s', s)
+def part2(stones):
+    p = [stones[0][0],stones[1][0],stones[2][0]]
+    v = [stones[0][1],stones[1][1],stones[2][1]]
+    rpx, rpy, rpz, rvx, rvy, rvz, t0, t1, t2 = sym.symbols("rpx, rpy, rpz, rvx, rvy, rvz, t0, t1, t2")
+    eqs = [sym.Eq(rpx + rvx * t0, p[0].x + t0 * v[0].x),
+           sym.Eq(rpy + rvy * t0, p[0].y + t0 * v[0].y),
+           sym.Eq(rpz + rvz * t0, p[0].z + t0 * v[0].z),
+           sym.Eq(rpx + rvx * t1, p[1].x + t1 * v[1].x),
+           sym.Eq(rpy + rvy * t1, p[1].y + t1 * v[1].y),
+           sym.Eq(rpz + rvz * t1, p[1].z + t1 * v[1].z),
+           sym.Eq(rpx + rvx * t2, p[2].x + t2 * v[2].x),
+           sym.Eq(rpy + rvy * t2, p[2].y + t2 * v[2].y),
+           sym.Eq(rpz + rvz * t2, p[2].z + t2 * v[2].z)]
+    s = sym.solve(eqs, [rpx, rpy, rpz, rvx, rvy, rvz, t0, t1, t2])[0]
+    print(s)
+    return s[0]+s[1]+s[2]
 
-    rock = [(s[1]*(a[0][i] + s[0]*b[0][i]) - s[0]*(a[1][i] + s[1]*b[1][i])) / (s[1]-s[0]) for i in [0, 1, 2]]
-    print(rock)
-    print(rock[0] + eval(str(s[0]*s[4])))
-    return sum(rock)
+
 
 def line_intersect(p1, q1, p2, q2):
     v1 = q1 - p1
@@ -85,9 +83,7 @@ def project(p):
 from re import findall
 
 def part_a(input, test_min = 200000000000000, test_max = 400000000000000):
-    data = [[int(d) for d in findall("(-?\d+)", line)]
-            for line in input_generator(input)]
-    return part1(data)
+    print(test_min, test_max)
     #test_min = 7
     #test_max = 27
     stones = []
@@ -125,12 +121,6 @@ def part_a(input, test_min = 200000000000000, test_max = 400000000000000):
     return count
 
 def part_b(input):
-    #data = [[int(d) for d in findall("(-?\d+)", line)]
-    #        for line in input_generator(input)]
-    #return part2(data)
-    start = Vec3d(339708138568903, 183946143494745, 129012368412302)
-    return start.x + start.y + start.z
-
     stones = []
     for line in input_generator(input):
         (pos_s,vel_s) = line.split('@')
@@ -140,6 +130,8 @@ def part_b(input):
         v = vel_s.split(',')
         v_v = Vec3d(int(v[0]),int(v[1]),int(v[2]))
         stones.append((p_v,v_v))
+
+    return part2(stones)
 
     for target in range(len(stones)):
 
