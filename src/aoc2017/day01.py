@@ -8,11 +8,24 @@ class Run_2017_01(DayBase):
 
 
 def part_a(input):
-    assert 0, "not implemented"
+    text = next(input_generator(input))
+    text += text[0]
+    sum_ = 0
+    for i in range(len(text) - 1):
+        if text[i] == text[i + 1]:
+            sum_ += int(text[i])
+    return sum_
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    text = next(input_generator(input))
+    sum_ = 0
+    h = len(text) // 2
+    for i in range(h):
+        if text[i] == text[i + h]:
+            sum_ += int(text[i])
+    sum_ *= 2
+    return sum_
 
 
 if __name__ == "__main__":

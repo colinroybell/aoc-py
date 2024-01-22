@@ -21,7 +21,6 @@ class DayBase:
             return 0
 
     def input_filename(self, part, suffix):
-        #suffix = "test1"
         if suffix:
             suffix = "_" + suffix
         else:

@@ -9,6 +9,7 @@ class Test_2016_02:
     def test_bringup_a(self):
         pass
 
+    @pytest.mark.skip
     def test_bringup_b(self):
         pass
 

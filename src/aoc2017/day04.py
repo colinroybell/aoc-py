@@ -7,12 +7,28 @@ class Run_2017_04(DayBase):
     DAY = "04"
 
 
+def isValidPassPhrase(line, part_b=False):
+    words = line.split()
+    if not words:
+        return 0
+    hash = {}
+    print(line)
+    for word in words:
+        if part_b:
+            word = "".join(sorted(word))
+        if word in hash:
+            print("Failed on {}".format(word))
+            return 0
+        hash[word] = 1
+    return 1
+
+
 def part_a(input):
-    assert 0, "not implemented"
+    return sum(isValidPassPhrase(line) for line in input_generator(input))
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    return sum(isValidPassPhrase(line, True) for line in input_generator(input))
 
 
 if __name__ == "__main__":
