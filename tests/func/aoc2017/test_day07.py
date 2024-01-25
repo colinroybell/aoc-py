@@ -9,7 +9,6 @@ class Test_2017_07:
     def test_bringup_a(self):
         assert self.day.run_part("a", "test1") == "tknk"
 
-    @pytest.mark.xfail
     def test_bringup_b(self):
         assert self.day.run_part("b", "test1") == 60
 

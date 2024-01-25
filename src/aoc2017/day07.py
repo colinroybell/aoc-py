@@ -17,33 +17,37 @@ words = []
 def computeTotalWeights(disc):
     totalWeight[disc] = weight[disc]
     targetWeight = 0
-    first = 1
+    weights = {}
     for child in children[disc]:
-        (answer, childWeight) = computeTotalWeights(child)
-        if answer:
-            return (True, childWeight)
-        if first:
-            targetWeight = childWeight
-            first = 0
-            firstChild = child
+        done, childWeight = computeTotalWeights(child)
+        if done:
+            return (done, childWeight)
+        if childWeight not in weights:
+            weights[childWeight] = [child]
         else:
-            if childWeight != targetWeight:
-                print(
-                    "{} says: Want {} to be {} but it is {}. Base weight {}. First child {}, weight {}".format(
-                        disc,
-                        child,
-                        targetWeight,
-                        childWeight,
-                        weight[child],
-                        firstChild,
-                        weight[firstChild],
-                    )
-                )
-                revisedWeight = weight[child] + targetWeight - childWeight
-                return (True, revisedWeight)
+            weights[childWeight].append(child)
         totalWeight[disc] += childWeight
-    print(disc, totalWeight[disc])
-    return (False, totalWeight[disc])
+
+    print(weights, totalWeight[disc])
+    if len(weights) > 1:
+        for w, discs in weights.items():
+            if len(discs) > 1:
+                targetWeight = w
+            else:
+                childWeight = w
+                child = discs[0]
+
+        print(
+            "{} says: Want {} to be {} but it is {}.".format(
+                disc, child, targetWeight, childWeight
+            )
+        )
+
+        revisedWeight = weight[child] + targetWeight - childWeight
+        return (True, revisedWeight)
+    else:
+        print(disc, totalWeight[disc])
+        return (False, totalWeight[disc])
 
 
 def part_a(input, part_b=False):
