@@ -7,12 +7,35 @@ class Run_2017_17(DayBase):
     DAY = "17"
 
 
+def spinlock(buffer, value, pos, advance):
+    # length is same as value
+    pos = (pos + advance) % value
+    buffer = buffer[: (pos + 1)] + [value] + buffer[(pos + 1) :]
+    return buffer, pos + 1
+
+
 def part_a(input):
-    assert 0, "not implemented"
+    buffer = [0]
+    advance = int(next(input_generator(input)))
+    pos = 0
+    for i in range(1, 2018):
+        buffer, pos = spinlock(buffer, i, pos, advance)
+    nextPos = (pos + 1) % (i + 1)
+    print(len(buffer), pos, i, nextPos)
+    return buffer[nextPos]
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    advance = int(next(input_generator(input)))
+    # Don't need to actually add the numbers
+    last_post_0 = None
+    pos = 0
+    for i in range(1, 50000001):
+        pos = (pos + advance) % i
+        if pos == 0:
+            last_post_0 = i
+        pos += 1
+    return last_post_0
 
 
 if __name__ == "__main__":
