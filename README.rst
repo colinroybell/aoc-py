@@ -11,9 +11,17 @@ Install package:
 
 pip install -e .
 pip install pytest
+pip install pytest-xdist
+# and need smypy and others
 
-(pytest isn't working - loading wrong python)
+pytest -n 10 runs in parallel
+pytest --durations 10 for speed.
 
 Black
 
 sudo apt install black
+
+
+# Notes
+
+pytest xfail is usual semantic for a test that is expected to fail, so think I'm fine at the minute for regressions. Having a pass for bringup tests is 

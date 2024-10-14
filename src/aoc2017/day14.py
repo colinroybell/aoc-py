@@ -39,7 +39,9 @@ def recurse(i, j):
 def part_b(input):
     line = next(input_generator(input))
     count = 0
-
+    
+    global rets
+    rets = []
     for i in range(128):
         key = line + "-" + str(i)
         hash = knothash(key)

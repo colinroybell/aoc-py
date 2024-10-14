@@ -51,10 +51,9 @@ def part_a(input, part_b=False, length=256):
 
     return out
 
-
 def part_b(input):
-    # return knothash(next(input_generator(input)))
-    return part_a(input, True)
+    return knothash(next(input_generator(input)))
+    #return part_a(input, True)
 
 
 if __name__ == "__main__":
