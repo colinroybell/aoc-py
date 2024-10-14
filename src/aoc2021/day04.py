@@ -30,7 +30,7 @@ class Board:
             self.row_hit.append(0)
 
     def call(self, N):
-        """ Returns (hit, score)"""
+        """Returns (hit, score)"""
         if self.done:
             # Don't continue once won: needed for part B
             return (False, 0)

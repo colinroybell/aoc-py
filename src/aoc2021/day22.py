@@ -170,7 +170,9 @@ def part_b(input):
     parse_re = re.compile(
         r"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)"
     )
-    root = OcttreeNode([-2 ** 20, -2 ** 20, -2 ** 20], [2 ** 21, 2 ** 21, 2 ** 21])
+    root = OcttreeNode(
+        [-(2 ** 20), -(2 ** 20), -(2 ** 20)], [2 ** 21, 2 ** 21, 2 ** 21]
+    )
     # root = OcttreeNode([-2**4,-2**4,-2**4],2**5)
     count = 0
     samples = []
