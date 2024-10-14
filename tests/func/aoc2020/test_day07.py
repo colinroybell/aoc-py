@@ -1,21 +1,10 @@
-import pytest
-from aoc2020.day07 import Run_2020_07
+from aoc2020.day07 import part_a, part_b
 
 
-class Test_2020_07:
-    def setup_class(self):
-        self.day = Run_2020_07()
+def test_07a():
+    assert(part_a('data/day07_test1.txt') == 4)
 
-    def test_bringup_a(self):
-        pass
 
-    def test_bringup_b(self):
-        pass
-
-    @pytest.mark.xfail
-    def test_regression_a(self):
-        assert self.day.run_part("a") == 0
-
-    @pytest.mark.xfail
-    def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+def test_07b():
+    assert(part_b('data/day07_test1.txt') == 32)
+    assert(part_b('data/day07_test2.txt') == 126)

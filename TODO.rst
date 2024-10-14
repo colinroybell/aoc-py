@@ -8,6 +8,8 @@ TO DO
 * Work out pytest selection mechanisms/marking, and how to do things reasonably generically
 * Find a good linting solution
 
+* think about bringup vs functional vs regression testing.
+
 
 ====== 
 pytest
