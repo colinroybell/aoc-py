@@ -1,39 +1,35 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 
 
-def part_a(filename):
+class Run_2020_01(DayBase):
+    YEAR = "2020"
+    DAY = "01"
+
+def part_a(input):
     entry = set()
-    with open(filename, 'r') as f:
-        for line in f:
-            val = int(line)
-            entry.add(val)
-            inverse = 2020 - val
-            if inverse in entry:
-                return val * inverse
+    for line in input_generator(input):
+        val = int(line)
+        entry.add(val)
+        inverse = 2020 - val
+        if inverse in entry:
+            return val * inverse
     return 0
 
 
-def part_b(filename):
+def part_b(input):
     entry = set()
     pairs = {}
-    with open(filename, 'r') as f:
-        for line in f:
-            val = int(line)
-            for e in entry:
-                pairs[val + e] = val * e
-            entry.add(val)
-            inverse = 2020 - val
-            if inverse in pairs:
-                return val * pairs[inverse]
+    for line in input_generator(input):
+        val = int(line)
+        for e in entry:
+            pairs[val + e] = val * e
+        entry.add(val)
+        inverse = 2020 - val
+        if inverse in pairs:
+            return val * pairs[inverse]
     return 0
 
-
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day01.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day01.txt'))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_01().run_cmdline()
+
