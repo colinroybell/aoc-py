@@ -17,4 +17,3 @@ class Test_2020_01:
 
     def test_regression_b(self):
         assert self.day.run_part("b") == 262738554
-

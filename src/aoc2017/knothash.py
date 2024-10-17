@@ -1,4 +1,4 @@
-def knothash(line,  length = 256):
+def knothash(line, length=256):
     lengths = [ord(char) for char in line] + [17, 31, 73, 47, 23]
 
     n = []
@@ -29,4 +29,3 @@ def knothash(line,  length = 256):
         out += "{:02x}".format(x)
 
     return out
-

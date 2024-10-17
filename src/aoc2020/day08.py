@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_08(DayBase):
+    YEAR = "2020"
+    DAY = "08"
 
 
 class State:
@@ -25,37 +31,34 @@ class State:
             self.pos += field
 
     def looped(self):
-        return (self.inst_counts[self.pos] > 0)
+        return self.inst_counts[self.pos] > 0
 
     def done(self):
-        return (self.pos == len(self.program))
+        return self.pos == len(self.program)
 
     def get_acc(self):
         return self.acc
 
 
-def part_a(filename):
-    with open(filename, 'r') as f:
-        lines = f.readlines()
-        print(lines)
+def part_a(input):
+    lines = [line for line in input_generator(input)]
     program = State(lines)
     while not program.looped():
         program.step()
     return program.get_acc()
 
 
-def part_b(filename):
-    with open(filename, 'r') as f:
-        lines = f.readlines()
+def part_b(input):
+    lines = [line for line in input_generator(input)]
 
     for i in range(0, len(lines)):
         cmd = lines[i][0:3]
-        if cmd != 'acc':
+        if cmd != "acc":
             mod_lines = lines[:]
-            if cmd == 'jmp':
-                mod_lines[i] = 'nop' + mod_lines[i][3:]
+            if cmd == "jmp":
+                mod_lines[i] = "nop" + mod_lines[i][3:]
             else:
-                mod_lines[i] = 'jmp' + mod_lines[i][3:]
+                mod_lines[i] = "jmp" + mod_lines[i][3:]
             program = State(mod_lines)
             while not program.looped() and not program.done():
                 program.step()
@@ -64,12 +67,5 @@ def part_b(filename):
     return 0
 
 
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day08.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day08.txt'))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_08().run_cmdline()

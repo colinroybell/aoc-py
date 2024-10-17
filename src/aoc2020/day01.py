@@ -6,6 +6,7 @@ class Run_2020_01(DayBase):
     YEAR = "2020"
     DAY = "01"
 
+
 def part_a(input):
     entry = set()
     for line in input_generator(input):
@@ -30,6 +31,6 @@ def part_b(input):
             return val * pairs[inverse]
     return 0
 
+
 if __name__ == "__main__":
     Run_2020_01().run_cmdline()
-

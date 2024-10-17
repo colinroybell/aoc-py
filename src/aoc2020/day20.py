@@ -6,49 +6,49 @@ class Tile:
         self.id = id
         self.lines = lines
         self.edges = ["" for j in range(0, 8)]
-        edges = [['.' for i in range(0, 10)] for j in range(0, 8)]
+        edges = [["." for i in range(0, 10)] for j in range(0, 8)]
 
         for p in range(0, 10):
             edges[0][p] = lines[0][p]
             edges[1][p] = lines[p][9]
-            edges[2][p] = lines[9][9-p]
-            edges[3][p] = lines[9-p][0]
+            edges[2][p] = lines[9][9 - p]
+            edges[3][p] = lines[9 - p][0]
             # 4 to 7 are with a horizontal reflection
-            edges[4][p] = lines[0][9-p]
+            edges[4][p] = lines[0][9 - p]
             edges[5][p] = lines[p][0]
             edges[6][p] = lines[9][p]
-            edges[7][p] = lines[9-p][9]
+            edges[7][p] = lines[9 - p][9]
 
         for e in range(0, 8):
             self.edges[e] = "".join(edges[e])
 
     def edge(self, dir, state):
-        ref = (state//4) * 4
+        ref = (state // 4) * 4
         rot = state % 4
         return self.edges[ref + (rot + dir) % 4]
 
     # Horrendous. Fix me.
     def inner(self, state):
-        grid = [['.' for i in range(0, 8)] for j in range(0, 8)]
+        grid = [["." for i in range(0, 8)] for j in range(0, 8)]
 
         for y in range(0, 8):
             for x in range(0, 8):
                 if state == 0:
-                    grid[y][x] = self.lines[y+1][x+1]
+                    grid[y][x] = self.lines[y + 1][x + 1]
                 if state == 3:
-                    grid[y][x] = self.lines[8-x][y+1]
+                    grid[y][x] = self.lines[8 - x][y + 1]
                 if state == 2:
-                    grid[y][x] = self.lines[8-y][8-x]
+                    grid[y][x] = self.lines[8 - y][8 - x]
                 if state == 1:
-                    grid[y][x] = self.lines[x+1][8-y]
+                    grid[y][x] = self.lines[x + 1][8 - y]
                 if state == 4:
-                    grid[y][x] = self.lines[y+1][8-x]
+                    grid[y][x] = self.lines[y + 1][8 - x]
                 if state == 7:
-                    grid[y][x] = self.lines[8-x][8-y]
+                    grid[y][x] = self.lines[8 - x][8 - y]
                 if state == 6:
-                    grid[y][x] = self.lines[8-y][x+1]
+                    grid[y][x] = self.lines[8 - y][x + 1]
                 if state == 5:
-                    grid[y][x] = self.lines[x+1][y+1]
+                    grid[y][x] = self.lines[x + 1][y + 1]
 
         inner = []
         for y in range(0, 8):
@@ -67,7 +67,7 @@ class Grid:
         self.tiles = tiles
         self.used = [False for i in range(len(tiles))]
         self.fill = []
-        for total in range(0, 2*size-1):
+        for total in range(0, 2 * size - 1):
             for x in range(0, size):
                 y = total - x
                 if 0 <= y < size:
@@ -78,22 +78,24 @@ class Grid:
             # Done
             size = self.size
 
-            return self.tiles[self.item[0][0][0]].id * \
-                self.tiles[self.item[0][size-1][0]].id * \
-                self.tiles[self.item[size-1][0][0]].id * \
-                self.tiles[self.item[size-1][size-1][0]].id
+            return (
+                self.tiles[self.item[0][0][0]].id
+                * self.tiles[self.item[0][size - 1][0]].id
+                * self.tiles[self.item[size - 1][0][0]].id
+                * self.tiles[self.item[size - 1][size - 1][0]].id
+            )
 
         else:
             loc = self.fill[count]
 
             if loc[0] > 0:
-                (above, above_state) = self.item[loc[0]-1][loc[1]]
+                (above, above_state) = self.item[loc[0] - 1][loc[1]]
                 target_top_edge = self.tiles[above].edge(2, above_state)[::-1]
             else:
                 target_top_edge = ""
 
             if loc[1] > 0:
-                (left, left_state) = self.item[loc[0]][loc[1]-1]
+                (left, left_state) = self.item[loc[0]][loc[1] - 1]
                 target_left_edge = self.tiles[left].edge(1, left_state)[::-1]
             else:
                 target_left_edge = ""
@@ -105,10 +107,9 @@ class Grid:
                     left_edge = t.edge(3, state)
 
                     # This is the alignment pycodestyle insists on...
-                    if (top_edge == target_top_edge or
-                        target_top_edge == "") and \
-                        (left_edge == target_left_edge or
-                            target_left_edge == ""):
+                    if (top_edge == target_top_edge or target_top_edge == "") and (
+                        left_edge == target_left_edge or target_left_edge == ""
+                    ):
 
                         self.item[loc[0]][loc[1]] = (n, state)
                         self.used[n] = True
@@ -127,7 +128,7 @@ class Grid:
         for y in range(0, self.size):
             new_rows = new_start.copy()
             for x in range(0, self.size):
-                (tile,  state) = self.item[y][x]
+                (tile, state) = self.item[y][x]
                 inner = self.tiles[tile].inner(state)
                 print(y, x, self.tiles[tile].id, state)
                 for r in range(0, 8):
@@ -158,18 +159,18 @@ def rot(loc, state):
 
 
 def delta(pos, dir):
-    return (pos[0]+dir[0], pos[1]+dir[1])
+    return (pos[0] + dir[0], pos[1] + dir[1])
 
 
 def count_monsters(source_grid, monster, state):
     size = len(source_grid)
     # 0 for ., 1 for #, 2 for monster
-    grid = [[0 for i in range(0,  size)] for j in range(0, size)]
+    grid = [[0 for i in range(0, size)] for j in range(0, size)]
     monsters = 0
 
     for j in range(0, size):
         for i in range(0, size):
-            if source_grid[j][i] == '#':
+            if source_grid[j][i] == "#":
                 grid[j][i] = 1
 
     for j in range(0, size):
@@ -177,17 +178,22 @@ def count_monsters(source_grid, monster, state):
             found = True
             for y in range(0, len(monster)):
                 for x in range(0, len(monster[0])):
-                    if monster[y][x] == '#':
+                    if monster[y][x] == "#":
                         (my, mx) = delta((j, i), rot((y, x), state))
-                        if my < 0 or my >= size or mx < 0 or mx >= size or \
-                                grid[my][mx] == 0:
+                        if (
+                            my < 0
+                            or my >= size
+                            or mx < 0
+                            or mx >= size
+                            or grid[my][mx] == 0
+                        ):
                             found = False
             if found:
-                print('Found at', j, i)
+                print("Found at", j, i)
                 monsters += 1
                 for y in range(0, len(monster)):
                     for x in range(0, len(monster[0])):
-                        if monster[y][x] == '#':
+                        if monster[y][x] == "#":
                             (my, mx) = delta((j, i), rot((y, x), state))
                             grid[my][mx] = 2
 
@@ -205,7 +211,7 @@ def both_parts(filename, part):
     tiles = []
     id = 0
     tile_count = 0
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         count = 0
         for line in f:
             if count == 0:
@@ -224,16 +230,14 @@ def both_parts(filename, part):
 
     grid = Grid(size, tiles)
     val = grid.recurse(0)
-    if part == 'a':
+    if part == "a":
         return val
 
     new_grid = grid.build_inner()
     for r in new_grid:
         print(r)
 
-    monster = ["                  # ",
-               "#    ##    ##    ###",
-               " #  #  #  #  #  #   "]
+    monster = ["                  # ", "#    ##    ##    ###", " #  #  #  #  #  #   "]
 
     r = 0
 
@@ -246,18 +250,18 @@ def both_parts(filename, part):
 
 
 def part_a(filename):
-    return both_parts(filename, 'a')
+    return both_parts(filename, "a")
 
 
 def part_b(filename):
-    return both_parts(filename, 'b')
+    return both_parts(filename, "b")
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day20.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day20.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day20.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day20.txt"))
 
 
 if __name__ == "__main__":

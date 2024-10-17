@@ -12,7 +12,7 @@ class Rule:
         self.initialised = False
 
     def setup(self, part):
-        if part == 'b' and (self.n == 0 or self.n == 8 or self.n == 11):
+        if part == "b" and (self.n == 0 or self.n == 8 or self.n == 11):
             return set()
         if self.initialised:
             return self.list
@@ -41,24 +41,24 @@ class Rule:
 def part_a(filename):
     status = 1
     test_lines = []
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             if line == "":
                 status += 1
             elif status == 1:
-                f1 = line.split(': ')
+                f1 = line.split(": ")
                 n = int(f1[0])
                 letter = ""
                 lists = []
                 if f1[1][0] == '"':
                     letter = f1[1][1]
                 else:
-                    f2 = f1[1].split(' ')
+                    f2 = f1[1].split(" ")
                     lists = []
                     subrule = []
                     for i in f2:
-                        if i == '|':
+                        if i == "|":
                             lists.append(subrule)
                             subrule = []
                         else:
@@ -68,7 +68,7 @@ def part_a(filename):
             else:
                 test_lines.append(line)
 
-    passing = rules[0].setup('a')
+    passing = rules[0].setup("a")
     count = 0
     for line in test_lines:
         if line in passing:
@@ -79,24 +79,24 @@ def part_a(filename):
 def part_a(filename):
     status = 1
     test_lines = []
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             if line == "":
                 status += 1
             elif status == 1:
-                f1 = line.split(': ')
+                f1 = line.split(": ")
                 n = int(f1[0])
                 letter = ""
                 lists = []
                 if f1[1][0] == '"':
                     letter = f1[1][1]
                 else:
-                    f2 = f1[1].split(' ')
+                    f2 = f1[1].split(" ")
                     lists = []
                     subrule = []
                     for i in f2:
-                        if i == '|':
+                        if i == "|":
                             lists.append(subrule)
                             subrule = []
                         else:
@@ -106,7 +106,7 @@ def part_a(filename):
             else:
                 test_lines.append(line)
 
-    passing = rules[0].setup('a')
+    passing = rules[0].setup("a")
     count = 0
     for line in test_lines:
         if line in passing:
@@ -116,14 +116,14 @@ def part_a(filename):
 
 def trial(line, state, m, n, subs):
     if state == 0:
-        list_42 = rules[42].setup('b')
+        list_42 = rules[42].setup("b")
         # need to check at least one character, and leave one left for 31
         for c in range(1, len(line)):
             if line[0:c] in list_42:
                 if trial(line[c:], 0, m + 1, n, subs + [line[0:c]]):
                     return True
     state = 1
-    list_31 = rules[31].setup('b')
+    list_31 = rules[31].setup("b")
     if n >= m - 1 or m < 2:
         return False
     if line in list_31 and n < m:
@@ -138,24 +138,24 @@ def trial(line, state, m, n, subs):
 def part_b(filename):
     status = 1
     test_lines = []
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             if line == "":
                 status += 1
             elif status == 1:
-                f1 = line.split(': ')
+                f1 = line.split(": ")
                 n = int(f1[0])
                 letter = ""
                 lists = []
                 if f1[1][0] == '"':
                     letter = f1[1][1]
                 else:
-                    f2 = f1[1].split(' ')
+                    f2 = f1[1].split(" ")
                     lists = []
                     subrule = []
                     for i in f2:
-                        if i == '|':
+                        if i == "|":
                             lists.append(subrule)
                             subrule = []
                         else:
@@ -165,7 +165,7 @@ def part_b(filename):
             else:
                 test_lines.append(line)
 
-    passing = rules[0].setup('b')
+    passing = rules[0].setup("b")
     # The effect of what we have is that we need things to be M 42s + N 31s,
     # with M > N and N>=1
     count = 0
@@ -177,10 +177,10 @@ def part_b(filename):
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day19.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day19.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day19.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day19.txt"))
 
 
 if __name__ == "__main__":

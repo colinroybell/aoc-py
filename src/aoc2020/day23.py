@@ -33,7 +33,7 @@ def part_a(string):
     score = 0
     curr = ptr[1]
     while curr != 1:
-        score = score*10 + curr
+        score = score * 10 + curr
         curr = ptr[curr]
     return score
 
@@ -77,10 +77,10 @@ def part_b(string):
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('469217538'))
-    if 'b' in sys.argv:
-        print(part_b('469217538'))
+    if "a" in sys.argv:
+        print(part_a("469217538"))
+    if "b" in sys.argv:
+        print(part_b("469217538"))
 
 
 if __name__ == "__main__":

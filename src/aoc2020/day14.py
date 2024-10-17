@@ -3,11 +3,11 @@ import re
 
 
 def part_a(filename):
-    mask_re = re.compile(r'mask = (.{36})')
-    mem_re = re.compile(r'mem\[(\d+)\] = (\d+)')
+    mask_re = re.compile(r"mask = (.{36})")
+    mem_re = re.compile(r"mem\[(\d+)\] = (\d+)")
     mem = {}
     mask = []
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             m = mask_re.match(line)
@@ -20,7 +20,7 @@ def part_a(filename):
                 output_val = 0
                 for i in range(0, 36):
                     mask_bit = mask[i]
-                    if mask_bit == 'X':
+                    if mask_bit == "X":
                         bit = input_val % 2
                     else:
                         bit = int(mask_bit)
@@ -34,11 +34,11 @@ def part_a(filename):
 
 
 def part_b(filename):
-    mask_re = re.compile(r'mask = (.{36})')
-    mem_re = re.compile(r'mem\[(\d+)\] = (\d+)')
+    mask_re = re.compile(r"mask = (.{36})")
+    mem_re = re.compile(r"mem\[(\d+)\] = (\d+)")
     mem = {}
     write_offsets = []
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             m = mask_re.match(line)
@@ -46,8 +46,8 @@ def part_b(filename):
                 mask = m.group(1)[::-1]
                 write_offsets = [0]
                 for i in range(0, 36):
-                    if mask[i] == 'X':
-                        inc = 2**i
+                    if mask[i] == "X":
+                        inc = 2 ** i
                         current_len = len(write_offsets)
                         for offset in range(0, current_len):
                             write_offsets.append(write_offsets[offset] + inc)
@@ -58,9 +58,9 @@ def part_b(filename):
                 base_address = 0
                 for i in range(0, 36):
                     mask_bit = mask[i]
-                    if mask_bit == 'X':
+                    if mask_bit == "X":
                         bit = 0
-                    elif mask_bit == '0':
+                    elif mask_bit == "0":
                         bit = address % 2
                     else:
                         bit = 1
@@ -75,10 +75,10 @@ def part_b(filename):
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day14.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day14.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day14.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day14.txt"))
 
 
 if __name__ == "__main__":

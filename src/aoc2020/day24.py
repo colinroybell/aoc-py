@@ -3,17 +3,17 @@ import sys
 
 def move(pos, dir):
     (x, y) = pos
-    if dir == 'e':
+    if dir == "e":
         return (x + 1, y)
-    elif dir == 'w':
+    elif dir == "w":
         return (x - 1, y)
-    elif dir == 'ne':
+    elif dir == "ne":
         return (x, y + 1)
-    elif dir == 'sw':
+    elif dir == "sw":
         return (x, y - 1)
-    elif dir == 'se':
+    elif dir == "se":
         return (x + 1, y - 1)
-    elif dir == 'nw':
+    elif dir == "nw":
         return (x - 1, y + 1)
 
 
@@ -26,25 +26,25 @@ def count_black(loc):
 
 def both_parts(filename, part):
     loc = {}
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
             pos = (0, 0)
             inst = ""
             for c in line:
                 inst = inst + c
-                if c == 'e' or c == 'w':
+                if c == "e" or c == "w":
                     pos = move(pos, inst)
                     inst = ""
             if pos not in loc:
                 loc[pos] = 0
             loc[pos] = 1 - loc[pos]
 
-    if part == 'a':
+    if part == "a":
         return count_black(loc)
 
     else:
-        dirs = ['e', 'w', 'se', 'nw', 'sw', 'ne']
+        dirs = ["e", "w", "se", "nw", "sw", "ne"]
         print(loc)
         for round in range(0, 100):
             count = {}
@@ -72,18 +72,18 @@ def both_parts(filename, part):
 
 
 def part_a(filename):
-    return both_parts(filename, 'a')
+    return both_parts(filename, "a")
 
 
 def part_b(filename):
-    return both_parts(filename, 'b')
+    return both_parts(filename, "b")
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day24.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day24.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day24.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day24.txt"))
 
 
 if __name__ == "__main__":

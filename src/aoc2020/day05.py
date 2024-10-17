@@ -11,12 +11,12 @@ def seat_id(code):
     row = 0
     for i in range(0, 7):
         row *= 2
-        if code[i] == 'B':
+        if code[i] == "B":
             row += 1
     col = 0
     for i in range(7, 10):
         col *= 2
-        if code[i] == 'R':
+        if code[i] == "R":
             col += 1
     return row * 8 + col
 
@@ -40,6 +40,6 @@ def part_b(input):
             return seat + 1
     return 0
 
+
 if __name__ == "__main__":
     Run_2020_05().run_cmdline()
-

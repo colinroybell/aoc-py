@@ -5,7 +5,7 @@ def loop_size(public_key):
     v = 1
     count = 0
     while v != public_key:
-        v = (v*7) % 20201227
+        v = (v * 7) % 20201227
         count += 1
     return count
 
@@ -13,7 +13,7 @@ def loop_size(public_key):
 def transform(subject, loop):
     v = 1
     for _ in range(0, loop):
-        v = (v*subject) % 20201227
+        v = (v * subject) % 20201227
     return v
 
 
@@ -24,7 +24,7 @@ def part_a(card_pub, door_pub):
     enc_card = transform(door_pub, card_loop)
     enc_door = transform(card_pub, door_loop)
 
-    assert(enc_card == enc_door)
+    assert enc_card == enc_door
     return enc_card
 
 
@@ -33,9 +33,9 @@ def part_b():
 
 
 def entry():
-    if 'a' in sys.argv:
+    if "a" in sys.argv:
         print(part_a(16616892, 14505727))
-    if 'b' in sys.argv:
+    if "b" in sys.argv:
         print(part_b())
 
 

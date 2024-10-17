@@ -18,7 +18,7 @@ def count_grid(grid, xstep, ystep):
     y = 0
     width = len(grid[0])
     while y < len(grid):
-        if grid[y][x] == '#':
+        if grid[y][x] == "#":
             count += 1
         x = (x + xstep) % width
         y += ystep
@@ -33,9 +33,14 @@ def part_a(input):
 
 def part_b(input):
     grid = read_grid(input)
-    return count_grid(grid, 1, 1) * count_grid(grid, 3, 1) * \
-        count_grid(grid, 5, 1) * count_grid(grid, 7, 1) * \
-        count_grid(grid, 1, 2)
+    return (
+        count_grid(grid, 1, 1)
+        * count_grid(grid, 3, 1)
+        * count_grid(grid, 5, 1)
+        * count_grid(grid, 7, 1)
+        * count_grid(grid, 1, 2)
+    )
+
 
 if __name__ == "__main__":
     Run_2020_03().run_cmdline()

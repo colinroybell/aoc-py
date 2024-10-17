@@ -7,16 +7,16 @@ def part_a(filename):
     state = 1
     count = 1
     total = 0
-    range_re = re.compile(r': (\d+)-(\d+) or (\d+)-(\d+)')
-    with open(filename, 'r') as f:
+    range_re = re.compile(r": (\d+)-(\d+) or (\d+)-(\d+)")
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
-            if line == '':
+            if line == "":
                 state += 1
                 count = 0
             elif state == 1:
                 m = range_re.search(line)
-                assert(m)
+                assert m
                 ranges.append((int(m.group(1)), int(m.group(2))))
                 ranges.append((int(m.group(3)), int(m.group(4))))
             elif state == 2:
@@ -25,7 +25,7 @@ def part_a(filename):
                 count += 1
                 if count == 1:
                     continue
-                strings = line.split(',')
+                strings = line.split(",")
                 for s in strings:
                     v = int(s)
                     ok = False
@@ -45,16 +45,16 @@ def part_b(filename):
     state = 1
     count = 1
     total = 0
-    range_re = re.compile(r'(.+): (\d+)-(\d+) or (\d+)-(\d+)')
-    with open(filename, 'r') as f:
+    range_re = re.compile(r"(.+): (\d+)-(\d+) or (\d+)-(\d+)")
+    with open(filename, "r") as f:
         for line in f:
             line = line.rstrip()
-            if line == '':
+            if line == "":
                 state += 1
                 count = 0
             elif state == 1:
                 m = range_re.search(line)
-                assert(m)
+                assert m
                 r1 = (int(m.group(2)), int(m.group(3)))
                 r2 = (int(m.group(4)), int(m.group(5)))
                 fields.append((m.group(1), r1, r2))
@@ -63,7 +63,7 @@ def part_b(filename):
             elif state == 2:
                 count += 1
                 if count == 2:
-                    strings = line.split(',')
+                    strings = line.split(",")
                     for s in strings:
                         v = int(s)
                         your_ticket.append(v)
@@ -71,7 +71,7 @@ def part_b(filename):
                 count += 1
                 if count == 1:
                     continue
-                strings = line.split(',')
+                strings = line.split(",")
                 ticket = []
                 ticket_ok = True
                 for s in strings:
@@ -98,8 +98,9 @@ def part_b(filename):
             ok = True
             for t in tickets:
                 v = t[col]
-                if not ((v >= f[1][0] and v <= f[1][1]) or
-                        (v >= f[2][0] and v <= f[2][1])):
+                if not (
+                    (v >= f[1][0] and v <= f[1][1]) or (v >= f[2][0] and v <= f[2][1])
+                ):
                     ok = False
                     break
             if ok:
@@ -135,7 +136,7 @@ def part_b(filename):
 
     prod = 1
     for i in range(0, size):
-        if fields[i][0][0:9] == 'departure':
+        if fields[i][0][0:9] == "departure":
             loc = 0
             for c in range(0, size):
                 if b[i][c]:
@@ -145,10 +146,10 @@ def part_b(filename):
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day16.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day16.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day16.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day16.txt"))
 
 
 if __name__ == "__main__":

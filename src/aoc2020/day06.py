@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_06(DayBase):
+    YEAR = "2020"
+    DAY = "06"
 
 
 def group_score_a(lines):
@@ -23,41 +29,32 @@ def group_score_b(lines):
 
 
 def group_score(part, lines):
-    if part == 'a':
+    if part == "a":
         return group_score_a(lines)
     else:
         return group_score_b(lines)
 
 
-def both_parts(part, filename):
+def both_parts(part, input):
     group = []
     total = 0
-    with open(filename, 'r') as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                total += group_score(part, group)
-                group = []
-            else:
-                group.append(line)
+    for line in input_generator(input):
+        if line == "":
+            total += group_score(part, group)
+            group = []
+        else:
+            group.append(line)
     total += group_score(part, group)
     return total
 
 
-def part_a(filename):
-    return both_parts('a', filename)
+def part_a(input):
+    return both_parts("a", input)
 
 
-def part_b(filename):
-    return both_parts('b', filename)
-
-
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day06.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day06.txt'))
+def part_b(input):
+    return both_parts("b", input)
 
 
 if __name__ == "__main__":
-    entry()
+    Run_2020_06().run_cmdline()

@@ -44,12 +44,12 @@ def iterate4(grid):
 
 def part_a(filename):
     grid = set()
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         y = 0
         for line in f:
             x = 0
             for c in line:
-                if c == '#':
+                if c == "#":
                     grid.add((x, y, 0))
                 x += 1
             y += 1
@@ -61,12 +61,12 @@ def part_a(filename):
 
 def part_b(filename):
     grid = set()
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         y = 0
         for line in f:
             x = 0
             for c in line:
-                if c == '#':
+                if c == "#":
                     grid.add((x, y, 0, 0))
                 x += 1
             y += 1
@@ -77,10 +77,10 @@ def part_b(filename):
 
 
 def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day17.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day17.txt'))
+    if "a" in sys.argv:
+        print(part_a("data/day17.txt"))
+    if "b" in sys.argv:
+        print(part_b("data/day17.txt"))
 
 
 if __name__ == "__main__":
