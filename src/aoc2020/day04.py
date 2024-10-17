@@ -1,21 +1,23 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 import re
 
+class Run_2020_04(DayBase):
+    YEAR = "2020"
+    DAY = "04"
 
-def parse_file(filename):
+def parse_file(input):
     passports = []
     passport = {}
-    with open(filename, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line == '':
-                passports.append(passport)
-                passport = {}
-            else:
-                entries = line.split(' ')
-                for entry in entries:
-                    fields = entry.split(':')
-                    passport[fields[0]] = fields[1]
+    for line in input_generator(input):
+        if line == '':
+            passports.append(passport)
+            passport = {}
+        else:
+            entries = line.split(' ')
+            for entry in entries:
+                fields = entry.split(':')
+                passport[fields[0]] = fields[1]
     if passport:
         passports.append(passport)
     return passports
@@ -66,9 +68,9 @@ def check_field(field, value):
             return 1
 
 
-def part_a(filename):
+def part_a(input):
     required = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-    passports = parse_file(filename)
+    passports = parse_file(input)
     valid_count = 0
     for passport in passports:
         valid = 1
@@ -80,9 +82,9 @@ def part_a(filename):
     return valid_count
 
 
-def part_b(filename):
+def part_b(input):
     required = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-    passports = parse_file(filename)
+    passports = parse_file(input)
     valid_count = 0
     for passport in passports:
         valid = 1
@@ -98,13 +100,6 @@ def part_b(filename):
     return valid_count
     return 0
 
-
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day04.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day04.txt'))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_04().run_cmdline()
+

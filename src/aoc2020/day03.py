@@ -1,10 +1,14 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 
 
-def read_grid(filename):
-    with open(filename) as f:
-        grid = f.readlines()
-        grid = [x.strip() for x in grid]
+class Run_2020_03(DayBase):
+    YEAR = "2020"
+    DAY = "03"
+
+
+def read_grid(input):
+    grid = [x.strip() for x in input_generator(input)]
     return grid
 
 
@@ -22,24 +26,16 @@ def count_grid(grid, xstep, ystep):
     return count
 
 
-def part_a(filename):
-    grid = read_grid(filename)
+def part_a(input):
+    grid = read_grid(input)
     return count_grid(grid, 3, 1)
 
 
-def part_b(filename):
-    grid = read_grid(filename)
+def part_b(input):
+    grid = read_grid(input)
     return count_grid(grid, 1, 1) * count_grid(grid, 3, 1) * \
         count_grid(grid, 5, 1) * count_grid(grid, 7, 1) * \
         count_grid(grid, 1, 2)
 
-
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day03.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day03.txt'))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_03().run_cmdline()

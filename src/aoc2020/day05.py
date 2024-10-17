@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_05(DayBase):
+    YEAR = "2020"
+    DAY = "05"
 
 
 def seat_id(code):
@@ -15,36 +21,25 @@ def seat_id(code):
     return row * 8 + col
 
 
-def part_a(filename):
+def part_a(input):
     max_id = 0
-    with open(filename, 'r') as f:
-        for line in f:
-            line = line.rstrip()
-            id = seat_id(line)
-            max_id = max(max_id, id)
+    for line in input_generator(input):
+        id = seat_id(line)
+        max_id = max(max_id, id)
     return max_id
 
 
-def part_b(filename):
+def part_b(input):
     ids = set()
-    with open(filename, 'r') as f:
-        for line in f:
-            line = line.rstrip()
-            id = seat_id(line)
-            ids.add(id)
+    for line in input_generator(input):
+        id = seat_id(line)
+        ids.add(id)
 
     for seat in ids:
         if (seat + 2) in ids and not (seat + 1) in ids:
             return seat + 1
     return 0
 
-
-def entry():
-    if 'a' in sys.argv:
-        print(part_a('data/day05.txt'))
-    if 'b' in sys.argv:
-        print(part_b('data/day05.txt'))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_05().run_cmdline()
+
