@@ -1,25 +1,29 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 import re
 
 
-def part_a(filename):
+class Run_2020_21(DayBase):
+    YEAR = "2020"
+    DAY = "21"
+
+
+def part_a(input):
     foods = []
     ingredients = set()
     allergens = set()
     split_re = re.compile(r"(.+) \(contains (.+)\)")
 
-    with open(filename, "r") as f:
-        for line in f:
-            line.rstrip()
-            m = split_re.match(line)
-            assert m
-            ing_items = m.group(1).split(" ")
-            for ing in ing_items:
-                ingredients.add(ing)
-            all_items = m.group(2).split(", ")
-            for all in all_items:
-                allergens.add(all)
-            foods.append((ing_items, all_items))
+    for line in input_generator(input):
+        m = split_re.match(line)
+        assert m
+        ing_items = m.group(1).split(" ")
+        for ing in ing_items:
+            ingredients.add(ing)
+        all_items = m.group(2).split(", ")
+        for all in all_items:
+            allergens.add(all)
+        foods.append((ing_items, all_items))
 
     safe = ingredients
     for all in allergens:
@@ -43,25 +47,22 @@ def part_a(filename):
     return count
 
 
-def part_b(filename):
+def part_b(input):
     foods = []
     ingredients = set()
     allergens = set()
     split_re = re.compile(r"(.+) \(contains (.+)\)")
-
-    with open(filename, "r") as f:
-        for line in f:
-            line.rstrip()
-            m = split_re.match(line)
-            assert m
-            ing_items = m.group(1).split(" ")
-            print(ing_items)
-            for ing in ing_items:
-                ingredients.add(ing)
-            all_items = m.group(2).split(", ")
-            for all in all_items:
-                allergens.add(all)
-            foods.append((ing_items, all_items))
+    for line in input_generator(input):
+        m = split_re.match(line)
+        assert m
+        ing_items = m.group(1).split(" ")
+        print(ing_items)
+        for ing in ing_items:
+            ingredients.add(ing)
+        all_items = m.group(2).split(", ")
+        for all in all_items:
+            allergens.add(all)
+        foods.append((ing_items, all_items))
 
     cand_ing = {}
     cand_all = {}
@@ -114,12 +115,5 @@ def part_b(filename):
     return text
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day21.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day21.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_21().run_cmdline()

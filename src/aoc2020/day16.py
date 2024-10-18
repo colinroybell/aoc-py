@@ -1,43 +1,49 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_16(DayBase):
+    YEAR = "2020"
+    DAY = "16"
+
+
 import re
 
 
-def part_a(filename):
+def part_a(input):
     ranges = []
     state = 1
     count = 1
     total = 0
     range_re = re.compile(r": (\d+)-(\d+) or (\d+)-(\d+)")
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                state += 1
-                count = 0
-            elif state == 1:
-                m = range_re.search(line)
-                assert m
-                ranges.append((int(m.group(1)), int(m.group(2))))
-                ranges.append((int(m.group(3)), int(m.group(4))))
-            elif state == 2:
-                pass
-            elif state == 3:
-                count += 1
-                if count == 1:
-                    continue
-                strings = line.split(",")
-                for s in strings:
-                    v = int(s)
-                    ok = False
-                    for r in ranges:
-                        if v >= r[0] and v <= r[1]:
-                            ok = True
-                    if not ok:
-                        total += v
+    for line in input_generator(input):
+        if line == "":
+            state += 1
+            count = 0
+        elif state == 1:
+            m = range_re.search(line)
+            assert m
+            ranges.append((int(m.group(1)), int(m.group(2))))
+            ranges.append((int(m.group(3)), int(m.group(4))))
+        elif state == 2:
+            pass
+        elif state == 3:
+            count += 1
+            if count == 1:
+                continue
+            strings = line.split(",")
+            for s in strings:
+                v = int(s)
+                ok = False
+                for r in ranges:
+                    if v >= r[0] and v <= r[1]:
+                        ok = True
+                if not ok:
+                    total += v
     return total
 
 
-def part_b(filename):
+def part_b(input):
     fields = []
     ranges = []
     your_ticket = []
@@ -46,48 +52,46 @@ def part_b(filename):
     count = 1
     total = 0
     range_re = re.compile(r"(.+): (\d+)-(\d+) or (\d+)-(\d+)")
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                state += 1
-                count = 0
-            elif state == 1:
-                m = range_re.search(line)
-                assert m
-                r1 = (int(m.group(2)), int(m.group(3)))
-                r2 = (int(m.group(4)), int(m.group(5)))
-                fields.append((m.group(1), r1, r2))
-                ranges.append((int(m.group(2)), int(m.group(3))))
-                ranges.append((int(m.group(4)), int(m.group(5))))
-            elif state == 2:
-                count += 1
-                if count == 2:
-                    strings = line.split(",")
-                    for s in strings:
-                        v = int(s)
-                        your_ticket.append(v)
-            elif state == 3:
-                count += 1
-                if count == 1:
-                    continue
+    for line in input_generator(input):
+        if line == "":
+            state += 1
+            count = 0
+        elif state == 1:
+            m = range_re.search(line)
+            assert m
+            r1 = (int(m.group(2)), int(m.group(3)))
+            r2 = (int(m.group(4)), int(m.group(5)))
+            fields.append((m.group(1), r1, r2))
+            ranges.append((int(m.group(2)), int(m.group(3))))
+            ranges.append((int(m.group(4)), int(m.group(5))))
+        elif state == 2:
+            count += 1
+            if count == 2:
                 strings = line.split(",")
-                ticket = []
-                ticket_ok = True
                 for s in strings:
                     v = int(s)
+                    your_ticket.append(v)
+        elif state == 3:
+            count += 1
+            if count == 1:
+                continue
+            strings = line.split(",")
+            ticket = []
+            ticket_ok = True
+            for s in strings:
+                v = int(s)
 
-                    ticket.append(v)
-                    ok = False
-                    for r in ranges:
-                        if v >= r[0] and v <= r[1]:
-                            ok = True
-                    if not ok:
-                        ticket_ok = False
-                        break
+                ticket.append(v)
+                ok = False
+                for r in ranges:
+                    if v >= r[0] and v <= r[1]:
+                        ok = True
+                if not ok:
+                    ticket_ok = False
+                    break
 
-                if ticket_ok:
-                    tickets.append(ticket)
+            if ticket_ok:
+                tickets.append(ticket)
 
     size = len(fields)
 
@@ -145,12 +149,5 @@ def part_b(filename):
     return prod
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day16.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day16.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_16().run_cmdline()

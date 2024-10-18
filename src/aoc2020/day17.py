@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_17(DayBase):
+    YEAR = "2020"
+    DAY = "17"
 
 
 def iterate(grid):
@@ -42,46 +48,37 @@ def iterate4(grid):
     return new_grid
 
 
-def part_a(filename):
+def part_a(input):
     grid = set()
-    with open(filename, "r") as f:
-        y = 0
-        for line in f:
-            x = 0
-            for c in line:
-                if c == "#":
-                    grid.add((x, y, 0))
-                x += 1
-            y += 1
+    y = 0
+    for line in input_generator(input):
+        x = 0
+        for c in line:
+            if c == "#":
+                grid.add((x, y, 0))
+            x += 1
+        y += 1
 
     for i in range(0, 6):
         grid = iterate(grid)
     return len(grid)
 
 
-def part_b(filename):
+def part_b(input):
     grid = set()
-    with open(filename, "r") as f:
-        y = 0
-        for line in f:
-            x = 0
-            for c in line:
-                if c == "#":
-                    grid.add((x, y, 0, 0))
-                x += 1
-            y += 1
+    y = 0
+    for line in input_generator(input):
+        x = 0
+        for c in line:
+            if c == "#":
+                grid.add((x, y, 0, 0))
+            x += 1
+        y += 1
 
     for i in range(0, 6):
         grid = iterate4(grid)
     return len(grid)
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day17.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day17.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_17().run_cmdline()

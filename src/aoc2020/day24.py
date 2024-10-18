@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_24(DayBase):
+    YEAR = "2020"
+    DAY = "24"
 
 
 def move(pos, dir):
@@ -24,21 +30,19 @@ def count_black(loc):
     return total
 
 
-def both_parts(filename, part):
+def both_parts(input, part):
     loc = {}
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            pos = (0, 0)
-            inst = ""
-            for c in line:
-                inst = inst + c
-                if c == "e" or c == "w":
-                    pos = move(pos, inst)
-                    inst = ""
-            if pos not in loc:
-                loc[pos] = 0
-            loc[pos] = 1 - loc[pos]
+    for line in input_generator(input):
+        pos = (0, 0)
+        inst = ""
+        for c in line:
+            inst = inst + c
+            if c == "e" or c == "w":
+                pos = move(pos, inst)
+                inst = ""
+        if pos not in loc:
+            loc[pos] = 0
+        loc[pos] = 1 - loc[pos]
 
     if part == "a":
         return count_black(loc)
@@ -71,20 +75,13 @@ def both_parts(filename, part):
         return count_black(loc)
 
 
-def part_a(filename):
-    return both_parts(filename, "a")
+def part_a(input):
+    return both_parts(input, "a")
 
 
-def part_b(filename):
-    return both_parts(filename, "b")
-
-
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day24.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day24.txt"))
+def part_b(input):
+    return both_parts(input, "b")
 
 
 if __name__ == "__main__":
-    entry()
+    Run_2020_24().run_cmdline()

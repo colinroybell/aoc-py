@@ -2,7 +2,7 @@ import pytest
 from aoc2020.day07 import Run_2020_07
 
 
-class Test_2020_0:
+class Test_2020_07:
     def setup_class(self):
         self.day = Run_2020_07()
 

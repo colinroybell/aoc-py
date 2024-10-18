@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_19(DayBase):
+    YEAR = "2020"
+    DAY = "19"
 
 
 rules = {}
@@ -38,73 +44,33 @@ class Rule:
         return self.list
 
 
-def part_a(filename):
+def part_a(input):
     status = 1
     test_lines = []
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                status += 1
-            elif status == 1:
-                f1 = line.split(": ")
-                n = int(f1[0])
-                letter = ""
-                lists = []
-                if f1[1][0] == '"':
-                    letter = f1[1][1]
-                else:
-                    f2 = f1[1].split(" ")
-                    lists = []
-                    subrule = []
-                    for i in f2:
-                        if i == "|":
-                            lists.append(subrule)
-                            subrule = []
-                        else:
-                            subrule.append(int(i))
-                    lists.append(subrule)
-                rules[n] = Rule(n, letter, lists)
+    for line in input_generator(input):
+        if line == "":
+            status += 1
+        elif status == 1:
+            f1 = line.split(": ")
+            n = int(f1[0])
+            letter = ""
+            lists = []
+            if f1[1][0] == '"':
+                letter = f1[1][1]
             else:
-                test_lines.append(line)
-
-    passing = rules[0].setup("a")
-    count = 0
-    for line in test_lines:
-        if line in passing:
-            count += 1
-    return count
-
-
-def part_a(filename):
-    status = 1
-    test_lines = []
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                status += 1
-            elif status == 1:
-                f1 = line.split(": ")
-                n = int(f1[0])
-                letter = ""
+                f2 = f1[1].split(" ")
                 lists = []
-                if f1[1][0] == '"':
-                    letter = f1[1][1]
-                else:
-                    f2 = f1[1].split(" ")
-                    lists = []
-                    subrule = []
-                    for i in f2:
-                        if i == "|":
-                            lists.append(subrule)
-                            subrule = []
-                        else:
-                            subrule.append(int(i))
-                    lists.append(subrule)
-                rules[n] = Rule(n, letter, lists)
-            else:
-                test_lines.append(line)
+                subrule = []
+                for i in f2:
+                    if i == "|":
+                        lists.append(subrule)
+                        subrule = []
+                    else:
+                        subrule.append(int(i))
+                lists.append(subrule)
+            rules[n] = Rule(n, letter, lists)
+        else:
+            test_lines.append(line)
 
     passing = rules[0].setup("a")
     count = 0
@@ -135,35 +101,33 @@ def trial(line, state, m, n, subs):
     return False
 
 
-def part_b(filename):
+def part_b(input):
     status = 1
     test_lines = []
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                status += 1
-            elif status == 1:
-                f1 = line.split(": ")
-                n = int(f1[0])
-                letter = ""
-                lists = []
-                if f1[1][0] == '"':
-                    letter = f1[1][1]
-                else:
-                    f2 = f1[1].split(" ")
-                    lists = []
-                    subrule = []
-                    for i in f2:
-                        if i == "|":
-                            lists.append(subrule)
-                            subrule = []
-                        else:
-                            subrule.append(int(i))
-                    lists.append(subrule)
-                rules[n] = Rule(n, letter, lists)
+    for line in input_generator(input):
+        if line == "":
+            status += 1
+        elif status == 1:
+            f1 = line.split(": ")
+            n = int(f1[0])
+            letter = ""
+            lists = []
+            if f1[1][0] == '"':
+                letter = f1[1][1]
             else:
-                test_lines.append(line)
+                f2 = f1[1].split(" ")
+                lists = []
+                subrule = []
+                for i in f2:
+                    if i == "|":
+                        lists.append(subrule)
+                        subrule = []
+                    else:
+                        subrule.append(int(i))
+                lists.append(subrule)
+            rules[n] = Rule(n, letter, lists)
+        else:
+            test_lines.append(line)
 
     passing = rules[0].setup("b")
     # The effect of what we have is that we need things to be M 42s + N 31s,
@@ -176,12 +140,5 @@ def part_b(filename):
     return count
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day19.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day19.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_19().run_cmdline()

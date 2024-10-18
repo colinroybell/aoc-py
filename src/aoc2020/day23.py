@@ -1,10 +1,16 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 
 
-def part_a(string):
+class Run_2020_23(DayBase):
+    YEAR = "2020"
+    DAY = "23"
+
+
+def part_a(input):
     ptr = [-1 for i in range(0, 10)]
     cups = []
-    for c in string:
+    for c in next(input_generator(input)):
         cups.append(int(c))
 
     for i in range(0, len(cups) - 1):
@@ -38,10 +44,10 @@ def part_a(string):
     return score
 
 
-def part_b(string):
+def part_b(input):
     ptr = [-1 for i in range(0, 1000001)]
     cups = []
-    for c in string:
+    for c in next(input_generator(input)):
         cups.append(int(c))
 
     for i in range(0, len(cups) - 1):
@@ -76,12 +82,5 @@ def part_b(string):
     return ptr[curr] * ptr[ptr[curr]]
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("469217538"))
-    if "b" in sys.argv:
-        print(part_b("469217538"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_23().run_cmdline()

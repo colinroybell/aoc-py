@@ -1,18 +1,22 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 
 
-def part_a(filename):
+class Run_2020_22(DayBase):
+    YEAR = "2020"
+    DAY = "22"
+
+
+def part_a(input):
     deck = [[], []]
     player = -1
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                continue
-            elif line[0] == "P":
-                player += 1
-            else:
-                deck[player].append(int(line))
+    for line in input_generator(input):
+        if line == "":
+            continue
+        elif line[0] == "P":
+            player += 1
+        else:
+            deck[player].append(int(line))
 
     round = 1
     while len(deck[0]) > 0 and len(deck[1]) > 0:
@@ -82,19 +86,17 @@ def game(deck):
     return (w, deck)
 
 
-def part_b(filename):
+def part_b(input):
     configurations = set()
     deck = [[], []]
     player = -1
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if line == "":
-                continue
-            elif line[0] == "P":
-                player += 1
-            else:
-                deck[player].append(int(line))
+    for line in input_generator(input):
+        if line == "":
+            continue
+        elif line[0] == "P":
+            player += 1
+        else:
+            deck[player].append(int(line))
 
     (w, deck) = game(deck)
 
@@ -107,12 +109,5 @@ def part_b(filename):
     return score
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day22.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day22.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_22().run_cmdline()

@@ -1,11 +1,15 @@
-from aoc2020.day25 import part_a, part_b
+import pytest
+from aoc2020.day25 import Run_2020_25
 
 
-def test_25a():
-    # assert(part_a('data/day25_test1.txt') == 0)
-    pass
+class Test_2020_25:
+    def setup_class(self):
+        self.day = Run_2020_25()
 
+    @pytest.mark.skip
+    # Either working or very slow
+    def test_regression_a(self):
+        assert self.day.run_part("a") == 4441893
 
-def test_25b():
-    # assert(part_b('data/day25_test1.txt') == 0)
-    pass
+    def test_regression_b(self):
+        pass

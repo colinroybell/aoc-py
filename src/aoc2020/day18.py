@@ -1,4 +1,12 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_18(DayBase):
+    YEAR = "2020"
+    DAY = "18"
+
+
 import re
 
 
@@ -23,39 +31,30 @@ def compute_complex(line):
     return compute_simple(line)
 
 
-def both_parts(filename, part):
+def both_parts(input, part):
     bracket_re = re.compile(r"(.*?)\(([^()]+)\)(.*)")
     sum_ = 0
-    with open(filename, "r") as f:
-        for line in f:
-            line = line.rstrip()
-            while m := bracket_re.match(line):
-                if part == "a":
-                    v = compute_simple(m.group(2))
-                else:
-                    v = compute_complex(m.group(2))
-                line = m.group(1) + "{}".format(v) + m.group(3)
+    for line in input_generator(input):
+        while m := bracket_re.match(line):
             if part == "a":
-                sum_ += compute_simple(line)
+                v = compute_simple(m.group(2))
             else:
-                sum_ += compute_complex(line)
+                v = compute_complex(m.group(2))
+            line = m.group(1) + "{}".format(v) + m.group(3)
+        if part == "a":
+            sum_ += compute_simple(line)
+        else:
+            sum_ += compute_complex(line)
     return sum_
 
 
-def part_a(filename):
-    return both_parts(filename, "a")
+def part_a(input):
+    return both_parts(input, "a")
 
 
-def part_b(filename):
-    return both_parts(filename, "b")
-
-
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day18.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day18.txt"))
+def part_b(input):
+    return both_parts(input, "b")
 
 
 if __name__ == "__main__":
-    entry()
+    Run_2020_18().run_cmdline()

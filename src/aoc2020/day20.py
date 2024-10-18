@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_20(DayBase):
+    YEAR = "2020"
+    DAY = "20"
 
 
 class Tile:
@@ -206,23 +212,22 @@ def count_monsters(source_grid, monster, state):
     return (monsters, roughness)
 
 
-def both_parts(filename, part):
+def both_parts(input, part):
     lines = []
     tiles = []
     id = 0
     tile_count = 0
-    with open(filename, "r") as f:
-        count = 0
-        for line in f:
-            if count == 0:
-                id = int(line[5:9])
-            elif count < 11:
-                lines.append(line)
-            else:
-                tiles.append(Tile(id, lines))
-                tile_count += 1
-                lines = []
-            count = (count + 1) % 12
+    count = 0
+    for line in input_generator(input):
+        if count == 0:
+            id = int(line[5:9])
+        elif count < 11:
+            lines.append(line)
+        else:
+            tiles.append(Tile(id, lines))
+            tile_count += 1
+            lines = []
+        count = (count + 1) % 12
     if tile_count == 9:
         size = 3
     else:
@@ -249,20 +254,13 @@ def both_parts(filename, part):
     return r
 
 
-def part_a(filename):
-    return both_parts(filename, "a")
+def part_a(input):
+    return both_parts(input, "a")
 
 
-def part_b(filename):
-    return both_parts(filename, "b")
-
-
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day20.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day20.txt"))
+def part_b(input):
+    return both_parts(input, "b")
 
 
 if __name__ == "__main__":
-    entry()
+    Run_2020_20().run_cmdline()

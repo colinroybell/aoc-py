@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_25(DayBase):
+    YEAR = "2020"
+    DAY = "25"
 
 
 def loop_size(public_key):
@@ -17,7 +23,9 @@ def transform(subject, loop):
     return v
 
 
-def part_a(card_pub, door_pub):
+def part_a(input):
+    card_pub, door_pub = next(input_generator(input)).split(",")
+
     card_loop = loop_size(card_pub)
     door_loop = loop_size(door_pub)
 
@@ -32,12 +40,5 @@ def part_b():
     return "Happy Christmas!"
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a(16616892, 14505727))
-    if "b" in sys.argv:
-        print(part_b())
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_25().run_cmdline()

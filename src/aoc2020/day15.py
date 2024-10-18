@@ -1,13 +1,17 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
 
 
-def run(filename, length):
+class Run_2020_15(DayBase):
+    YEAR = "2020"
+    DAY = "15"
+
+
+def run(input, length):
     starting = []
     spoken = []
     last = {}
-    with open(filename, "r") as f:
-        line = f.readline()
-        line = line.rstrip()
+    for line in input_generator(input):
         n = line.split(",")
         for k in n:
             starting.append(int(k))
@@ -26,20 +30,13 @@ def run(filename, length):
     return spoken[-1]
 
 
-def part_a(filename):
-    return run(filename, 2020)
+def part_a(input):
+    return run(input, 2020)
 
 
-def part_b(filename):
-    return run(filename, 30000000)
-
-
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day15.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day15.txt"))
+def part_b(input):
+    return run(input, 30000000)
 
 
 if __name__ == "__main__":
-    entry()
+    Run_2020_15().run_cmdline()

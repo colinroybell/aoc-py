@@ -12,6 +12,7 @@ Install package:
 pip install -e .
 pip install pytest
 pip install pytest-xdist
+pip install pytest-timeout --timeout=300 (seconds)
 # and need smypy and others
 
 pytest -n 10 runs in parallel

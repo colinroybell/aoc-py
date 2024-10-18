@@ -1,4 +1,10 @@
-import sys
+from utils.day_base import DayBase
+from utils.data_input import input_generator
+
+
+class Run_2020_11(DayBase):
+    YEAR = "2020"
+    DAY = "11"
 
 
 def count_neighbours(grid, x, y, part):
@@ -57,11 +63,10 @@ def update_grid(grid, part):
     return (new_grid, change)
 
 
-def part_a(filename):
+def part_a(input):
     grid = []
-    with open(filename, "r") as f:
-        for line in f:
-            grid.append(line.rstrip())
+    for line in input_generator(input):
+        grid.append(line)
 
     change = True
     rounds = 0
@@ -77,11 +82,10 @@ def part_a(filename):
     return count
 
 
-def part_b(filename):
+def part_b(input):
     grid = []
-    with open(filename, "r") as f:
-        for line in f:
-            grid.append(line.rstrip())
+    for line in input_generator(input):
+        grid.append(line)
 
     change = True
     rounds = 0
@@ -96,12 +100,5 @@ def part_b(filename):
     return count
 
 
-def entry():
-    if "a" in sys.argv:
-        print(part_a("data/day11.txt"))
-    if "b" in sys.argv:
-        print(part_b("data/day11.txt"))
-
-
 if __name__ == "__main__":
-    entry()
+    Run_2020_11().run_cmdline()
