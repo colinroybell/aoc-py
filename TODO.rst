@@ -20,3 +20,4 @@ pytest xfail is usual semantic for a test that is expected to fail, so think I'm
 Durations seem very random. Is there a more reliable means of timing?
 
 
+Want a way of running the test1 variants easily

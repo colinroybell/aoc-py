@@ -15,7 +15,5 @@ class Test_2020_15:
     def test_regression_a(self):
         assert self.day.run_part("a") == 639
 
-    @pytest.mark.skip
-    # Worker crashes sometimes?
     def test_regression_b(self):
         assert self.day.run_part("b") == 266

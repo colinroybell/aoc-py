@@ -6,8 +6,6 @@ class Test_2020_25:
     def setup_class(self):
         self.day = Run_2020_25()
 
-    @pytest.mark.skip
-    # Either working or very slow
     def test_regression_a(self):
         assert self.day.run_part("a") == 4441893
 
