@@ -8,7 +8,7 @@ class DayBase:
     DAY = ""
     PART_AS_SUFFIX = False
 
-    def run_part(self, part, input=None, **kwargs):
+    def run_part(self, part, input = None, **kwargs):
         aoc_module = importlib.import_module("aoc{}.day{}".format(self.YEAR, self.DAY))
         if not isinstance(input, list):
             input = self.input_filename(part, input)
@@ -30,11 +30,14 @@ class DayBase:
         return "data/aoc{}/day{}{}.txt".format(self.YEAR, self.DAY, suffix)
 
     def run_cmdline(self):
-
-        if "a" in sys.argv:
+        print(sys.argv)
+        if sys.argv[1]=='a':
             part = "a"
-        elif "b" in sys.argv:
+        elif sys.argv[1]=='b':
             part = "b"
         else:
             assert "Part not a or b"
-        print(self.run_part(part))
+        suffix = None
+        if len(sys.argv) > 2:
+            suffix = sys.argv[2]    
+        print(self.run_part(part, suffix))
