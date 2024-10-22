@@ -10,6 +10,7 @@ class Run_2015_10(DayBase):
     YEAR = "2015"
     DAY = "10"
 
+
 def update(string):
     last = None
     count = 0
@@ -19,20 +20,22 @@ def update(string):
             count += 1
         else:
             if last != None:
-                output += "{}{}".format(count,last)
+                output += "{}{}".format(count, last)
             last = s
             count = 1
-    output += "{}{}".format(count,last)                
+    output += "{}{}".format(count, last)
     return output
 
-def part_a(input, part_b = False):
+
+def part_a(input, part_b=False):
     string = next(input_generator(input))
     rounds = 40
     if part_b:
         rounds = 50
     for _ in range(rounds):
         string = update(string)
-    return len(string)    
+    return len(string)
+
 
 def part_b(input):
     return part_a(input, True)

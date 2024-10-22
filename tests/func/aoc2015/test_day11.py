@@ -6,16 +6,14 @@ class Test_2015_11:
     def setup_class(self):
         self.day = Run_2015_11()
 
-    def test_bringup_a(self):
-        pass
+    def test_bringup_a_1(self):
+        assert self.day.run_part("a", ["abcdefgh"]) == "abcdffaa"
 
-    def test_bringup_b(self):
-        pass
+    def test_bringup_a_2(self):
+        assert self.day.run_part("a", ["ghijklmn"]) == "ghjaabcc"
 
-    @pytest.mark.xfail
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        assert self.day.run_part("a") == "hepxxyzz"
 
-    @pytest.mark.xfail
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == "heqaabcc"

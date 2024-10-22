@@ -10,7 +10,7 @@ class Test_2015_09:
         assert self.day.run_part("a", "test1") == 605
 
     def test_bringup_b(self):
-        assert self.day.run_part("a", "test1") == 982
+        assert self.day.run_part("b", "test1") == 982
 
     def test_regression_a(self):
         assert self.day.run_part("a") == 207
