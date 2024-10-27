@@ -1,5 +1,6 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
+import hashlib
 
 
 class Run_2015_04(DayBase):
@@ -7,12 +8,26 @@ class Run_2015_04(DayBase):
     DAY = "04"
 
 
-def part_a(input):
-    assert 0, "not implemented"
+def part_a(input, start="00000"):
+    key = next(input_generator(input))
+    found = False
+    count = 1
+    while not found:
+        string = key + str(count)
+        string = string.encode("utf-8")
+        hash = hashlib.md5(string).hexdigest()
+        if hash[0 : len(start)] == start:
+            found = True
+        else:
+            count += 1
+        if count % 10000 == 0:
+            print(count)
+
+    return count
 
 
 def part_b(input):
-    assert 0, "not implemented"
+    return part_a(input, start="000000")
 
 
 if __name__ == "__main__":
