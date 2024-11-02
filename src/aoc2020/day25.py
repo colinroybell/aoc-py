@@ -25,6 +25,8 @@ def transform(subject, loop):
 
 def part_a(input):
     card_pub, door_pub = next(input_generator(input)).split(",")
+    card_pub = int(card_pub)
+    door_pub = int(door_pub)
 
     card_loop = loop_size(card_pub)
     door_loop = loop_size(door_pub)

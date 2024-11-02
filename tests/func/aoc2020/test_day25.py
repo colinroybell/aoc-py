@@ -6,6 +6,9 @@ class Test_2020_25:
     def setup_class(self):
         self.day = Run_2020_25()
 
+    def test_bringup_a(self):
+        assert self.day.run_part("a") == 14897079
+
     def test_regression_a(self):
         assert self.day.run_part("a") == 4441893
 
