@@ -21,6 +21,5 @@ class Test_2015_19:
     def test_regression_a(self):
         assert self.day.run_part("a") == 535
 
-    @pytest.mark.skip
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == 212
