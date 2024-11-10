@@ -9,15 +9,44 @@ class Run_2024_04(DayBase):
 
 
 def part_1(input):
-    assert 0, "not implemented"
+    minimum = None
+    sigma = 0
+    count = 0
+    for line in input_generator(input):
+        value = int(line)
+        sigma += value
+        if count == 0:
+            minimum = value
+        else:
+            minimum = min(minimum, value)
+        count += 1
+    return sigma - minimum * count
 
 
 def part_2(input):
-    assert 0, "not implemented"
+    return part_1(input)
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    minimum = None
+    maximum = None
+    sigma = 0
+    count = 0
+    values = []
+    for line in input_generator(input):
+        value = int(line)
+        values.append(value)
+
+    print(values)
+    values.sort()
+    print(values)
+    midpoint = len(values) // 2
+
+    median = values[midpoint]
+
+    for v in values:
+        sigma += abs(v - median)
+    return sigma
 
 
 if __name__ == "__main__":
