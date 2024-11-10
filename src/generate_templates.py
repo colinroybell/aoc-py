@@ -1,4 +1,4 @@
-year = 2023
+year = 2024
 
 init_filename = "src/aoc{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
@@ -49,11 +49,11 @@ class Test_{}_{}:
     def test_bringup_b(self):
         pass
 
-    @pytest.mark.xfail
+    @pytest.mark.skip
     def test_regression_a(self):
         assert(self.day.run_part('a') == 0)
 
-    @pytest.mark.xfail
+    @pytest.mark.skip
     def test_regression_b(self):
         assert(self.day.run_part('b') == 0)
 
