@@ -33,4 +33,4 @@ class Test_2024_05:
         assert self.day.run_part("2") == 20400801396152
 
     def test_regression_2(self):
-        assert self.day.run_part("3") == 7591100710001003    
+        assert self.day.run_part("3") == 7591100710001003

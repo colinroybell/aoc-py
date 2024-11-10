@@ -25,10 +25,10 @@ def part_1(input):
     assert 0, "not implemented"
 
 def part_2(input):
-    assert 0,"not implemented"
+    assert 0, "not implemented"
 
 def part_3(input):
-    assert 0,"not implemented"    
+    assert 0, "not implemented"    
 
 if __name__ == "__main__":
     Run_{}_{}().run_cmdline()
