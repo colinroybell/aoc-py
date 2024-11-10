@@ -58,15 +58,15 @@ class Test_{}_{}:
        
 
     @pytest.mark.skip
-    def test_regression_a(self):
+    def test_regression_1(self):
         assert(self.day.run_part('1') == 0)
 
     @pytest.mark.skip
-    def test_regression_b(self):
+    def test_regression_2(self):
         assert(self.day.run_part('2') == 0)
    
     @pytest.mark.skip
-    def test_regression_b(self):
+    def test_regression_3(self):
         assert(self.day.run_part('3') == 0)
      
 
