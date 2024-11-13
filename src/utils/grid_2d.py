@@ -46,6 +46,8 @@ class Grid2d:
         y = 0
         max_x = 0
         for line in input_generator(input):
+            if line == '':
+                break
             max_x = max(max_x, len(line))
             for x, v in enumerate(line):
 
