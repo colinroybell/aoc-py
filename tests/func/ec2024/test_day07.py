@@ -7,10 +7,10 @@ class Test_2024_07:
         self.day = Run_2024_07()
 
     def test_bringup_1(self):
-        assert self.day.run_part("1","test1") == "BDCA"
+        assert self.day.run_part("1", "test1") == "BDCA"
 
     def test_bringup_2(self):
-        assert self.day.run_part("2","test2") == "DCBA"
+        assert self.day.run_part("2", "test2") == "DCBA"
 
     def test_regression_1(self):
         assert self.day.run_part("1") == "BACIEDKJG"
