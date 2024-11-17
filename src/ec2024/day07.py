@@ -75,6 +75,13 @@ def part_2(input):
     return "".join(sorted(squires, key=lambda key: squires[key].score, reverse=True))
 
 
+# Notes: 2024 is a multiple of 11, so probably we need to run 11 loops only and
+# adjust
+#
+# We have 5+, 3-, and a lot of + forcing early on, so I don't think we need to
+# handle the case of when we get down towards 0.
+
+
 def part_3(input):
     assert 0, "not implemented"
 

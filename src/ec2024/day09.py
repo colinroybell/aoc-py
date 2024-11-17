@@ -7,7 +7,9 @@ class Run_2024_09(DayBase):
     DAY = "09"
     PREFIX = "ec"
 
+
 # TODO: refactor and tidy up
+
 
 def part_1(input):
     offsets = [0, 1, 2, 1, 2, 1, 2, 3, 4, 3]

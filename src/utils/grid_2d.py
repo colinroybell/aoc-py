@@ -42,11 +42,11 @@ class Grid2d:
             y += 1
         return (x, y)
 
-    def read_from_file_strings(self, input):
+    def read_from_file_strings(self, input, stop_at_blank=True):
         y = 0
         max_x = 0
         for line in input_generator(input):
-            if line == "":
+            if line == "" and stop_at_blank:
                 break
             max_x = max(max_x, len(line))
             for x, v in enumerate(line):
