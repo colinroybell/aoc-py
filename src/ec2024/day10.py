@@ -25,10 +25,119 @@ def grid_solve(grid, x_offset, y_offset, part):
                     s = grid.get(Vec2d(xx + x_offset, y + y_offset))
                     if s in verts:
                         grid.set(Vec2d(x + x_offset, y + y_offset), s)
+                        print(
+                            "first round {} at {} {}".format(
+                                s, x + x_offset, y + y_offset
+                            )
+                        )
                         update = True
                         break
-                else:
-                    assert 0, "not found {} {}".format(x, y)
+
+    if part == 3:
+        for y in range(2, 6):
+            for x in range(2, 6):
+                if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
+                    h_q = None
+                    h_mult = False
+                    print("h_q search", x + x_offset, y + y_offset)
+                    for xx in [0, 1, 6, 7]:
+                        if grid.get(Vec2d(xx + x_offset, y + y_offset)) == "?":
+                            print("? at ", xx)
+                            if h_q == None:
+                                h_q = xx
+                            else:
+                                h_mult = True
+                    if h_q != None and not h_mult:
+                        print("h_q", x + x_offset, y + y_offset, h_q + x_offset)
+                        ok = True
+                        cands = []
+                        for yy in [0, 1, 6, 7]:
+                            c = grid.get(Vec2d(x + x_offset, yy + y_offset))
+                            if ord(c) < 65 or ord(c) > 90:
+                                ok = False
+                                break
+                            else:
+                                cands.append(c)
+
+                        if ok:
+                            print("cands", x + x_offset, y + y_offset, cands)
+                            for yy in range(2, 6):
+                                if yy != y:
+                                    c = grid.get(Vec2d(x + x_offset, yy + y_offset))
+                                    pos = [
+                                        i for i, x in enumerate(cands) if cands[i] == c
+                                    ]
+                                    if pos == []:
+                                        ok = False
+                                        break
+                                    cands.pop(pos[0])
+                                    print("cull", pos[0], c, cands)
+                            if ok:
+                                val = cands[0]
+                                print(
+                                    "found {} at {} {} ? {} {}".format(
+                                        val,
+                                        x + x_offset,
+                                        y + y_offset,
+                                        h_q + x_offset,
+                                        y + y_offset,
+                                    )
+                                )
+                                grid.set(Vec2d(x + x_offset, y + y_offset), val)
+                                grid.set(Vec2d(h_q + x_offset, y + y_offset), val)
+                                update = True
+                # Vertical
+                if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
+                    v_q = None
+                    v_mult = False
+                    print("v_q search", x + x_offset, y + y_offset)
+                    for yy in [0, 1, 6, 7]:
+                        if grid.get(Vec2d(x + x_offset, yy + y_offset)) == "?":
+                            print("? at ", yy)
+                            if v_q == None:
+                                v_q = xx
+                            else:
+                                v_mult = True
+                    if v_q != None and not v_mult:
+                        print("v_q", x + x_offset, y + y_offset, v_q + y_offset)
+                        ok = True
+                        cands = []
+                        for xx in [0, 1, 6, 7]:
+                            c = grid.get(Vec2d(xx + x_offset, y + y_offset))
+                            if ord(c) < 65 or ord(c) > 90:
+                                ok = False
+                                break
+                            else:
+                                cands.append(c)
+
+                        if ok:
+                            print("cands", x + x_offset, y + y_offset, cands)
+                            for xx in range(2, 6):
+                                if xx != x:
+                                    c = grid.get(Vec2d(xx + x_offset, y + y_offset))
+                                    pos = [
+                                        i for i, x in enumerate(cands) if cands[i] == c
+                                    ]
+                                    if pos == []:
+                                        ok = False
+                                        break
+                                    cands.pop(pos[0])
+                                    print("cull", pos[0], c, cands)
+                            if ok:
+                                val = cands[0]
+                                print(
+                                    "found {} at {} {} ? {} {}".format(
+                                        val,
+                                        x + x_offset,
+                                        y + y_offset,
+                                        x + x_offset,
+                                        v_q + y_offset,
+                                    )
+                                )
+                                grid.set(Vec2d(x + x_offset, y + y_offset), val)
+                                grid.set(Vec2d(x + x_offset, v_q + y_offset), val)
+                                update = True
+
     return update
 
 
@@ -38,10 +147,14 @@ def grid_score(grid, x_offset, y_offset):
     for y in range(2, 6):
         for x in range(2, 6):
             s = grid.get(Vec2d(x + x_offset, y + y_offset))
+            print(x + x_offset, y + y_offset, s)
             value = ord(s) - 64
-            assert value > 0 and value <= 26, "out of range"
+            if value < 1 or value > 26:
+                # Not solved
+                return 0
             count += 1
             score += count * value
+    print("score", score)
     return score
 
 
@@ -78,7 +191,25 @@ def part_2(input):
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    grid = Grid2d()
+    size = 8
+    (x_max, y_max) = grid.read_from_file_strings(input, stop_at_blank=False)
+    new_round = True
+    while new_round:
+        new_round = False
+        for y_offset in range(0, y_max - 6, 6):
+            for x_offset in range(0, x_max - 6, 6):
+                print("solve", x_offset, y_offset)
+                update = grid_solve(grid, x_offset, y_offset, 3)
+                print("update", update)
+                if update:
+                    new_round = True
+
+    score = 0
+    for y_offset in range(0, y_max - 6, 6):
+        for x_offset in range(0, x_max - 6, 6):
+            score += grid_score(grid, x_offset, y_offset)
+    return score
 
 
 if __name__ == "__main__":
