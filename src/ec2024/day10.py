@@ -9,6 +9,7 @@ class Run_2024_10(DayBase):
     DAY = "10"
     PREFIX = "ec"
 
+# TODO: Not working. Think likely issue is that we're doing a first round solve on second round which is then filling in a ? so we need to check for this case.
 
 def grid_solve(grid, x_offset, y_offset, part):
     size = 8
@@ -208,6 +209,7 @@ def part_3(input):
     score = 0
     for y_offset in range(0, y_max - 6, 6):
         for x_offset in range(0, x_max - 6, 6):
+            print("score", x_offset, y_offset)
             score += grid_score(grid, x_offset, y_offset)
     return score
 
