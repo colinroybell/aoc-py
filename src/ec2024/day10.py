@@ -9,7 +9,9 @@ class Run_2024_10(DayBase):
     DAY = "10"
     PREFIX = "ec"
 
+
 # TODO: Not working. Think likely issue is that we're doing a first round solve on second round which is then filling in a ? so we need to check for this case.
+
 
 def grid_solve(grid, x_offset, y_offset, part):
     size = 8
