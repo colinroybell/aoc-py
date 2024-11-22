@@ -56,6 +56,9 @@ class Vec2d:
     def __add__(self, other):
         return Vec2d(self.x + other.x, self.y + other.y)
 
+    def __mul__(self, mul):
+        return Vec2d(self.x * mul, self.y * mul)
+
     def __repr__(self):
         return "({},{})".format(self.x, self.y)
 

@@ -1,5 +1,8 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
+from utils.grid_2d import Grid2d
+from utils.vec_2d import Vec2d
+from queue import PriorityQueue
 
 
 class Run_2024_13(DayBase):
@@ -8,16 +11,76 @@ class Run_2024_13(DayBase):
     PREFIX = "ec"
 
 
+class State:
+    def __init__(self, current, history):
+        self.current = current
+        self.history = history
+
+    def __repr__(self):
+        return "{} {}".format(self.current, sorted(self.history))
+
+    def it(self):
+        return (self.current, tuple(sorted(self.history)))
+
+    def __lt__(self, other):
+        return 0
+
+
+def height_diff(a, b):
+    if a == "E":
+        a = 0
+    else:
+        a = int(a)
+    if b == "S":
+        b = 0
+    else:
+        b = int(b)
+    return min((a - b) % 10, (b - a) % 10)
+
+
+# Do everything backwards then we have one start point
+
+
 def part_1(input):
-    assert 0, "not implemented"
+    grid = Grid2d()
+    (width, height) = grid.read_from_file_strings(input)
+    for x in range(width):
+        for y in range(height):
+            if grid.get(Vec2d(x, y)) == "E":
+                start = Vec2d(x, y)
+
+    found = {}
+    start_state = State(start, [])
+    state_queue = PriorityQueue()
+    state_queue.put((0, start_state))
+    while not state_queue.empty():
+        x = state_queue.get()
+        (t, state) = x
+        pos = state.current
+        if pos.tuple() in found:
+            continue
+        found[pos.tuple()] = t
+        print("time {} state location {}".format(t, pos))
+        pos_height = grid.get(pos)
+        if pos_height == "S":
+            return t
+        vecs = pos.get_adjacent_orthogonal()
+        for v in vecs:
+            v_height = grid.get(v)
+            if v not in state.history and v_height and v_height != "#":
+                new_t = t + height_diff(grid.get(pos), grid.get(v)) + 1
+                new_history = state.history.copy()
+                new_history.append(pos)
+                new_state = State(v, new_history)
+                state_queue.put((new_t, new_state))
 
 
 def part_2(input):
-    assert 0, "not implemented"
+    return part_1(input)
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    return part_1(input)
 
 
 if __name__ == "__main__":
