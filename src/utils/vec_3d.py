@@ -34,6 +34,10 @@ class Vec3d:
     def dot(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
+    def __lt__(self, other):
+        # Don't care
+        return 0
+
     def adjacencies():
         return [
             Vec3d(1, 0, 0),
