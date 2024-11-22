@@ -12,173 +12,132 @@ class Run_2024_10(DayBase):
 
 # TODO: Not working. Think likely issue is that we're doing a first round solve on second round which is then filling in a ? so we need to check for this case.
 
-# Fixed first round so we only check correct spaces. 
+# Fixed first round so we only check correct spaces.
 # Need to account for rule that everything is unique, which may address 42 18
 # problem.
 
-def grid_solve(grid, x_offset, y_offset, part):
-    size = 8
-    update = False
-    for y in range(2, 6):
-        for x in range(2, 6):
-            if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
-                verts = []
-                for yy in [0,1,6,7]:
-                    s = grid.get(Vec2d(x + x_offset, yy + y_offset))
-                    if s != "." and s != "*":
-                        verts.append(s)
-                for xx in [0,1,6,7]:
-                    s = grid.get(Vec2d(xx + x_offset, y + y_offset))
-                    if s in verts:
-                        grid.set(Vec2d(x + x_offset, y + y_offset), s)
-                        print(
-                            "first round {} at {} {}".format(
-                                s, x + x_offset, y + y_offset
-                            )
-                        )
-                        update = True
-                        break
 
-    if part == 3:
-        for y in range(2, 6):
-            for x in range(2, 6):
-                if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
-                    h_q = None
-                    h_mult = False
-                    print("h_q search", x + x_offset, y + y_offset)
-                    for xx in [0, 1, 6, 7]:
-                        if grid.get(Vec2d(xx + x_offset, y + y_offset)) == "?":
-                            print("? at ", xx)
-                            if h_q == None:
-                                h_q = xx
-                            else:
-                                h_mult = True
-                    if h_q != None and not h_mult:
-                        print("h_q", x + x_offset, y + y_offset, h_q + x_offset)
-                        ok = True
-                        cands = []
-                        for yy in [0, 1, 6, 7]:
-                            c = grid.get(Vec2d(x + x_offset, yy + y_offset))
-                            if ord(c) < 65 or ord(c) > 90:
-                                ok = False
-                                break
-                            else:
-                                cands.append(c)
+# horiz goes y,x; vert goes x,y so we group correctly.
+def copy_temp(grid, x_offset, y_offset):
+    centre = [[None for _ in range(4)] for _ in range(4)]
+    horiz = [[None for _ in range(4)] for _ in range(4)]
+    vert = [[None for _ in range(4)] for _ in range(4)]
+    for j, y in enumerate(range(2, 6)):
+        for i, x in enumerate(range(2, 6)):
+            centre[i][j] = grid.get(Vec2d(x + x_offset, y + y_offset))
+    for j, y in enumerate(range(2, 6)):
+        for i, x in enumerate([0, 1, 6, 7]):
+            horiz[j][i] = grid.get(Vec2d(x + x_offset, y + y_offset))
+    for j, y in enumerate([0, 1, 6, 7]):
+        for i, x in enumerate(range(2, 6)):
+            vert[i][j] = grid.get(Vec2d(x + x_offset, y + y_offset))
+    return (centre, horiz, vert)
 
-                        if ok:
-                            print("cands", x + x_offset, y + y_offset, cands)
-                            for yy in range(2, 6):
-                                if yy != y:
-                                    c = grid.get(Vec2d(x + x_offset, yy + y_offset))
-                                    pos = [
-                                        i for i, x in enumerate(cands) if cands[i] == c
-                                    ]
-                                    if pos != []:
-                                        cands.pop(pos[0])
-                                        print("cull", pos[0], c, cands)
-                            if ok:
-                                val = cands[0]
-                                print(
-                                    "found {} at {} {} ? {} {}".format(
-                                        val,
-                                        x + x_offset,
-                                        y + y_offset,
-                                        h_q + x_offset,
-                                        y + y_offset,
-                                    )
-                                )
-                                grid.set(Vec2d(x + x_offset, y + y_offset), val)
-                                grid.set(Vec2d(h_q + x_offset, y + y_offset), val)
-                                update = True
-                # Vertical
-                if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
-                    v_q = None
-                    v_mult = False
-                    print("v_q search", x + x_offset, y + y_offset)
-                    for yy in [0, 1, 6, 7]:
-                        if grid.get(Vec2d(x + x_offset, yy + y_offset)) == "?":
-                            print("? at ", yy)
-                            if v_q == None:
-                                v_q = xx
-                            else:
-                                v_mult = True
-                    if v_q != None and not v_mult:
-                        print("v_q", x + x_offset, y + y_offset, v_q + y_offset)
-                        ok = True
-                        cands = []
-                        for xx in [0, 1, 6, 7]:
-                            c = grid.get(Vec2d(xx + x_offset, y + y_offset))
-                            if ord(c) < 65 or ord(c) > 90:
-                                ok = False
-                                break
-                            else:
-                                cands.append(c)
 
-                        if ok:
-                            print("cands", x + x_offset, y + y_offset, cands)
-                            for xx in range(2, 6):
-                                if xx != x:
-                                    c = grid.get(Vec2d(xx + x_offset, y + y_offset))
-                                    pos = [
-                                        i for i, x in enumerate(cands) if cands[i] == c
-                                    ]
-                                    if pos == []:
-                                        ok = False
-                                        break
-                                    cands.pop(pos[0])
-                                    print("cull", pos[0], c, cands)
-                            if ok:
-                                val = cands[0]
-                                print(
-                                    "found {} at {} {} ? {} {}".format(
-                                        val,
-                                        x + x_offset,
-                                        y + y_offset,
-                                        x + x_offset,
-                                        v_q + y_offset,
-                                    )
-                                )
-                                grid.set(Vec2d(x + x_offset, y + y_offset), val)
-                                grid.set(Vec2d(x + x_offset, v_q + y_offset), val)
-                                update = True
-        # Pick up extra ?
-        for y in range (2,6):
-            cands = []
-            h_q = None
-            for x in [0,1,6,7]:   
-                c = grid.get(Vec2d(x + x_offset, y + y_offset)) 
-                if c == "?":
-                    print("h? case: ? at ", xx + x_offset, y+ y_offset)
-                    if h_q == None:
-                        h_q = xx
-                    else:
-                        h_mult = True
+def copy_back(grid, x_offset, y_offset, centre, horiz, vert):
+    for j, y in enumerate(range(2, 6)):
+        for i, x in enumerate(range(2, 6)):
+            grid.set(Vec2d(x + x_offset, y + y_offset), centre[i][j])
+    for j, y in enumerate(range(2, 6)):
+        for i, x in enumerate([0, 1, 6, 7]):
+            grid.set(Vec2d(x + x_offset, y + y_offset), horiz[j][i])
+    for j, y in enumerate([0, 1, 6, 7]):
+        for i, x in enumerate(range(2, 6)):
+            grid.set(Vec2d(x + x_offset, y + y_offset), vert[i][j])
+
+
+def check_duplicates(array):
+    found = set()
+    for i in range(0, 4):
+        for j in range(0, 4):
+            c = array[i][j]
+            if c != "?":
+                if c in found:
+                    return False
                 else:
-                    cands.append(c)        
-
-            if h_q != None and not h_mult:
-                ok = True
-                for x in range(2,6):
-                    c = grid.get(Vec2d(x+x_offset, y + y_offset))
-                    print(cands,x,c)
-                    if c != '.':
-                        pos = [
-                                i for i, x in enumerate(cands) if cands[i] == c
-                            ]
-                        if pos == []:
-                            assert 0
-                        cands.pop(pos[0])
-                        print("cull", pos[0], c, cands)
-                    else:
-                        ok = False
-                        break 
-                if ok:
-                    grid.set(Vec2d(h_q + x_offset, y+y_offset),pos[0])        
+                    found.add(array[i][j])
+    return True
 
 
+def find_unique_question_mark(array):
+    pos = None
+    for i in range(0, 4):
+        if array[i] == "?":
+            if pos:
+                # duplicate
+                return None
+            else:
+                pos = i
+    return pos
 
 
-    return update
+def find_missing(array1, array2):
+    # returns if array1 contains 4 symbols, array2 3 and a dot
+    count = 0
+    for c in array2:
+        if c == ".":
+            count += 1
+    if count > 1:
+        return "."
+
+    for c in array1:
+        if c not in array2:
+            return c
+
+
+def grid_solve(grid, x_offset, y_offset, part):
+    (centre, horiz, vert) = copy_temp(grid, x_offset, y_offset)
+
+    all_done = True
+    for y in range(0, 4):
+        for x in range(0, 4):
+            if centre[x][y] == ".":
+                for h in horiz[y]:
+                    if h in vert[x] and h != "?":
+                        centre[x][y] = h
+                        # print("first",x,y,h)
+                        break
+                else:
+                    all_done = False
+
+    if all_done:
+        copy_back(grid, x_offset, y_offset, centre, horiz, vert)
+        return "DONE"
+
+    if not check_duplicates(horiz) or not check_duplicates(vert):
+        return "INSOLUBLE"
+
+    all_done = True
+    for y in range(0, 4):
+        for x in range(0, 4):
+            if centre[x][y] == ".":
+                hq = find_unique_question_mark(horiz[y])
+                vq = find_unique_question_mark(vert[x])
+                if hq != None and vq == None:
+                    vert_centre = [centre[x][j] for j in range(4)]
+                    c = find_missing(vert[x], vert_centre)
+                    if c != ".":
+                        centre[x][y] = c
+                        horiz[y][hq] = c
+                    # print("hq",x,y,centre[x][y])
+                elif vq != None and hq == None:
+                    horiz_centre = [centre[i][y] for i in range(4)]
+                    c = find_missing(horiz[y], horiz_centre)
+                    if c != ".":
+                        centre[x][y] = c
+                        vert[x][vq] = c
+                    # print("vq",x,y,centre[x][y])
+
+                if centre[x][y] == ".":
+                    all_done = False
+
+    copy_back(grid, x_offset, y_offset, centre, horiz, vert)
+    if all_done:
+
+        return "DONE"
+    else:
+        # print(centre, horiz, vert)
+        return "REPEAT"
 
 
 def grid_score(grid, x_offset, y_offset):
@@ -235,21 +194,29 @@ def part_3(input):
     size = 8
     (x_max, y_max) = grid.read_from_file_strings(input, stop_at_blank=False)
     new_round = True
+    status = {}
+    for y_offset in range(0, y_max - 6, 6):
+        status[y_offset] = {}
+        for x_offset in range(0, x_max - 6, 6):
+            status[y_offset][x_offset] = "REPEAT"
     while new_round:
         new_round = False
         for y_offset in range(0, y_max - 6, 6):
             for x_offset in range(0, x_max - 6, 6):
-                print("solve", x_offset, y_offset)
-                update = grid_solve(grid, x_offset, y_offset, 3)
-                print("update", update)
-                if update:
-                    new_round = True
+                if status[y_offset][x_offset] == "REPEAT":
+                    print("solve", x_offset, y_offset)
+                    update = grid_solve(grid, x_offset, y_offset, 3)
+                    print("update", update)
+                    status[y_offset][x_offset] = update
+                    if update == "REPEAT":
+                        new_round = True
 
     score = 0
     for y_offset in range(0, y_max - 6, 6):
         for x_offset in range(0, x_max - 6, 6):
-            print("score", x_offset, y_offset)
-            score += grid_score(grid, x_offset, y_offset)
+            if status[y_offset][x_offset] == "DONE":
+                print("score", x_offset, y_offset)
+                score += grid_score(grid, x_offset, y_offset)
     return score
 
 
