@@ -12,6 +12,9 @@ class Run_2024_10(DayBase):
 
 # TODO: Not working. Think likely issue is that we're doing a first round solve on second round which is then filling in a ? so we need to check for this case.
 
+# Fixed first round so we only check correct spaces. 
+# Need to account for rule that everything is unique, which may address 42 18
+# problem.
 
 def grid_solve(grid, x_offset, y_offset, part):
     size = 8
@@ -20,11 +23,11 @@ def grid_solve(grid, x_offset, y_offset, part):
         for x in range(2, 6):
             if grid.get(Vec2d(x + x_offset, y + y_offset)) == ".":
                 verts = []
-                for yy in range(size):
+                for yy in [0,1,6,7]:
                     s = grid.get(Vec2d(x + x_offset, yy + y_offset))
                     if s != "." and s != "*":
                         verts.append(s)
-                for xx in range(size):
+                for xx in [0,1,6,7]:
                     s = grid.get(Vec2d(xx + x_offset, y + y_offset))
                     if s in verts:
                         grid.set(Vec2d(x + x_offset, y + y_offset), s)
@@ -70,11 +73,9 @@ def grid_solve(grid, x_offset, y_offset, part):
                                     pos = [
                                         i for i, x in enumerate(cands) if cands[i] == c
                                     ]
-                                    if pos == []:
-                                        ok = False
-                                        break
-                                    cands.pop(pos[0])
-                                    print("cull", pos[0], c, cands)
+                                    if pos != []:
+                                        cands.pop(pos[0])
+                                        print("cull", pos[0], c, cands)
                             if ok:
                                 val = cands[0]
                                 print(
@@ -140,6 +141,42 @@ def grid_solve(grid, x_offset, y_offset, part):
                                 grid.set(Vec2d(x + x_offset, y + y_offset), val)
                                 grid.set(Vec2d(x + x_offset, v_q + y_offset), val)
                                 update = True
+        # Pick up extra ?
+        for y in range (2,6):
+            cands = []
+            h_q = None
+            for x in [0,1,6,7]:   
+                c = grid.get(Vec2d(x + x_offset, y + y_offset)) 
+                if c == "?":
+                    print("h? case: ? at ", xx + x_offset, y+ y_offset)
+                    if h_q == None:
+                        h_q = xx
+                    else:
+                        h_mult = True
+                else:
+                    cands.append(c)        
+
+            if h_q != None and not h_mult:
+                ok = True
+                for x in range(2,6):
+                    c = grid.get(Vec2d(x+x_offset, y + y_offset))
+                    print(cands,x,c)
+                    if c != '.':
+                        pos = [
+                                i for i, x in enumerate(cands) if cands[i] == c
+                            ]
+                        if pos == []:
+                            assert 0
+                        cands.pop(pos[0])
+                        print("cull", pos[0], c, cands)
+                    else:
+                        ok = False
+                        break 
+                if ok:
+                    grid.set(Vec2d(h_q + x_offset, y+y_offset),pos[0])        
+
+
+
 
     return update
 
