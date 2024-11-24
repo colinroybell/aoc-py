@@ -2,6 +2,7 @@ class Vec2d:
     def __init__(self, x, y):
         (self.x, self.y) = (x, y)
 
+    # These two may not need using
     def tuple(self):
         return (self.x, self.y)
 
@@ -67,3 +68,6 @@ class Vec2d:
 
     def __lt__(self, other):
         return self.x < other.x or (self.x == other.x and self.y < other.y)
+
+    def __hash__(self):
+        return hash((self.x,self.y))

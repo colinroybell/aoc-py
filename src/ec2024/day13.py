@@ -10,17 +10,14 @@ class Run_2024_13(DayBase):
     DAY = "13"
     PREFIX = "ec"
 
+# TODO: history not needed
 
 class State:
-    def __init__(self, current, history):
+    def __init__(self, current):
         self.current = current
-        self.history = history
-
+    
     def __repr__(self):
-        return "{} {}".format(self.current, sorted(self.history))
-
-    def it(self):
-        return (self.current, tuple(sorted(self.history)))
+        return "{}".format(self.current)
 
     def __lt__(self, other):
         return 0
@@ -50,28 +47,26 @@ def part_1(input):
                 start = Vec2d(x, y)
 
     found = {}
-    start_state = State(start, [])
+    start_state = State(start)
     state_queue = PriorityQueue()
     state_queue.put((0, start_state))
     while not state_queue.empty():
         x = state_queue.get()
         (t, state) = x
         pos = state.current
-        if pos.tuple() in found:
+        if pos in found:
             continue
-        found[pos.tuple()] = t
-        print("time {} state location {}".format(t, pos))
+        found[pos] = t
+        #print("time {} state location {}".format(t, pos))
         pos_height = grid.get(pos)
         if pos_height == "S":
             return t
         vecs = pos.get_adjacent_orthogonal()
         for v in vecs:
             v_height = grid.get(v)
-            if v not in state.history and v_height and v_height != "#":
+            if v not in found and v_height and v_height != "#":
                 new_t = t + height_diff(grid.get(pos), grid.get(v)) + 1
-                new_history = state.history.copy()
-                new_history.append(pos)
-                new_state = State(v, new_history)
+                new_state = State(v)
                 state_queue.put((new_t, new_state))
 
 

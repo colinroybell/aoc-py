@@ -125,7 +125,7 @@ def part_3_new(input):
             pos = p.pos_at_time(t)
             if pos.y >= 0:
                 score = p.score()
-                pos = pos.tuple()
+                pos = pos
                 if pos in score_array:
                     score_array[pos] = min(score_array[pos], score)
                 else:
@@ -134,7 +134,7 @@ def part_3_new(input):
         new_meteors = []
         for m in meteors:
             pos = m.pos_at_time(t)
-            pos = pos.tuple()
+            pos = pos
             if pos in score_array:
                 score = score_array[pos]
                 print(m.base, " scores ", score, " at time", t)

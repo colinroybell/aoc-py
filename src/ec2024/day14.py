@@ -55,7 +55,7 @@ def part_2(input):
             for _ in range(count):
                 delta = dirs[dir]
                 pos += delta
-                segments.add(pos.tuple())
+                segments.add(pos)
 
     return len(segments)
 
@@ -83,30 +83,29 @@ def part_3(input):
             for _ in range(count):
                 delta = dirs[dir]
                 pos += delta
-                segments.add(pos.tuple())
+                segments.add(pos)
                 if pos.x == 0 and pos.z == 0:
-                    trunk.add(pos.tuple())
+                    trunk.add(pos)
 
-        leaves.add(pos.tuple())
+        leaves.add(pos)
 
     best = None
     adj = Vec3d.adjacencies()
-    for start in trunk:
-        pos = Vec3d(start[0], start[1], start[2])
+    for pos in trunk:
         score = 0
         found = set()
         queue = PriorityQueue()
         queue.put((0, pos))
         while not queue.empty():
             (d, pos) = queue.get()
-            if pos.tuple() in found:
+            if pos in found:
                 continue
-            found.add(pos.tuple())
-            if pos.tuple() in leaves:
+            found.add(pos)
+            if pos in leaves:
                 score += d
             for delta in adj:
                 new_pos = pos + delta
-                if new_pos.tuple() in segments and new_pos.tuple() not in found:
+                if new_pos in segments and new_pos not in found:
                     queue.put((d + 1, new_pos))
         if best == None or score < best:
             best = score

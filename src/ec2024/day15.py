@@ -19,9 +19,6 @@ class State:
     def __repr__(self):
         return "{} {}".format(self.current, self.herbs)
 
-    def it(self):
-        return self.current
-
     def __lt__(self, other):
         return 0
 
@@ -55,7 +52,7 @@ def part_1(input):
         pos = state.current
         herbs = state.herbs
 
-        cache_state = (pos.tuple(), frozenset(herbs))
+        cache_state = (pos, frozenset(herbs))
         if cache_state in found:
             continue
         found[cache_state] = t
@@ -92,7 +89,6 @@ class FoundHerbCache:
         self.found = new_found
         self.found.append(item)
         new_count = len(self.found)
-        print("count", old_count, new_count, self.found)
 
     def already_found(self, item):
         for c in self.found:
@@ -121,17 +117,17 @@ def grid_cull(grid, x, y):
 
 
 def lake_cull(grid, xx, yy):
-    print("Lake at ", xx, yy)
+    #print("Lake at ", xx, yy)
     xx -= 10
     yy -= 2
     h = grid.get(Vec2d(xx + 6, yy))
-    print("herb", h)
+    #print("herb", h)
     keep = [(0, 4), (0, 7), (0, 8), (10, 12), (18, 12), (28, 5), (28, 6), (28, 8)]
     for x in range(0, 29):
         for y in range(0, 13):
             if grid.get(Vec2d(xx + x, yy + y)) == h:
                 if (x, y) not in keep:
-                    print("lake cull ", x, y)
+                    #print("lake cull ", x, y)
                     grid.set(Vec2d(xx + x, yy + y), ".")
 
 
@@ -180,14 +176,13 @@ def part_3(input):
                     if c not in loc_counts:
                         loc_counts[c] = 0
                     loc_counts[c] += 1
-    print(loc_counts)
 
     # TODO: more efficient to do a single floodfill starting from each point.
     transitions = {}
     for location in locations:
         # print("Search from ",location)
         found = {}
-        transitions[location.tuple()] = []
+        transitions[location] = []
         start_state = State(location)
         state_queue = PriorityQueue()
         state_queue.put((0, start_state))
@@ -196,14 +191,14 @@ def part_3(input):
             (t, state) = x
             pos = state.current
 
-            cache_state = pos.tuple()
+            cache_state = pos
             if cache_state in found:
                 continue
             found[cache_state] = t
             pos_height = grid.get(pos)
 
             if t > 0 and pos in locations:
-                transitions[location.tuple()].append((t, pos, pos_height))
+                transitions[location].append((t, pos, pos_height))
                 # print("Found ",pos,pos_height," at ",t)
 
             vecs = pos.get_adjacent_orthogonal()
@@ -216,28 +211,31 @@ def part_3(input):
     # Main search
     found = {}
     for location in locations:
-        found[location.tuple()] = FoundHerbCache()
+        found[location] = FoundHerbCache()
 
     start_state = State(start)
     state_queue = PriorityQueue()
     state_queue.put((0, start_state))
+    last_t = None
     while not state_queue.empty():
         x = state_queue.get()
         (t, state) = x
         pos = state.current
         herbs = state.herbs
-        # print(t,"start at",pos,herbs, 'queue length',state_queue.qsize())
+        if t != last_t:
+            print(t,'queue length',state_queue.qsize())
+            last_t = t
 
         if pos == start and t > 0:
             # print("done")
             return t
-        cache = found[pos.tuple()]
+        cache = found[pos]
         if cache.already_found(herbs):
             # print("Already found")
             continue
         cache.add(herbs)
 
-        for transition in transitions[pos.tuple()]:
+        for transition in transitions[pos]:
             # print("Considering",transition)
             d, new_pos, h = transition
             if h in herbs:
@@ -246,7 +244,7 @@ def part_3(input):
             if h == "$" and herbs != all_herbs:
                 # print("... can't go to finish without all herbs")
                 continue
-            cache = found[new_pos.tuple()]
+            cache = found[new_pos]
             new_herbs = herbs.copy()
             new_herbs.add(h)
             if cache.already_found(new_herbs):
