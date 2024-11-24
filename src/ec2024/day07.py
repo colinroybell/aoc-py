@@ -68,7 +68,6 @@ def part_2(input):
                 name = line[0]
                 plan = line[2:].split(",")
                 squires[name] = Squire(name, plan)
-    print(track)
     time = 0
     for loop in range(10):
         for t in track:
