@@ -20,4 +20,5 @@ class Test_2024_15:
 
     @pytest.mark.skip
     def test_regression_3(self):
-        assert self.day.run_part("3") == 0
+        # Skip as very long
+        assert self.day.run_part("3") == 1540
