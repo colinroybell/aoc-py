@@ -11,7 +11,6 @@ class Run_2024_01(DayBase):
 def part_1(input, part=1):
     costs = {"A": 0, "B": 1, "C": 3, "D": 5}
     line = next(input_generator(input))
-    print(line)
     cost = 0
     for i in range(0, len(line), part):
         creatures = line[i : i + part]
@@ -23,7 +22,6 @@ def part_1(input, part=1):
 
         if count > 1:
             cost += (count - 1) * count
-        print(creatures, cost)
     return cost
 
 
