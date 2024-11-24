@@ -70,4 +70,4 @@ class Vec2d:
         return self.x < other.x or (self.x == other.x and self.y < other.y)
 
     def __hash__(self):
-        return hash((self.x,self.y))
+        return hash((self.x, self.y))

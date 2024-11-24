@@ -10,12 +10,11 @@ class Run_2024_13(DayBase):
     DAY = "13"
     PREFIX = "ec"
 
-# TODO: history not needed
 
 class State:
     def __init__(self, current):
         self.current = current
-    
+
     def __repr__(self):
         return "{}".format(self.current)
 
@@ -57,7 +56,7 @@ def part_1(input):
         if pos in found:
             continue
         found[pos] = t
-        #print("time {} state location {}".format(t, pos))
+        # print("time {} state location {}".format(t, pos))
         pos_height = grid.get(pos)
         if pos_height == "S":
             return t

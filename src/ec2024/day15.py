@@ -117,17 +117,17 @@ def grid_cull(grid, x, y):
 
 
 def lake_cull(grid, xx, yy):
-    #print("Lake at ", xx, yy)
+    # print("Lake at ", xx, yy)
     xx -= 10
     yy -= 2
     h = grid.get(Vec2d(xx + 6, yy))
-    #print("herb", h)
+    # print("herb", h)
     keep = [(0, 4), (0, 7), (0, 8), (10, 12), (18, 12), (28, 5), (28, 6), (28, 8)]
     for x in range(0, 29):
         for y in range(0, 13):
             if grid.get(Vec2d(xx + x, yy + y)) == h:
                 if (x, y) not in keep:
-                    #print("lake cull ", x, y)
+                    # print("lake cull ", x, y)
                     grid.set(Vec2d(xx + x, yy + y), ".")
 
 
@@ -223,7 +223,7 @@ def part_3(input):
         pos = state.current
         herbs = state.herbs
         if t != last_t:
-            print(t,'queue length',state_queue.qsize())
+            print(t, "queue length", state_queue.qsize())
             last_t = t
 
         if pos == start and t > 0:
