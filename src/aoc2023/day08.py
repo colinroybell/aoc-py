@@ -1,22 +1,11 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
+from utils.maths import lcm
 
 
 class Run_2023_08(DayBase):
     YEAR = "2023"
     DAY = "08"
-
-
-def lcm(x, y):
-    a = max(x, y)
-    b = min(x, y)
-
-    while b > 0:
-        print("lcm", a, b)
-        c = a % b
-        a = b
-        b = c
-    return x * y // a
 
 
 def steps(nodes, node, instructions, part_a):

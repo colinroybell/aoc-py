@@ -1,5 +1,6 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
+from utils.maths import lcm
 
 
 class Run_2020_13(DayBase):
@@ -24,18 +25,6 @@ def part_a(input):
                 earliest = time
                 score = (time - base) * t
     return score
-
-
-def gcd(a, b):
-    """Return greatest common divisor using Euclid's Algorithm."""
-    while b:
-        a, b = b, a % b
-    return a
-
-
-def lcm(a, b):
-    """Return lowest common multiple."""
-    return a * b // gcd(a, b)
 
 
 def part_b(input):

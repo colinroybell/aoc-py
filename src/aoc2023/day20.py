@@ -1,5 +1,6 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
+from utils.maths import lcm
 
 
 class Run_2023_20(DayBase):
@@ -120,18 +121,6 @@ def part_a(input, part_b=False):
             # print(queue)
         if part_a and presses == 1000:
             return low_count * high_count
-
-
-def lcm(x, y):
-    a = max(x, y)
-    b = min(x, y)
-
-    while b > 0:
-        print("lcm", a, b)
-        c = a % b
-        a = b
-        b = c
-    return x * y // a
 
 
 # Note: by inspection, we see a pulse for dc, rv, vp, rq respectively every 3797, 4051, 3847, 3877. These feed into ns so take lcm. Not sure how to solve this programmatically.
