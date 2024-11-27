@@ -71,3 +71,6 @@ class Vec2d:
 
     def __hash__(self):
         return hash((self.x, self.y))
+
+    def manhattan(self, other):
+        return abs(self.x - other.x) + abs(self.y - other.y)
