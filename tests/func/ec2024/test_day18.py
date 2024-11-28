@@ -7,22 +7,19 @@ class Test_2024_18:
         self.day = Run_2024_18()
 
     def test_bringup_1(self):
-        pass
+        assert self.day.run_part("1","test1") == 11
 
     def test_bringup_2(self):
-        pass
+        assert self.day.run_part("2","test2") == 21
 
     def test_bringup_3(self):
-        pass
+          assert self.day.run_part("3","test3") == 12
 
-    @pytest.mark.skip
     def test_regression_1(self):
-        assert self.day.run_part("1") == 0
+        assert self.day.run_part("1") == 105
 
-    @pytest.mark.skip
     def test_regression_2(self):
-        assert self.day.run_part("2") == 0
+        assert self.day.run_part("2") == 1341
 
-    @pytest.mark.skip
     def test_regression_3(self):
-        assert self.day.run_part("3") == 0
+        assert self.day.run_part("3") == 293297
