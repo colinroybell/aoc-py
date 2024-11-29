@@ -56,13 +56,26 @@ class Grid2d:
             y += 1
         return (max_x, y)
 
+    def read_from_file_strings_generator(self, generator, stop_at_blank=True):
+        y = 0
+        max_x = 0
+        for line in generator:
+            if line == "" and stop_at_blank:
+                break
+            max_x = max(max_x, len(line))
+            for x, v in enumerate(line):
+
+                self.set(Vec2d(x, y), v)
+                x += 1
+            y += 1
+        return (max_x, y)
+
     def read_from_generator(self, generator):
         y = 0
         for line in generator:
             if not line:
                 break
             for x, v in enumerate(line):
-                print(x, v)
                 if v == "#":
                     self.set(Vec2d(x, y), 1)
                 x += 1
