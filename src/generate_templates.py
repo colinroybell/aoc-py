@@ -42,10 +42,12 @@ from aoc{}.day{} import Run_{}_{}
 class Test_{}_{}:
     def setup_class(self):
         self.day = Run_{}_{}()
-
+    
+    @pytest.mark.skip
     def test_bringup_a(self):
         pass
-
+    
+    @pytest.mark.skip
     def test_bringup_b(self):
         pass
 
