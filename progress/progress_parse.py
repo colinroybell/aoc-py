@@ -1,5 +1,5 @@
 # Assuming we have done something like
-# pytest -n 10 -k regression -v | tee log
+# pytest -n 10 -k regression and aoc -v | tee log
 import re
 import sys
 #pass_re = re.compile(r'PASSED.+::Test_(\d+)_(\d+)::test_regression_(\s)')
@@ -8,7 +8,7 @@ pass_re = re.compile(r'PASSED.+::Test_(\d+)_(\d+)::test_regression_(.)')
 
 filename = "log"
 
-years = [str(x) for x in range(2015,2024)]
+years = [str(x) for x in range(2015,2025)]
 days = [str(x).rjust(2,'0') for x in range(1,26)]
 
 done = {}
