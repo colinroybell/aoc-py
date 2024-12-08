@@ -1,5 +1,5 @@
 import pytest
-from aoc2016.day07 import Run_2016_07,tls,ssl
+from aoc2016.day07 import Run_2016_07, tls, ssl
 
 
 class Test_2016_07:
