@@ -15,19 +15,18 @@ class Test_2016_09:
         assert decompression_length("X(8x2)(3x3)ABCY") == 18
 
     def test_bringup_b(self):
-        assert decompression_length2("(3x3)XYZ") == 6
-        assert decompression_length2("X(8x2)(3x3)ABCY") == 6
-        assert decompression_length2("(27x12)(20x12)(13x14)(7x10)(1x12)A") == 6
+        assert decompression_length2("(3x3)XYZ") == 9
+        assert decompression_length2("X(8x2)(3x3)ABCY") == 20
+        assert decompression_length2("(27x12)(20x12)(13x14)(7x10)(1x12)A") == 241920
         assert (
             decompression_length2(
                 "(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN"
             )
-            == 6
+            == 445
         )
 
     def test_regression_a(self):
         assert self.day.run_part("a") == 150914
 
-    @pytest.mark.xfail
     def test_regression_b(self):
-        assert self.day.run_part("b") == 0
+        assert self.day.run_part("b") == 11052855125
