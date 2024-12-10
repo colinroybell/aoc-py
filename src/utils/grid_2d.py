@@ -17,7 +17,10 @@ class Grid2d:
         y = 0
         for line in input_generator(input):
             for x, v in enumerate(line):
-                self.set(Vec2d(x, y), int(v))
+                try:
+                    self.set(Vec2d(x, y), int(v))
+                except ValueError:
+                    pass
                 x += 1
             y += 1
         return (x, y)
