@@ -16,7 +16,7 @@ class Test_2024_24:
 
     @pytest.mark.skip
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        assert self.day.run_part("a") == 48806532300520
 
     @pytest.mark.skip
     def test_regression_b(self):
