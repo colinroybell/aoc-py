@@ -19,7 +19,7 @@ class Test_2025_02:
         assert self.day.run_part("1") == 11417002989774
 
     def test_regression_2(self):
-        assert self.day.run_part("2") ==  2930335471366458630
-        
+        assert self.day.run_part("2") == 2930335471366458630
+
     def test_regression_3(self):
         assert self.day.run_part("3") == 5140
