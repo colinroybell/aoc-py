@@ -13,8 +13,14 @@ class DayBase:
         aoc_module = importlib.import_module(
             "{}{}.day{}".format(self.PREFIX, self.YEAR, self.DAY)
         )
+        if part.isnumeric():
+            aoc_module.PART = int(part)
+        else:
+            aoc_module.PART = part
+
         if not isinstance(input, list):
             input = self.input_filename(part, input)
+
         if part == "a":
             return aoc_module.part_a(input, **kwargs)
         elif part == "b":
