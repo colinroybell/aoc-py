@@ -20,4 +20,10 @@ Here's notes on the filter for part 1: https://www.geeksforgeeks.org/python-coun
 
 ## day 08
 
-Can we put PART in the class rather than passing it around?
+Can we put PART in the class rather than passing it around? Yes... I realise I don't quite know how the aoc_module stuff works any more.
+
+We will need to put a PART = None in the template.
+
+## day 13
+
+Part 3 doesn't work - finding a minimum cycle from each starting point, not a maximm one. Think we need a full search.
