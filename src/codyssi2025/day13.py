@@ -27,7 +27,7 @@ class State:
 Transition = namedtuple("Transition", ["state", "time"])
 
 
-def breadth_first_search(states, transitions, first_state):
+def breadth_first_search(transitions, first_state):
     times = {}
     start_state = State(first_state)
     state_queue = PriorityQueue()
@@ -37,6 +37,7 @@ def breadth_first_search(states, transitions, first_state):
         state = s.current
         if state in times:
             continue
+        times[state] = t
         for tr in transitions[state]:
             other_state = tr.state
             other_time = t + tr.time
@@ -44,6 +45,26 @@ def breadth_first_search(states, transitions, first_state):
                 new_state = State(other_state)
                 state_queue.put((other_time, new_state))
     return times
+
+
+def depth_first_search(transitions, time, target, visited, exclude):
+    best = 0
+    if not visited:
+        current = target
+    else:
+        current = visited[-1]
+        if current == target:
+            return time
+
+    for tr in transitions[current]:
+        new_state = tr.state
+        if new_state in visited or new_state in exclude:
+            continue
+        score = depth_first_search(
+            transitions, time + tr.time, target, visited + [new_state], exclude
+        )
+        best = max(best, score)
+    return best
 
 
 def part_1(input):
@@ -66,18 +87,20 @@ def part_1(input):
         transitions[s0].append(Transition(state=s1, time=t))
 
     if PART < 3:
-        times = breadth_first_search(states, transitions, "STT")
+        times = breadth_first_search(transitions, "STT")
 
         top3 = sorted(times.items(), key=lambda x: x[1], reverse=True)[:3]
         return top3[0][1] * top3[1][1] * top3[2][1]
     else:
+        # Depth first search from all points trying to find a cycle. But exclude starting
+        # point from subsequent searches as any cycle going through them would already have
+        # been found.
         best = 0
+        exclude = []
         for s in states:
-            times = breadth_first_search(states, transitions, s)
-            if s in times:
-                print(s, times[s])
-            if s in times and times[s] > best:
-                best = times[s]
+            score = depth_first_search(transitions, 0, s, [], exclude)
+            best = max(best, score)
+            exclude += [s]
         return best
 
 
