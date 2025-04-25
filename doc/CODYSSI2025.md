@@ -29,3 +29,7 @@ We will need to put a PART = None in the template.
 Would like to abstract out breadth-first-search into own function
 
 Is my method for part 3 best?
+
+## day 14
+
+Checking cache inside the loop might be better than at start?
