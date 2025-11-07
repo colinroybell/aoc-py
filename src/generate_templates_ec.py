@@ -1,4 +1,4 @@
-year = 2024
+year = 2025
 
 init_filename = "src/ec{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
@@ -47,14 +47,17 @@ class Test_{}_{}:
     def setup_class(self):
         self.day = Run_{}_{}()
 
+    @pytest.mark.skip     
     def test_bringup_1(self):
-        pass
+        assert self.day.run_part("1", "test1") == 0
 
+    @pytest.mark.skip    
     def test_bringup_2(self):
-        pass
+        assert self.day.run_part("1", "test1") == 0
 
+    @pytest.mark.skip     
     def test_bringup_3(self):
-        pass
+        assert self.day.run_part("1", "test1") == 0
        
 
     @pytest.mark.skip
