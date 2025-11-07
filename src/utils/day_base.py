@@ -40,10 +40,12 @@ class DayBase:
             suffix = "_" + suffix
         else:
             if self.PREFIX == "ec":
-                suffix = "_part_" + part
+                if self.YEAR == "2024":
+                    suffix = "_part_" + part
+                else:
+                    suffix = "_part" + part
             else:
                 suffix = ""
-        print(suffix)
         if self.PART_AS_SUFFIX:
             suffix = "part" + suffix
         return "data/{}{}/day{}{}.txt".format(self.PREFIX, self.YEAR, self.DAY, suffix)
