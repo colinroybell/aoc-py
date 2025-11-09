@@ -9,9 +9,9 @@ class Run_2025_03(DayBase):
     PREFIX = "ec"
 
 
-def part_1(input, part = 1):
+def part_1(input, part=1):
     text = next(input_generator(input))
-    crates = [int(x) for x in text.split(',')]
+    crates = [int(x) for x in text.split(",")]
     crates.sort()
     current = 0
     total = 0
@@ -22,25 +22,23 @@ def part_1(input, part = 1):
             current = c
             count += 1
         if part == 2 and count == 20:
-            break    
-    return total        
+            break
+    return total
+
 
 def part_2(input):
-    return part_1(input, part = 2)
+    return part_1(input, part=2)
+
 
 def part_3(input):
     text = next(input_generator(input))
-    crates = [int(x) for x in text.split(',')]
+    crates = [int(x) for x in text.split(",")]
     d = defaultdict(int)
     count = 0
     for c in crates:
         d[c] += 1
-        count = max(count,d[c])
-    return count    
-
-
-
-
+        count = max(count, d[c])
+    return count
 
 
 if __name__ == "__main__":
