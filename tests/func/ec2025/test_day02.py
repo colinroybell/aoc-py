@@ -12,6 +12,7 @@ class Test_2025_02:
     def test_bringup_2(self):
         assert self.day.run_part("2", "test2") == 4076
 
+    @pytest.mark.slow
     def test_bringup_3(self):
         assert self.day.run_part("3", "test2") == 406954
 
@@ -21,5 +22,6 @@ class Test_2025_02:
     def test_regression_2(self):
         assert self.day.run_part("2") == 1154
 
+    @pytest.mark.slow
     def test_regression_3(self):
         assert self.day.run_part("3") == 108057
