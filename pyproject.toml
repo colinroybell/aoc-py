@@ -3,5 +3,6 @@
 markers = [
     "regression: regression tests (may be slow)",
     "bringup",
-    "unit"
+    "unit",
+     "slow: marks tests as slow (deselect with '-m \"not slow\"')"
 ]
