@@ -1,4 +1,4 @@
-year = 2025
+year = "st02"
 
 init_filename = "src/ec{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
@@ -8,7 +8,7 @@ init_tests_filename = "tests/func/ec{}/__init__.py".format(year)
 with open(init_tests_filename, "w") as f:
     pass
 
-for num in range(1, 21):
+for num in range(1, 4):
     n = "{:02d}".format(num)
 
     main_file = """from utils.day_base import DayBase
