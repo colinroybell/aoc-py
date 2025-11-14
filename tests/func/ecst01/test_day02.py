@@ -6,26 +6,26 @@ class Test_st01_02:
     def setup_class(self):
         self.day = Run_st01_02()
 
-    @pytest.mark.skip
-    def test_bringup_1(self):
-        assert self.day.run_part("1", "test1") == 0
+    def test_bringup_1_1(self):
+        assert self.day.run_part("1", "test1") == "CFGNLK"
 
-    @pytest.mark.skip
+    def test_bringup_1_2(self):
+        assert self.day.run_part("1", "test2") == "EVERYBODYCODES"
+
     def test_bringup_2(self):
-        assert self.day.run_part("2", "test2") == 0
+        assert self.day.run_part("2", "test3") == "MGFLNK"
 
-    @pytest.mark.skip
-    def test_bringup_3(self):
-        assert self.day.run_part("3", "test3") == 0
+    def test_bringup_3_1(self):
+        assert self.day.run_part("3", "test4") == "DJMGL"
+          
+    def test_bringup_3_2(self):
+        assert self.day.run_part("3", "test5") == "DJCGL"
 
-    @pytest.mark.skip
     def test_regression_1(self):
-        assert self.day.run_part("1") == 0
+        assert self.day.run_part("1") == "QUACK!GXZLHBJP"
 
-    @pytest.mark.skip
     def test_regression_2(self):
-        assert self.day.run_part("2") == 0
+        assert self.day.run_part("2") == "QUACK!XXZGWWHJMVPXWF"
 
-    @pytest.mark.skip
     def test_regression_3(self):
-        assert self.day.run_part("3") == 0
+        assert self.day.run_part("3") == "QUACK!GHMRYXGVYJLMFVNGZSMPBJXNZJPR"
