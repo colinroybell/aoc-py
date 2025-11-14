@@ -21,5 +21,6 @@ class Test_2025_08:
     def test_regression_2(self):
         assert self.day.run_part("2") == 2924365
 
+    @pytest.mark.slow
     def test_regression_3(self):
         assert self.day.run_part("3") == 2787
