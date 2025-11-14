@@ -17,7 +17,7 @@ class Test_st01_02:
 
     def test_bringup_3_1(self):
         assert self.day.run_part("3", "test4") == "DJMGL"
-          
+
     def test_bringup_3_2(self):
         assert self.day.run_part("3", "test5") == "DJCGL"
 

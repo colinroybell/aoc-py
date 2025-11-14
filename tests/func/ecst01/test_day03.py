@@ -6,26 +6,22 @@ class Test_st01_03:
     def setup_class(self):
         self.day = Run_st01_03()
 
-    @pytest.mark.skip
     def test_bringup_1(self):
-        assert self.day.run_part("1", "test1") == 0
+        assert self.day.run_part("1", "test1") == 1310
 
-    @pytest.mark.skip
-    def test_bringup_2(self):
-        assert self.day.run_part("2", "test2") == 0
+    def test_bringup_2_1(self):
+        assert self.day.run_part("2", "test2") == 14
 
-    @pytest.mark.skip
-    def test_bringup_3(self):
-        assert self.day.run_part("3", "test3") == 0
+    def test_bringup_2_2(self):
+        assert self.day.run_part("2", "test3") == 13659
 
-    @pytest.mark.skip
+    # Part 3 is just a rerun
+
     def test_regression_1(self):
-        assert self.day.run_part("1") == 0
+        assert self.day.run_part("1") == 3537
 
-    @pytest.mark.skip
     def test_regression_2(self):
-        assert self.day.run_part("2") == 0
+        assert self.day.run_part("2") == 1019086
 
-    @pytest.mark.skip
     def test_regression_3(self):
-        assert self.day.run_part("3") == 0
+        assert self.day.run_part("3") == 99537710915
