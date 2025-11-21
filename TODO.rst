@@ -2,6 +2,13 @@
 TO DO 
 =====
 
+* Various TODO lists scattered around now. Review
+* docstrings and a means of tagging which ones are done, which ones are reviewed, notes. 
+* can we do a local JIRA? Or use github issues? Can get a free JIRA board.
+
+
+
+
 * Automatic input handler for string input. It is passed either a filename, or a list of strings, and we return an iterator
 * Probable class hierarchy, which can give a prefix function for data (and other things if we need it)
 * Utility functions for some general use cases - maybe survey 2015 for typical inputs?
@@ -21,3 +28,4 @@ Durations seem very random. Is there a more reliable means of timing?
 
 
 Want a way of running the test1 variants easily
+

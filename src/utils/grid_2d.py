@@ -45,7 +45,7 @@ class Grid2d:
             y += 1
         return (x, y)
 
-    def read_from_file_strings(self, input, stop_at_blank=True):
+    def read_from_file_strings(self, input, stop_at_blank=True, make_int=True):
         y = 0
         max_x = 0
         for line in input_generator(input):
@@ -53,7 +53,8 @@ class Grid2d:
                 break
             max_x = max(max_x, len(line))
             for x, v in enumerate(line):
-
+                if make_int:
+                    v = int(v)
                 self.set(Vec2d(x, y), v)
                 x += 1
             y += 1
