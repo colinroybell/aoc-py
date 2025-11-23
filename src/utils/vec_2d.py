@@ -2,22 +2,22 @@ class Vec2d:
     def __init__(self, x, y):
         (self.x, self.y) = (x, y)
 
-    # These two may not need using
+    # These two should now not need using
     def tuple(self):
         return (self.x, self.y)
 
     def from_tuple(value):
         return Vec2d(value[0], value[1])
 
-    def move(self, dir):
+    def move(self, dir, mult=1):
         if dir == "^" or dir == "U":
-            return Vec2d(self.x, self.y + 1)
+            return Vec2d(self.x, self.y + mult)
         elif dir == ">" or dir == "R":
-            return Vec2d(self.x + 1, self.y)
+            return Vec2d(self.x + mult, self.y)
         elif dir == "v" or dir == "D":
-            return Vec2d(self.x, self.y - 1)
+            return Vec2d(self.x, self.y - mult)
         elif dir == "<" or dir == "L":
-            return Vec2d(self.x - 1, self.y)
+            return Vec2d(self.x - mult, self.y)
         elif dir == ".":
             return Vec2d(self.x, self.y)
         else:
@@ -37,12 +37,19 @@ class Vec2d:
         else:
             assert "Bad direction"
 
-    def get_adjacent_diagonals(self):
+    def get_adjacent_with_diagonals(self):
         vecs = []
         for x in range(-1, 2):
             for y in range(-1, 2):
                 if x or y:
                     vecs.append(Vec2d(self.x + x, self.y + y))
+        return vecs
+
+    def get_adjacent_diagonals(self):
+        vecs = []
+        for x in range(-1, 2, 2):
+            for y in range(-1, 2, 2):
+                vecs.append(Vec2d(self.x + x, self.y + y))
         return vecs
 
     def get_adjacent_orthogonal(self):

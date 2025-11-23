@@ -30,7 +30,7 @@ def part_a(input, days=100, part_b=False):
             if grid.get(v) >= 10:
                 count += 1
                 grid.set(v, 0)
-                inc_list.extend(v.get_adjacent_diagonals())
+                inc_list.extend(v.get_adjacent_with_diagonals())
                 flash_list.append(v)
         print(grid)
         step += 1

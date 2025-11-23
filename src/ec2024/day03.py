@@ -34,7 +34,7 @@ def part_1(input, part=1):
                         if part == 1:
                             adjs = pos.get_adjacent_orthogonal()
                         else:
-                            adjs = pos.get_adjacent_diagonals()
+                            adjs = pos.get_adjacent_with_diagonals()
                         for adj in adjs:
                             adj_depth = grid.get(adj)
                             if adj_depth == None or adj_depth < depth - 1:

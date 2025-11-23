@@ -30,7 +30,7 @@ def part_a(input, part_b=False, steps=100):
             for x in range(width):
                 p = Vec2d(x, y)
                 current = grid.get(p)
-                adj = p.get_adjacent_diagonals()
+                adj = p.get_adjacent_with_diagonals()
                 count = 0
                 for a in adj:
                     if grid.get(a):
