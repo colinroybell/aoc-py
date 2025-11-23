@@ -1,3 +1,6 @@
+[project]
+dependencies = ["sphinx"]
+
 
 [tool.pytest.ini_options]
 markers = [
@@ -6,3 +9,4 @@ markers = [
     "unit",
      "slow: marks tests as slow (deselect with '-m \"not slow\"')"
 ]
+
