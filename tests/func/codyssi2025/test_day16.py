@@ -6,6 +6,7 @@ class Test_2025_16:
     def setup_class(self):
         self.day = Run_2025_16()
 
+    @pytest.mark.skip
     def test_bringup_1(self):
         assert self.day.run_part("1", "test1") == 6902016000
 

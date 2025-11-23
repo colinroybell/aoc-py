@@ -47,7 +47,7 @@ class Grid2d:
             y += 1
         return (x, y)
 
-    def read_from_file_strings(self, input, stop_at_blank=True, make_int=True):
+    def read_from_file_strings(self, input, stop_at_blank=True, make_int=False):
         y = 0
         max_x = 0
         for line in input_generator(input):
