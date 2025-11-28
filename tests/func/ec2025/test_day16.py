@@ -13,11 +13,11 @@ class Test_2025_16:
         assert self.day.run_part("2", "test2") == 270
 
     def test_bringup_3(self):
-        assert self.day.run_part("3", "test2",blocks=1) == 1
-        assert self.day.run_part("3", "test2",blocks=2) == 1
-        assert self.day.run_part("3", "test2",blocks=3) == 2
-        assert self.day.run_part("3", "test2",blocks=10) == 5
-        assert self.day.run_part("3", "test2",blocks=100) == 47
+        assert self.day.run_part("3", "test2", blocks=1) == 1
+        assert self.day.run_part("3", "test2", blocks=2) == 1
+        assert self.day.run_part("3", "test2", blocks=3) == 2
+        assert self.day.run_part("3", "test2", blocks=10) == 5
+        assert self.day.run_part("3", "test2", blocks=100) == 47
         assert self.day.run_part("3", "test2") == 94439495762954
 
     def test_regression_1(self):
