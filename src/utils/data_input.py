@@ -1,4 +1,4 @@
-def input_generator(input):
+def input_generator(input, terminate_with_empty=False):
     """input is either a filename or a list of strings"""
     if isinstance(input, list):
         for line in input:
@@ -8,3 +8,5 @@ def input_generator(input):
             for line in f:
                 line = line.rstrip()
                 yield line
+        if terminate_with_empty:
+            yield ""
