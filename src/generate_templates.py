@@ -1,4 +1,4 @@
-year = 2024
+year = 2025
 
 init_filename = "src/aoc{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
@@ -8,7 +8,7 @@ init_tests_filename = "tests/func/aoc{}/__init__.py".format(year)
 with open(init_tests_filename, "w") as f:
     pass
 
-for num in range(1, 26):
+for num in range(1, 13):
     n = "{:02d}".format(num)
 
     main_file = """from utils.day_base import DayBase
@@ -45,19 +45,19 @@ class Test_{}_{}:
     
     @pytest.mark.skip
     def test_bringup_a(self):
-        pass
+        assert self.day.run_part('a','test1') == 0
     
     @pytest.mark.skip
     def test_bringup_b(self):
-        pass
+        assert self.day.run_part('b','test1') == 0
 
     @pytest.mark.skip
     def test_regression_a(self):
-        assert(self.day.run_part('a') == 0)
+        assert self.day.run_part('a') == 0
 
     @pytest.mark.skip
     def test_regression_b(self):
-        assert(self.day.run_part('b') == 0)
+        assert self.day.run_part('b') == 0
 
 """.format(
         year, n, year, n, year, n, year, n
