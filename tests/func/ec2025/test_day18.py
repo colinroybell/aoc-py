@@ -12,9 +12,8 @@ class Test_2025_18:
     def test_bringup_2(self):
         assert self.day.run_part("2", "test2") == 324
 
-    @pytest.mark.skip
     def test_bringup_3(self):
-        assert self.day.run_part("3", "test3") == 0
+        assert self.day.run_part("3", "test3") == 946
 
     def test_regression_1(self):
         assert self.day.run_part("1") == 3924233

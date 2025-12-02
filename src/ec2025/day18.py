@@ -15,6 +15,7 @@ class Plant:
         self.thickness = thickness
         self.free_thickness = 0
         self.branch = []
+        self.energy_options = []
 
     def add_free_thickness(self, thickness):
         self.free_thickness += thickness
@@ -31,8 +32,76 @@ class Plant:
             self.energy = incoming
         else:
             self.energy = 0
-        print("incoming", incoming)
-        print("Energy", self.energy, " for plant", self.id)
+        # print("incoming", incoming)
+        # print("Energy", self.energy, " for plant", self.id)
+
+    def compute_energy_options_recurse(self, plants, pos, last, state):
+        (energy, on, off) = state
+        if pos < 3:
+            print("id, pos", self.id, pos)
+        # print('in',pos,energy,on,off)
+        if pos == len(self.branch):
+            if last:
+                return energy
+            else:
+                if energy >= self.thickness:
+                    return [(energy, on, off)]
+                else:
+                    return []
+        elif plants[self.branch[pos][0]].energy_options == []:
+            return self.compute_energy_options_recurse(plants, pos + 1, last, state)
+        else:
+
+            this_plant = plants[self.branch[pos][0]]
+            maximum = 0
+            options = []
+            # Put a no-options in here for the more advanced plants. Guaranteed to be ok - we will either get a match, or the real match is positive.
+            if this_plant.free_thickness == 0:
+                ret = self.compute_energy_options_recurse(plants, pos + 1, last, state)
+                if last:
+                    maximum = ret
+                else:
+                    options = ret
+            for eo in this_plant.energy_options:
+                (eo_energy, eo_on, eo_off) = eo
+                # print('trying',eo,'with',on,off)
+                if not on.intersection(eo_off) and not off.intersection(eo_on):
+                    new_state = (
+                        energy + eo_energy * self.branch[pos][1],
+                        on.union(eo_on),
+                        off.union(eo_off),
+                    )
+                    ret = self.compute_energy_options_recurse(
+                        plants, pos + 1, last, new_state
+                    )
+                    if last:
+                        maximum = max(maximum, ret)
+                    else:
+                        options = options + ret
+
+        if last:
+            # print('maximum',maximum)
+            return maximum
+        else:
+            # print('out',pos,energy,on,off)
+            return options
+
+    def compute_energy_options(self, plants, last):
+        if self.free_thickness:
+            # On off for these plants
+            self.energy_options = [
+                (self.free_thickness, set([self.id]), set()),
+                (0, set(), set([self.id])),
+            ]
+            return self.free_thickness
+        else:
+            state = (0, set(), set())
+            self.energy_options = self.compute_energy_options_recurse(
+                plants, 0, last, state
+            )
+            if last:
+                assert self.energy_options >= self.thickness
+            return self.energy_options
 
 
 def part_1(input, part=1):
@@ -52,7 +121,7 @@ def part_1(input, part=1):
     for line in generator:
         print(line)
         if state == 1:
-            if line == "" and part == 2:
+            if line == "" and part > 1:
                 break
             match = state_1_re.match(line)
             assert match
@@ -92,6 +161,24 @@ def part_1(input, part=1):
                 plants[id].compute_energy(plants, mul)
             total += plants[last_id].energy
         return total
+    if part == 3:
+        for id in range(1, last_id + 1):
+            maximum = plants[id].compute_energy_options(plants, id == last_id)
+            print(plants[id].energy_options)
+        print(maximum)
+        total = 0
+        for line in generator:
+            muls = [int(n) for n in line.split(" ")]
+            for id in range(1, last_id + 1):
+                mul = 0
+                if muls:
+                    mul = muls[0]
+                    muls = muls[1:]
+                plants[id].compute_energy(plants, mul)
+            last_energy = plants[last_id].energy
+            if last_energy:
+                total += maximum - last_energy
+        return total
 
 
 def part_2(input):
@@ -99,7 +186,13 @@ def part_2(input):
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    return part_1(input, part=3)
+
+
+def notes():
+    """
+    What we have I think works but run-time very slow. Need to do some culling to get the maximum.
+    """
 
 
 if __name__ == "__main__":
