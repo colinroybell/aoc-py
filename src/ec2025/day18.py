@@ -41,13 +41,10 @@ class Plant:
             print("id, pos", self.id, pos)
         # print('in',pos,energy,on,off)
         if pos == len(self.branch):
-            if last:
-                return energy
+            if energy >= self.thickness:
+                return (energy, [(energy, on, off)])
             else:
-                if energy >= self.thickness:
-                    return [(energy, on, off)]
-                else:
-                    return []
+                return (0, [])
         elif plants[self.branch[pos][0]].energy_options == []:
             return self.compute_energy_options_recurse(plants, pos + 1, last, state)
         else:
@@ -57,10 +54,10 @@ class Plant:
             options = []
             # Put a no-options in here for the more advanced plants. Guaranteed to be ok - we will either get a match, or the real match is positive.
             if this_plant.free_thickness == 0:
-                ret = self.compute_energy_options_recurse(plants, pos + 1, last, state)
-                if last:
-                    maximum = ret
-                else:
+                (maximum, options) = self.compute_energy_options_recurse(
+                    plants, pos + 1, last, state
+                )
+                if not last:
                     options = ret
             for eo in this_plant.energy_options:
                 (eo_energy, eo_on, eo_off) = eo
@@ -71,20 +68,15 @@ class Plant:
                         on.union(eo_on),
                         off.union(eo_off),
                     )
-                    ret = self.compute_energy_options_recurse(
+                    (this_maximum, this_options) = self.compute_energy_options_recurse(
                         plants, pos + 1, last, new_state
                     )
-                    if last:
-                        maximum = max(maximum, ret)
-                    else:
-                        options = options + ret
 
-        if last:
-            # print('maximum',maximum)
-            return maximum
-        else:
-            # print('out',pos,energy,on,off)
-            return options
+                    maximum = max(maximum, this_maximum)
+                    if not last:
+                        options = options + this_options
+
+        return (maximum, options)
 
     def compute_energy_options(self, plants, last):
         if self.free_thickness:
@@ -96,12 +88,14 @@ class Plant:
             return self.free_thickness
         else:
             state = (0, set(), set())
-            self.energy_options = self.compute_energy_options_recurse(
+            (self.maximum, self.energy_options) = self.compute_energy_options_recurse(
                 plants, 0, last, state
             )
             if last:
-                assert self.energy_options >= self.thickness
-            return self.energy_options
+                assert self.maximum >= self.thickness
+                return self.maximum
+            else:
+                return self.energy_options
 
 
 def part_1(input, part=1):
@@ -114,6 +108,7 @@ def part_1(input, part=1):
 
     state = 1
     id = 1
+    # This is a long and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long comment
     state_1_re = re.compile(r"Plant (\d+) with thickness (-?\d+):")
     state_2_free_re = re.compile(r"- free branch with thickness (-?\d+)")
     state_2_branch_re = re.compile(r"- branch to Plant (\d+) with thickness (-?\d+)")
@@ -192,6 +187,7 @@ def part_3(input):
 def notes():
     """
     What we have I think works but run-time very slow. Need to do some culling to get the maximum.
+    Then track potential maximum left from later plants and we don't need to go down the list if we can't reach the known maximum.
     """
 
 
