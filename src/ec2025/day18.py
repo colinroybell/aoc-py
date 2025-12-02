@@ -32,36 +32,37 @@ class Plant:
             self.energy = incoming
         else:
             self.energy = 0
-        # print("incoming", incoming)
-        # print("Energy", self.energy, " for plant", self.id)
 
-    def compute_energy_options_recurse(self, plants, pos, last, state):
+    def compute_energy_options_recurse(self, plants, pos, last, state, maximum):
         (energy, on, off) = state
-        if pos < 3:
-            print("id, pos", self.id, pos)
-        # print('in',pos,energy,on,off)
+
+        # For last round, when we only care about the maximum, cull if we can no longer reach it.
+        if last and energy + self.maximums[pos] <= maximum:
+            # Can't beat maximum
+            return (0, [])
+
         if pos == len(self.branch):
             if energy >= self.thickness:
                 return (energy, [(energy, on, off)])
             else:
                 return (0, [])
         elif plants[self.branch[pos][0]].energy_options == []:
-            return self.compute_energy_options_recurse(plants, pos + 1, last, state)
+            return self.compute_energy_options_recurse(
+                plants, pos + 1, last, state, maximum
+            )
         else:
 
             this_plant = plants[self.branch[pos][0]]
-            maximum = 0
             options = []
             # Put a no-options in here for the more advanced plants. Guaranteed to be ok - we will either get a match, or the real match is positive.
             if this_plant.free_thickness == 0:
-                (maximum, options) = self.compute_energy_options_recurse(
-                    plants, pos + 1, last, state
+                (maximum, ret) = self.compute_energy_options_recurse(
+                    plants, pos + 1, last, state, maximum
                 )
                 if not last:
                     options = ret
             for eo in this_plant.energy_options:
                 (eo_energy, eo_on, eo_off) = eo
-                # print('trying',eo,'with',on,off)
                 if not on.intersection(eo_off) and not off.intersection(eo_on):
                     new_state = (
                         energy + eo_energy * self.branch[pos][1],
@@ -69,7 +70,7 @@ class Plant:
                         off.union(eo_off),
                     )
                     (this_maximum, this_options) = self.compute_energy_options_recurse(
-                        plants, pos + 1, last, new_state
+                        plants, pos + 1, last, new_state, maximum
                     )
 
                     maximum = max(maximum, this_maximum)
@@ -79,17 +80,26 @@ class Plant:
         return (maximum, options)
 
     def compute_energy_options(self, plants, last):
+        self.branch.sort(key=lambda p: (p[1] * plants[p[0]].maximum), reverse=True)
+        if last:
+            self.maximums = [0]
+            for i in range(len(self.branch) - 1, -1, -1):
+                self.maximums = [
+                    self.maximums[0]
+                    + max(0, self.branch[i][1]) * plants[self.branch[i][0]].maximum
+                ] + self.maximums
         if self.free_thickness:
             # On off for these plants
             self.energy_options = [
                 (self.free_thickness, set([self.id]), set()),
                 (0, set(), set([self.id])),
             ]
+            self.maximum = 1
             return self.free_thickness
         else:
             state = (0, set(), set())
             (self.maximum, self.energy_options) = self.compute_energy_options_recurse(
-                plants, 0, last, state
+                plants, 0, last, state, 0
             )
             if last:
                 assert self.maximum >= self.thickness
@@ -108,13 +118,12 @@ def part_1(input, part=1):
 
     state = 1
     id = 1
-    # This is a long and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long  and long and long and long comment
+
     state_1_re = re.compile(r"Plant (\d+) with thickness (-?\d+):")
     state_2_free_re = re.compile(r"- free branch with thickness (-?\d+)")
     state_2_branch_re = re.compile(r"- branch to Plant (\d+) with thickness (-?\d+)")
     generator = input_generator(input, terminate_with_empty=(part == 1))
     for line in generator:
-        print(line)
         if state == 1:
             if line == "" and part > 1:
                 break
@@ -159,8 +168,6 @@ def part_1(input, part=1):
     if part == 3:
         for id in range(1, last_id + 1):
             maximum = plants[id].compute_energy_options(plants, id == last_id)
-            print(plants[id].energy_options)
-        print(maximum)
         total = 0
         for line in generator:
             muls = [int(n) for n in line.split(" ")]
@@ -186,8 +193,7 @@ def part_3(input):
 
 def notes():
     """
-    What we have I think works but run-time very slow. Need to do some culling to get the maximum.
-    Then track potential maximum left from later plants and we don't need to go down the list if we can't reach the known maximum.
+    We have a reasonable culling option. Still takes 6.5s to run part 3 which feels a bit long.
     """
 
 
