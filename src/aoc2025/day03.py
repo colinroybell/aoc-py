@@ -68,5 +68,9 @@ def part_b(input):
     return total
 
 
+def notes():
+    """Easier approach: maintain a stack of the potential answer, then pop if something better comes along. "Monotonic stack"."""
+
+
 if __name__ == "__main__":
     Run_2025_03().run_cmdline()
