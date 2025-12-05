@@ -84,3 +84,7 @@ class Vec2d:
 
     def manhattan(self, other):
         return abs(self.x - other.x) + abs(self.y - other.y)
+
+
+def opposite_direction(dir):
+        return {'R':'L','L':'R','U':'D','D':'U','>':'<','<':'>','^':'v','v':'^'}[dir]
