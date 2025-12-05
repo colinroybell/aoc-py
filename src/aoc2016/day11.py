@@ -1,22 +1,26 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
 
+
 class Run_2016_11(DayBase):
     YEAR = "2016"
     DAY = "11"
 
+
 # chip is 0, generator is 1
+
 
 class Item:
     def __init__(self, name, type):
         self.name = name
-        self.type = type # "chip" or "generator"
+        self.type = type  # "chip" or "generator"
 
     def __hash__(self):
-        return hash((self.name, self.type))  
+        return hash((self.name, self.type))
 
     def __repr__(self):
-        return "{} {}".format(self.name, self.type) 
+        return "{} {}".format(self.name, self.type)
+
 
 class State:
     def __init__(self, elevator, floors):
@@ -27,8 +31,8 @@ class State:
         for f in range(4):
             if self.floors[f]:
                 return False
-        return True    
-            
+        return True
+
     def valid(self):
         for f in self.floors:
             for item in f:
@@ -36,23 +40,23 @@ class State:
                 other_generator = False
                 if item.type == "microchip":
                     for other in f:
-                        if other.type=="generator":
+                        if other.type == "generator":
                             if other.name == item.name:
                                 match_generator = True
                             else:
                                 other_generator = True
                     if other_generator and not match_generator:
                         return False
-        return True                            
+        return True
 
     def moves(self):
         new_states = []
         # single items
         new_el = []
         if self.elevator > 1:
-            new_el.append(self.elevator-1)
+            new_el.append(self.elevator - 1)
         if self.elevator < 4:
-            new_el.append(self.elevator+1)
+            new_el.append(self.elevator + 1)
 
         el_floor = self.floors[self.elevator]
         # Single
@@ -60,11 +64,11 @@ class State:
             for item2 in el_floor:
                 for el in new_el:
                     new_floors = [set() for _ in range(5)]
-                    for f in range(1,5):
+                    for f in range(1, 5):
                         for it in self.floors[f]:
-                            new_floors[f].add(it) 
-               
-                    #print(item,self.elevator,new_floors)
+                            new_floors[f].add(it)
+
+                    # print(item,self.elevator,new_floors)
                     new_floors[self.elevator].remove(item)
                     new_floors[el].add(item)
                     if item2 != item:
@@ -72,50 +76,49 @@ class State:
                         new_floors[el].add(item2)
 
                     if item != item2 and el > self.elevator:
-                        new_states.append(State(el,new_floors))
+                        new_states.append(State(el, new_floors))
                     if item == item2 and el < self.elevator:
-                        new_states.append(State(el,new_floors))    
-        return new_states            
-       
+                        new_states.append(State(el, new_floors))
+        return new_states
+
     def __hash__(self):
         return hash(self.__repr__())
-    
+
     def __repr__(self):
         string = "{}".format(self.elevator)
-        for f in range(1,5):
-            string+="[{} {}]".format(f,self.floors[f])
-        return string    
-    
+        for f in range(1, 5):
+            string += "[{} {}]".format(f, self.floors[f])
+        return string
 
 
 def part_a(input):
     floors = [set() for _ in range(5)]
     floor = 1
     for line in input_generator(input):
-        phrases = line.split(',')
+        phrases = line.split(",")
         for p in phrases:
-            words = p.split(' ')
+            words = p.split(" ")
             if words[0] == "The":
                 words = words[4:]
             if words[1] == "and":
                 words = words[2:]
-            if words[0] == '':
-                words = words[1:]    
+            if words[0] == "":
+                words = words[1:]
             if words[0] == "nothing":
-                break    
+                break
             print(words)
             type = words[2]
-            if type[-1] == '.':
-                type =type[:-1]
+            if type[-1] == ".":
+                type = type[:-1]
             if type == "microchip":
-                name = words[1].split('-')[0]
+                name = words[1].split("-")[0]
             else:
                 name = words[1]
-            floors[floor].add(Item(name,type))
+            floors[floor].add(Item(name, type))
         floor += 1
 
-    initial_state=State(1,floors) 
-    print(initial_state)                   
+    initial_state = State(1, floors)
+    print(initial_state)
 
     done = {}
     queue = []
@@ -128,28 +131,24 @@ def part_a(input):
             break
         (time, state) = queue[0]
         if time != time_report:
-            print('time',time,'rounds',rounds)
+            print("time", time, "rounds", rounds)
             time_report = time
-       
+
         queue = queue[1:]
-        #print('State',time,state)
+        # print('State',time,state)
         if state.complete():
-            print('Complete')
+            print("Complete")
             return time
         if state.__repr__() in done:
             continue
-     
+
         done[state.__repr__()] = time
         for new_state in state.moves():
             if new_state.__repr__() not in done:
                 if new_state.valid():
-                    queue.append((time+1,new_state))
-                else:       
-                    done[new_state] = "invalid" 
-
-
-
-    
+                    queue.append((time + 1, new_state))
+                else:
+                    done[new_state] = "invalid"
 
 
 def part_b(input):
@@ -157,15 +156,16 @@ def part_b(input):
 
 
 def notes():
-    '''
+    """
     Had to insert a comma before 'and' in test input. Ought to parse by counting words rather than splitting on commas.
-    
+
     Pretty inefficient. We know that the items are equivalent, so could simplify state considerably.
 
     Second part is 61 - do first bit, then bring other bits up in a sensible order. Probably there's an analytical method?
 
     Hash stuff is not working with objects - this is worth finding out about.
-    '''
+    """
+
 
 if __name__ == "__main__":
     Run_2016_11().run_cmdline()
