@@ -7,8 +7,9 @@ class Test_2016_11:
         self.day = Run_2016_11()
 
     def test_bringup_a(self):
-        pass
-
+        assert self.day.run_part("a","test1") == 11
+    
+    @pytest.mark.skip
     def test_bringup_b(self):
         pass
 
