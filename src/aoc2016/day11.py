@@ -164,6 +164,10 @@ def notes():
     Second part is 61 - do first bit, then bring other bits up in a sensible order. Probably there's an analytical method?
 
     Hash stuff is not working with objects - this is worth finding out about.
+
+    With the optimisation we put in (elevator going up always has two items, going down always has one) the number of steps is deterministic. Would be interesting to know if we can prove this.
+
+    If not, a more efficient data structure would be to have a chip,generator pair as eg (1,3), then sort them lexicographically - this uses the items-are-equivalent property.
     """
 
 
