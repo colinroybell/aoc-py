@@ -20,10 +20,10 @@ def part_a(input, part="a"):
                 start = Vec2d(x, y)
 
     maze = grid_to_maze(grid, start, "0")
-    print(maze.pois)
+    # print(maze.pois)
     for id in maze.nodes.keys():
         node = maze.nodes[id]
-        print("Node {} poi {}", id, node.poi)
+        # print("Node {} poi {}", id, node.poi)
         for adj in node.adjs:
             print("{} {}".format(adj.id, adj.dist))
 
@@ -64,7 +64,7 @@ def part_a(input, part="a"):
     found = set()
     while not queue.empty():
         (t, state) = queue.get()
-        print("state", t, state)
+        # print("state", t, state)
         (id, pois_found) = state
         hash_state = (id, frozenset(pois_found))
         if hash_state in found:
@@ -73,7 +73,7 @@ def part_a(input, part="a"):
 
         if pois_found == target and (part == "a" or id == 0):
             return t
-        print(links[maze.nodes[id].poi])
+        # print(links[maze.nodes[id].poi])
         for poi, link in links[maze.nodes[id].poi].items():
             new_pois_found = pois_found.copy()
             new_pois_found.add(poi)
