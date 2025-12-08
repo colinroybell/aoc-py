@@ -58,8 +58,43 @@ def part_a(input, junctions=1000):
     return result
 
 
-def part_b(input):
-    assert 0, "not implemented"
+def top(links, i):
+    if links[i] == None:
+        return i
+    else:
+        return top(links, links[i])
+
+
+def part_b(input, junctions=1000):
+    points = []
+    dists = []
+    for line in input_generator(input):
+        (x, y, z) = [int(n) for n in line.split(",")]
+        points.append(Vec3d(x, y, z))
+
+    for i, p in enumerate(points):
+        for j, q in enumerate(points[i + 1 :]):
+            diff = p - q
+            dists.append((diff.dot(diff), i, j + i + 1))
+            # print(diff.dot(diff),p,q,i,j)
+
+    dists.sort(key=lambda x: x[0])
+
+    links = [None for _ in range(len(points))]
+    links_made = 0
+    for d in dists:
+        (_, i, j) = d
+
+        top_i = top(links, i)
+        top_j = top(links, j)
+
+        if top_i != top_j:
+            links[top_i] = top_j
+            print("link3", top_i, top_j)
+            links_made += 1
+            print("linking", i, j, links_made)
+            if links_made == len(points) - 1:
+                return points[i].x * points[j].x
 
 
 def notes():
@@ -67,7 +102,7 @@ def notes():
     Part a done, although not in the cleanest way. We ought to bucket together distances
     for efficiency (although it's taking only 0.7s for the sort)
 
-    Part b will be some sort of tree to manage connections.
+    Same for part b
     """
 
 
