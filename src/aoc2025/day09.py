@@ -47,12 +47,20 @@ def part_b(input):
 
             # Search through rightwards vlines to find one that is right of us and intersects us. This gives us the max x we are looking at. If it matches our y we have a point to consider.
 
-            while vlines[pos] < y:
+            while vlines[pos] < y:  # Provide a binary chop algorithm to do this.
                 pos += 1
             for dir in [-1, 1]:
                 pass
                 # In each direction we are looking for one which is right of us, and has a minimum less or equal than the current max. This gives us a candidate.
                 # Or we find one which intersects our x. in which case we stop. Again an exact match gives us a point to consider.
+
+
+def notes():
+    """
+    Assumptions we are making:
+    * simple polygon
+    * we don't have two parallel lines one apart (which we would treat as two edges but would come out as a green block)
+    """
 
 
 if __name__ == "__main__":
