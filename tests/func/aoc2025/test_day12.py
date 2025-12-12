@@ -14,9 +14,8 @@ class Test_2025_12:
     def test_bringup_b(self):
         assert self.day.run_part("b", "test1") == 0
 
-    @pytest.mark.skip
     def test_regression_a(self):
-        assert self.day.run_part("a") == 0
+        assert self.day.run_part("a") == 567
 
     @pytest.mark.skip
     def test_regression_b(self):
