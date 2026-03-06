@@ -4,8 +4,10 @@ from utils.data_input import input_generator
 
 
 class Grid2d:
-    def __init__(self, unset=0):
-        self.c = defaultdict(lambda: unset)
+    def __init__(self, unset=None):
+        def constant_factory(value):
+            return lambda: value
+        self.c = defaultdict(constant_factory(unset))
 
     def copy(self):
         new_grid = __init__()
@@ -128,10 +130,8 @@ class Grid2d:
         del self.c[vec.tuple()]
 
     def get(self, vec):
-        if vec.tuple() in self.c:
-            return self.c[vec.tuple()]
-        else:
-            return None
+        return self.c[vec.tuple()]
+       
 
     def __repr__(self):
         string = ""

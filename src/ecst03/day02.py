@@ -8,6 +8,18 @@ class Run_st03_02(DayBase):
     DAY = "02"
     PREFIX = "ec"
 
+def update_grids(grid,adj_grid,pos):
+    print("Setting",pos)
+    grid.set(pos,'+')
+    if adj_grid:
+        for d in 'URDL':
+            adj = pos.move(d)
+            count = adj_grid.get(adj)
+            count += 1
+            adj_grid.set(adj,count)
+            print("Setting adj",adj,count)
+            if count == 4 and grid.get(adj) != '+':
+                update_grids(grid,adj_grid,adj)
 
 def part_1(input, part = 1):
     start = None
@@ -23,10 +35,14 @@ def part_1(input, part = 1):
     assert(target)
     assert(start)
     grid = Grid2d()
-    dirs = 'URDL'
-    grid.set(start,'+')
     if part == 2:
-        grid.set(target,'#')
+        adj_grid = Grid2d(unset = 0)
+    else:
+        adj_grid = None    
+    dirs = 'URDL'
+    update_grids(grid,adj_grid,start)
+    if part == 2:
+        update_grids(grid,adj_grid,target)
     pos = start
     steps = 0
     last_steps = None
@@ -38,20 +54,17 @@ def part_1(input, part = 1):
             new_pos = pos.move_y_flipped(d)
             if grid.get(new_pos) == None:
                 pos = new_pos           
-                grid.set(new_pos, '+')
-                # TODO: need the "surround on all sides" rule to be applied.
+                update_grids(grid,adj_grid,new_pos)
                 steps += 1
                 pos = new_pos
                 print(part,steps, pos, d, target.manhattan(pos))
                 if part == 1:
                     if pos == target:
                         return steps 
-                else:
-                    if target.manhattan(pos) == 1:
-                        count_adj += 1
-                        print(steps, count_adj)
-                        if count_adj == 4:
-                            return steps         
+                elif part == 2:
+                    if adj_grid.get(target) == 4:
+                        return steps
+   
 
 
 def part_2(input):
