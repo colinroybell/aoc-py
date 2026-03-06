@@ -3,19 +3,22 @@ from utils.data_input import input_generator
 
 
 class Run_st03_02(DayBase):
-    YEAR='st03'
-    DAY='02'
-    PREFIX='ec'
+    YEAR = "st03"
+    DAY = "02"
+    PREFIX = "ec"
 
 
 def part_1(input):
     assert 0, "not implemented"
 
+
 def part_2(input):
     assert 0, "not implemented"
 
+
 def part_3(input):
-    assert 0, "not implemented"    
+    assert 0, "not implemented"
+
 
 if __name__ == "__main__":
     Run_st03_02().run_cmdline()
