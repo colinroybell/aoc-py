@@ -1,4 +1,4 @@
-year = "st02"
+year = "st03"
 
 init_filename = "src/ec{}/__init__.py".format(year)
 with open(init_filename, "w") as f:
