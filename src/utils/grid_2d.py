@@ -7,6 +7,7 @@ class Grid2d:
     def __init__(self, unset=None):
         def constant_factory(value):
             return lambda: value
+
         self.c = defaultdict(constant_factory(unset))
 
     def copy(self):
@@ -131,7 +132,6 @@ class Grid2d:
 
     def get(self, vec):
         return self.c[vec.tuple()]
-       
 
     def __repr__(self):
         string = ""
