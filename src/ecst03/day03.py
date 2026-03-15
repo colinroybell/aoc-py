@@ -49,23 +49,36 @@ class TreeNode:
 
     def addNode(self, tnode):
         if self.left:
-            tnode = self.left.addNode(tnode)
-            if tnode == None:
-                return None
+            # Unclear from rules, but if you replace, you can't attach what you've just cut off to the new subtree.
+            if (
+                PART == 3
+                and strong_match(self.node.left, tnode.node.plug)
+                and not strong_match(self.node.left, self.left.node.plug)
+            ):
+                (tnode, self.left) = (self.left, tnode)
+            else:
+                tnode = self.left.addNode(tnode)
+                if tnode == None:
+                    return None
         else:
             if plug_socket_match(self.node.left, tnode.node.plug):
                 self.left = tnode
-                print("Adding {} under {} left".format(tnode.node.id, self.node.id))
                 return None
 
         if self.right:
-            tnode = self.right.addNode(tnode)
-            if tnode == None:
-                return None
+            if (
+                PART == 3
+                and strong_match(self.node.right, tnode.node.plug)
+                and not strong_match(self.node.right, self.right.node.plug)
+            ):
+                (tnode, self.right) = (self.right, tnode)
+            else:
+                tnode = self.right.addNode(tnode)
+                if tnode == None:
+                    return None
         else:
             if plug_socket_match(self.node.right, tnode.node.plug):
                 self.right = tnode
-                print("Adding {} under {} right".format(tnode.node.id, self.node.id))
                 return None
         return tnode
 
@@ -91,8 +104,9 @@ class Tree:
         if self.root == None:
             self.root = tnode
         else:
-            tnode = self.root.addNode(tnode)
-            assert tnode==None
+            while tnode:
+                # Need to iterate round from the start in some cases in part 3.
+                tnode = self.root.addNode(tnode)
 
     def compute_id(self):
         assert self.root
@@ -103,7 +117,6 @@ def part_1(input, part=1):
     PART = part
     tree = Tree()
     for line in input_generator(input):
-        print(line)
         fields = line.split(",")
         data = [f.split("=")[1] for f in fields]
         node = Node(
@@ -118,7 +131,7 @@ def part_2(input):
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    return part_1(input, part=3)
 
 
 if __name__ == "__main__":
