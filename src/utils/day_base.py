@@ -19,18 +19,24 @@ class DayBase:
             aoc_module.PART = part
 
         if not isinstance(input, list):
-            input = self.input_filename(part, input)
+            input_filename = self.input_filename(part, input)
+
+        print("run_part", kwargs)
+        if "trace" in kwargs:
+            trace_input = self.input_filename(part, kwargs["trace"])
+            kwargs["trace"] = trace_input
+            print(input, trace_input)
 
         if part == "a":
-            return aoc_module.part_a(input, **kwargs)
+            return aoc_module.part_a(input_filename, **kwargs)
         elif part == "b":
-            return aoc_module.part_b(input, **kwargs)
+            return aoc_module.part_b(input_filename, **kwargs)
         elif part == "1":
-            return aoc_module.part_1(input, **kwargs)
+            return aoc_module.part_1(input_filename, **kwargs)
         elif part == "2":
-            return aoc_module.part_2(input, **kwargs)
+            return aoc_module.part_2(input_filename, **kwargs)
         elif part == "3":
-            return aoc_module.part_3(input, **kwargs)
+            return aoc_module.part_3(input_filename, **kwargs)
         else:
             assert False
             return 0

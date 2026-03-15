@@ -3,12 +3,27 @@ from utils.data_input import input_generator
 from utils.grid_2d import Grid2d
 from utils.vec_2d import Vec2d
 from collections import namedtuple
+import re
 
 
 class Run_st03_02(DayBase):
     YEAR = "st03"
     DAY = "02"
     PREFIX = "ec"
+
+    NOTES = """
+
+    We find out whether something is enclosed by seeing if we've changed topology, but we then floodfill to the outside to see if it needs removing.
+    
+    A better approach would be to maintain a list of directions which give each square's route to the outside, and where there's a blockage, do some sort
+    of search to find an alternative, flip things to point to that place (or if we can't find one, we know we are enclosed).
+
+    Have a function which generates these based on bounding box of what we already have.
+
+    We can probably do the enclosure of # by the same route - track a route out from those, and kill it if blocked. What we have currently is to search
+    every iteration, which is very inefficient.
+    
+"""
 
 
 class GridLimits:
@@ -20,7 +35,6 @@ class GridLimits:
 
 
 def update_grids(part, grid, grid_limits, pos):
-    print("Setting", pos)
     grid.set(pos, "+")
     if part == 1:
         return
@@ -47,8 +61,6 @@ def update_grids(part, grid, grid_limits, pos):
     for i in range(8):
         if adj_char[i] == None and adj_char[(i - 1) % 8] != None:
             region_starts.append(adj_pos[i])
-    print(adj_pos, adj_char)
-    print(grid_limits.min_x, grid_limits.max_x, grid_limits.min_y, grid_limits.max_y)
     if len(region_starts) > 1:
         for r in region_starts:
             block = []
@@ -71,12 +83,11 @@ def update_grids(part, grid, grid_limits, pos):
                     if a not in block and grid.get(a) == None:
                         cands.append(a)
             if not outside:
-                print("Surrounded:", block)
                 for b in block:
                     grid.set(b, "+")
 
 
-def part_1(input, part=1):
+def part_1(input, part=1, **kwargs):
     start = None
     targets = []
     count_adj = 0
@@ -87,10 +98,20 @@ def part_1(input, part=1):
             if c == "@":
                 start = Vec2d(x, y)
 
+    expected_dirs = []
+    if "trace" in kwargs:
+        dir_re = re.compile(r"Next.*\[(.)")
+        conv = {"↑": "U", "→": "R", "↓": "D", "←": "L"}
+        for line in input_generator(kwargs["trace"]):
+            m = dir_re.match(line)
+            if m:
+                char = m.group(1)
+                expected_dirs.append(conv[char])
+
     grid = Grid2d()
     grid_limits = GridLimits(start.x, start.y)
     update_grids(part, grid, grid_limits, start)
-    if part == 2:
+    if part > 1:
         for t in targets:
             update_grids(part, grid, grid_limits, t)
     pos = start
@@ -107,7 +128,8 @@ def part_1(input, part=1):
         for d in dirs:
             new_pos = pos.move_y_flipped(d)
             if grid.get(new_pos) == None:
-                print(d, new_pos)
+                if expected_dirs:
+                    assert d == expected_dirs[steps]
                 pos = new_pos
                 steps += 1
                 update_grids(part, grid, grid_limits, new_pos)
@@ -120,7 +142,6 @@ def part_1(input, part=1):
                     done = True
                     for t in targets:
                         for a in t.get_adjacent_orthogonal():
-                            print(a, grid.get(a))
                             if grid.get(a) == None:
                                 done = False
                                 break
@@ -134,8 +155,8 @@ def part_2(input):
     return part_1(input, part=2)
 
 
-def part_3(input):
-    return part_1(input, part=3)
+def part_3(input, **kwargs):
+    return part_1(input, part=3, **kwargs)
 
 
 if __name__ == "__main__":
