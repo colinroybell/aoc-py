@@ -49,23 +49,25 @@ class TreeNode:
 
     def addNode(self, tnode):
         if self.left:
-            if self.left.addNode(tnode):
-                return True
+            tnode = self.left.addNode(tnode)
+            if tnode == None:
+                return None
         else:
             if plug_socket_match(self.node.left, tnode.node.plug):
                 self.left = tnode
                 print("Adding {} under {} left".format(tnode.node.id, self.node.id))
-                return True
+                return None
 
         if self.right:
-            if self.right.addNode(tnode):
-                return True
+            tnode = self.right.addNode(tnode)
+            if tnode == None:
+                return None
         else:
             if plug_socket_match(self.node.right, tnode.node.plug):
                 self.right = tnode
                 print("Adding {} under {} right".format(tnode.node.id, self.node.id))
-                return True
-        return False
+                return None
+        return tnode
 
     def compute_id(self, count):
         id = 0
@@ -89,8 +91,8 @@ class Tree:
         if self.root == None:
             self.root = tnode
         else:
-            ret = self.root.addNode(tnode)
-            assert ret
+            tnode = self.root.addNode(tnode)
+            assert tnode==None
 
     def compute_id(self):
         assert self.root
