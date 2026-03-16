@@ -10,6 +10,41 @@ class Run_st02_01(DayBase):
     PREFIX = "ec"
 
 
+class MaxStructure:
+    def __init__(self, score_lists):
+        self.lists = []
+        for s in score_lists:
+            pairs = [(i, val) for i, val in enumerate(s)]
+            self.lists.append(sorted(pairs, key=lambda pairs: pairs[1], reverse=True))
+
+    def max_possible(self, total, used):
+        """Work out quick maximum for culling"""
+        for s in self.lists[len(used) :]:
+            i = 0
+            while s[i][0] in used:
+                i += 1
+            total += s[i][1]
+        return total
+
+    def find_max(self):
+        return self.find_max_recurse(None, 0, [])
+
+    def find_max_recurse(self, maximum, total, used):
+        if len(used) == len(self.lists):
+            if maximum == None or total > maximum:
+                return total
+            else:
+                return maximum
+        if maximum != None and self.max_possible(total, used) <= maximum:
+            # cull
+            return maximum
+        for score in self.lists[len(used)]:
+            if score[0] not in used:
+                new_used = used + [score[0]]
+                maximum = self.find_max_recurse(maximum, total + score[1], new_used)
+        return maximum
+
+
 def process_run(grid, inst, slot, trace):
     if trace:
         assert trace[0] == inst
@@ -80,7 +115,8 @@ def part_1(input, part=1, **kwargs):
             if traces:
                 trace = traces[run]
             total += process_run(grid, insts[run], run + first_slot, trace)
-    else:
+        return total
+    elif part == 2:
         slots = (width + 1) // 2
         for run in range(len(insts)):
             best_slot = None
@@ -91,13 +127,31 @@ def part_1(input, part=1, **kwargs):
                     best_slot = slot
                     best_score = score
             if traces:
-
                 trace = traces[run]
                 assert best_slot == trace[1]
                 assert best_score == trace[3]
             total += best_score
-
-    return total
+        return total
+    else:
+        assert part == 3
+        slots = (width + 1) // 2
+        max_lists = []
+        min_lists = []
+        for run in range(len(insts)):
+            max_list = []
+            min_list = []
+            for slot in range(1, slots + 1):
+                score = process_run(grid, insts[run], slot, None)
+                max_list.append(score)
+                min_list.append(-score)
+            max_lists.append(max_list)
+            min_lists.append(min_list)
+        max_calc = MaxStructure(max_lists)
+        maximum = max_calc.find_max()
+        min_calc = MaxStructure(min_lists)
+        minimum = -min_calc.find_max()
+        ret = "{} {}".format(minimum, maximum)
+        return ret
 
 
 def part_2(input, **kwargs):
@@ -105,7 +159,7 @@ def part_2(input, **kwargs):
 
 
 def part_3(input, **kwargs):
-    assert 0, "not implemented"
+    return part_1(input, part=3, **kwargs)
 
 
 if __name__ == "__main__":

@@ -15,17 +15,20 @@ class Test_st02_01:
     def test_bringup_2(self):
         assert self.day.run_part("2", "test3", trace="part2_trace1") == 115
 
-    @pytest.mark.skip
-    def test_bringup_3(self):
-        assert self.day.run_part("3", "test3") == 0
+    def test_bringup_3_1(self):
+        assert self.day.run_part("3", "test4") == "13 43"
+
+    def test_bringup_3_2(self):
+        assert self.day.run_part("3", "test5") == "25 66"
+
+    def test_bringup_3_3(self):
+        assert self.day.run_part("3", "test6") == "39 122"
 
     def test_regression_1(self):
         assert self.day.run_part("1") == 48
 
-    @pytest.mark.skip
     def test_regression_2(self):
-        assert self.day.run_part("2") == 0
+        assert self.day.run_part("2") == 1136
 
-    @pytest.mark.skip
     def test_regression_3(self):
-        assert self.day.run_part("3") == 0
+        assert self.day.run_part("3") == "37 109"
