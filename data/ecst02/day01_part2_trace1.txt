@@ -1,0 +1,13 @@
+             Token   Toss Slot   Final Slot   Coins
+RRRLLRRRLLRLRRLLLRLR          11           12      13
+RRRRRRRRRRLRRRRRLLRR           5           12      19
+LLLLLLLLRLRRLLRRLRLL          11            8       5
+RRRLLRRRLLRLLRLLLRRL          11           12      13
+RLRLLLRRLRRRLRRLRRRL          12           13      14
+LLLLLLLLRLLRRLLRLLLL          13            9       5
+LRLLRRLRLLLLLLLRLRRL          11           10       9
+LRLLRRLLLRRRRRLRRLRR          13           13      13
+LRLLRRLRLLRLRRLLLRLL          13           12      11
+RLLRRRRLRLRLRLRLLRRL          11           12      13
+
+Total: 13 + 19 + 5 + 13 + 14 + 5 + 9 + 13 + 11 + 13 = 115
