@@ -1,6 +1,8 @@
 from utils.day_base import DayBase
 from utils.data_input import input_generator
 import re
+from utils.grid_2d import Grid2d
+from utils.vec_2d import Vec2d
 
 
 class Run_st02_03(DayBase):
@@ -25,9 +27,6 @@ class Die:
         self.pulse += spin
         self.pulse %= self.seed
         self.pulse += 1 + self.roll_number + self.seed
-        print("spin", spin)
-        print("self.current", self.current)
-        print("self.faces", self.faces, len(self.faces))
         return self.faces[self.current]
 
 
@@ -124,7 +123,40 @@ def part_2(input):
 
 
 def part_3(input):
-    assert 0, "not implemented"
+    dice = []
+    generator = input_generator(input)
+    for line in generator:
+        if not line:
+            break
+        else:
+            dice.append(die_from_string(line))
+    grid = Grid2d()
+    (width, height) = grid.read_from_file_strings_generator(
+        generator, convert_to_int=True
+    )
+    marked_grid = Grid2d()
+
+    for die in dice:
+        result = die.roll()
+        candidates = set()
+        for x in range(width):
+            for y in range(height):
+                v = Vec2d(x, y)
+                if grid.get(v) == result:
+                    candidates.add(v)
+                    marked_grid.set(v, 1)
+        while candidates:
+            result = die.roll()
+            new_candidates = set()
+            for c in candidates:
+                adj = [c] + c.get_adjacent_orthogonal()
+                for a in adj:
+                    if grid.get(a) == result:
+                        new_candidates.add(a)
+                        marked_grid.set(a, 1)
+            candidates = new_candidates
+
+    return marked_grid.count_non_zero()
 
 
 if __name__ == "__main__":
