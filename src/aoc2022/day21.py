@@ -58,7 +58,7 @@ def part_a(input, part_b=False, humn=0):
 def part_b(input):
     # 2*50 empirically determined.
     h0 = 0
-    h1 = 2 ** 50
+    h1 = 2**50
 
     v0 = part_a(input, True, h0)
     v1 = part_a(input, True, h1)

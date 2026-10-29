@@ -82,12 +82,12 @@ def part_a(input):
 
 def part_b_recurse(n, pos, desired_output, program):
     for d in range(8):
-        a = n + d * (8 ** pos)
+        a = n + d * (8**pos)
         if pos == 16:
             print(n, d, a, pos)
         a_mod = a
         if pos < 16:
-            a_mod += 8 ** 15
+            a_mod += 8**15
         init()
         set_register("A", a_mod)
         output = run_program(program)

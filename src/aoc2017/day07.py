@@ -13,6 +13,7 @@ weight = {}
 totalWeight = {}
 words = []
 
+
 # TODO: this doesn't work if the odd one comes first. (True of the test data, but real data does work.)
 def computeTotalWeights(disc):
     totalWeight[disc] = weight[disc]

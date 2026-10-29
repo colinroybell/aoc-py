@@ -56,7 +56,7 @@ def part_2(input, part=2):
         pos = 20252025 % count
     else:
         pos = 202520252025 % count
-    for (start, num, dir) in nums:
+    for start, num, dir in nums:
         if pos < num:
             return start + pos * dir
         else:

@@ -149,7 +149,7 @@ def weighted_average(nodes):
         for n in nodes.values():
             score[n.id] = new_score[n.id]
         round += 1
-    for (a, b) in crossings:
+    for a, b in crossings:
         nodes[a].used.append(b)
 
     count = len([n for n in nodes.values() if score[n.id] > 0])

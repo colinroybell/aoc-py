@@ -21,7 +21,7 @@ def iterate(grid):
                         else:
                             counts[adj] = 1
     new_grid = set()
-    for (v, c) in counts.items():
+    for v, c in counts.items():
         if c == 3 or (c == 2 and v in grid):
             new_grid.add(v)
     return new_grid
@@ -42,7 +42,7 @@ def iterate4(grid):
                             else:
                                 counts[adj] = 1
     new_grid = set()
-    for (v, c) in counts.items():
+    for v, c in counts.items():
         if c == 3 or (c == 2 and v in grid):
             new_grid.add(v)
     return new_grid

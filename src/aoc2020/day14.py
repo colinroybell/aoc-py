@@ -29,7 +29,7 @@ def part_a(input):
                 else:
                     bit = int(mask_bit)
                 input_val = input_val // 2
-                output_val += bit * (2 ** i)
+                output_val += bit * (2**i)
             mem[address] = output_val
     sum_ = 0
     for _, v in mem.items():
@@ -49,7 +49,7 @@ def part_b(input):
             write_offsets = [0]
             for i in range(0, 36):
                 if mask[i] == "X":
-                    inc = 2 ** i
+                    inc = 2**i
                     current_len = len(write_offsets)
                     for offset in range(0, current_len):
                         write_offsets.append(write_offsets[offset] + inc)
@@ -67,7 +67,7 @@ def part_b(input):
                 else:
                     bit = 1
                 address = address // 2
-                base_address += bit * (2 ** i)
+                base_address += bit * (2**i)
             for offset in write_offsets:
                 mem[base_address + offset] = input_val
     sum_ = 0

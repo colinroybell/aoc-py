@@ -25,7 +25,7 @@ class Plant:
 
     def compute_energy(self, plants, multiplier):
         incoming = self.free_thickness * multiplier
-        for (p, t) in self.branch:
+        for p, t in self.branch:
             incoming += plants[p].energy * t
 
         if incoming >= self.thickness:

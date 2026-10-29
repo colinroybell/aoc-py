@@ -75,7 +75,7 @@ def compute_scores(transitions, buttons, scores):
                     output[b][loc] = t
                     continue
 
-                for (dir, dest) in transitions[loc]:
+                for dir, dest in transitions[loc]:
                     new_t = t + scores[last][dir]
                     new_state = State(dest, route + dir, False)
                     state_queue.put((new_t, new_state))

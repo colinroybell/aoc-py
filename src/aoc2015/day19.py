@@ -15,7 +15,7 @@ def matchall(theList, value):
 
 def replacement(atoms, transitions):
     outputs = set()
-    for (t0, t1) in transitions:
+    for t0, t1 in transitions:
         length = len(t0)
         for pos in matchall(atoms, t0):
             new_atoms = atoms[:pos] + t1 + atoms[pos + 1 :]
@@ -91,7 +91,7 @@ class AtomList:
     def initialiseTransitionCandidates(self):
         self.candidates = []
         for pos in range(self.count):
-            for (t0, t1) in self.transitions:
+            for t0, t1 in self.transitions:
                 if pos + len(t1) < self.count:
                     ok = True
                     for j in range(0, len(t1)):
@@ -119,7 +119,7 @@ class AtomList:
         self.candidates = new_candidates
 
         # And add new candidates based on this element
-        for (t0, t1) in self.transitions:
+        for t0, t1 in self.transitions:
             for j in range(0, len(t1)):
                 if cand.sub == t1[j]:
                     ok = True

@@ -54,7 +54,7 @@ def can_advance_iterative(grid, pos, dir):
     print(to_set)
     for p in to_blank:
         grid.set(p, ".")
-    for (p, v) in to_set:
+    for p, v in to_set:
         grid.set(p, v)
     return pos.move_y_flipped(dir), True
 

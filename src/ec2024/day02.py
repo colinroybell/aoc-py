@@ -71,7 +71,7 @@ def part_3(input):
     dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     for x in range(width):
         for y in range(height):
-            for (xd, yd) in dirs:
+            for xd, yd in dirs:
                 for word in words:
                     wlen = len(word)
                     ok = True

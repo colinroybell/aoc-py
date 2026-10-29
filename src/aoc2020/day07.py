@@ -35,7 +35,7 @@ def parse_file(input):
 def compute_holders(up, bag):
     holders = set()
     holders.add(bag)
-    for (count, superbag) in up[bag]:
+    for count, superbag in up[bag]:
         ret = compute_holders(up, superbag)
         holders = holders.union(ret)
     return holders
@@ -45,7 +45,7 @@ def compute_holders(up, bag):
 # case it runs more or less instantly anyway
 def compute_held(down, bag):
     total = 1
-    for (count, subbag) in down[bag]:
+    for count, subbag in down[bag]:
         total += count * compute_held(down, subbag)
     return total
 

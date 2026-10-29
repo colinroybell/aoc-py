@@ -62,7 +62,7 @@ class State:
             time_offset = 0
 
         best_possible = self.score
-        for (t, dist) in self.pos[adv].tunnels:
+        for t, dist in self.pos[adv].tunnels:
             if t.name not in self.opened:
                 best_possible += (end_time - first_time - 1) * t.flow_rate
 
@@ -71,7 +71,7 @@ class State:
             return []
         advanced = False
 
-        for (t, dist) in self.pos[adv].tunnels:
+        for t, dist in self.pos[adv].tunnels:
             if t.name in self.opened:
                 continue
             if t.name == "AA":

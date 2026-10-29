@@ -36,7 +36,7 @@ def part_1(input, part=1):
         signs_gen = (s for s in corrections)
     else:
         signs_gen = (s for s in reversed(corrections))
-    for (n, sign) in zip((n for n in nums), signs_gen):
+    for n, sign in zip((n for n in nums), signs_gen):
         if sign == "+":
             offset += n
         else:

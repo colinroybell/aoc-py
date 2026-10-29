@@ -45,7 +45,8 @@ def part_b(input):
 
 def notes():
     """
-    First part does a full search, whereas it ought to be possible to do it via construction. Second part ditto. Current time for part 2 is 1.5s so nice to get it down"""
+    First part does a full search, whereas it ought to be possible to do it via construction. Second part ditto. Current time for part 2 is 1.5s so nice to get it down
+    """
 
 
 if __name__ == "__main__":

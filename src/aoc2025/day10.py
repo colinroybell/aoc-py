@@ -117,7 +117,7 @@ def part_b_score_recurse(buttons, targets, parity_cache, target_cache):
     opts = button_options(buttons, targets, parity_cache)
     # print(targets,opts)
     best = None
-    for (c, jolts) in opts:
+    for c, jolts in opts:
         new_targets = [(targets[i] - jolts[i]) // 2 for i in range(len(targets))]
         if min(new_targets) < 0:
             continue

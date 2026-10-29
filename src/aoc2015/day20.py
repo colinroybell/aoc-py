@@ -53,7 +53,7 @@ def part_a(input):
     for i, p in enumerate(primes):
         change = False
         new_record_list = record_list.copy()
-        for (r, v, f_in) in record_list.items:
+        for r, v, f_in in record_list.items:
             fact = f_in.copy()
             fact.extend([0] * (i + 1 - len(fact)))
             while v < target:
@@ -67,7 +67,7 @@ def part_a(input):
         record_list = new_record_list
         if not change:
             break
-    for (r, v, _) in record_list.items:
+    for r, v, _ in record_list.items:
         if v > target:
             return r
 
