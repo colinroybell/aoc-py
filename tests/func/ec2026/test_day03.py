@@ -10,7 +10,7 @@ class Test_2026_03:
         assert self.day.run_part("1", "test1") == 1478
 
     def test_bringup_2(self):
-        assert self.day.run_part("2", "test2") == 1161463 
+        assert self.day.run_part("2", "test2") == 1161463
 
     def test_bringup_3(self):
         assert self.day.run_part("3", "test3") == 50987
