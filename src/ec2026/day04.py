@@ -40,14 +40,16 @@ def part_1(input):
 def part_2(input):
     return part_1(input)
 
+
 def get_time(times, id, quest, part):
     time = 0
-    for p in range(1,part+1):
-        if (quest,p) in times[id]:
-            time += times[id][(quest,p)]
+    for p in range(1, part + 1):
+        if (quest, p) in times[id]:
+            time += times[id][(quest, p)]
         else:
             return None
-    return time        
+    return time
+
 
 def part_3(input):
     generator = input_generator(input)
@@ -63,17 +65,17 @@ def part_3(input):
         time = values[3]
         if id not in times:
             times[id] = {}
-        times[id][(quest,part)] = time    
+        times[id][(quest, part)] = time
         if id not in points:
             points[id] = 0
         quests.add(quest)
 
     for quest in quests:
-        for part in range(1,4):
-            print(f'Quest {quest}, Part {part}:')
+        for part in range(1, 4):
+            print(f"Quest {quest}, Part {part}:")
             scores = {}
             for id in times.keys():
-                time = get_time(times,id,quest,part)
+                time = get_time(times, id, quest, part)
                 if time:
                     scores[id] = time
 
@@ -82,35 +84,36 @@ def part_3(input):
             value = 50 * part
             last_time = None
             last_value = None
-            for i in range(len(sorted_scores)):    
-                (id,time) = sorted_scores[i]
+            for i in range(len(sorted_scores)):
+                (id, time) = sorted_scores[i]
                 if time != last_time:
-                    if value <=0:
+                    if value <= 0:
                         break
-                    print(f'id={id}, time={time}, points={value}')
+                    print(f"id={id}, time={time}, points={value}")
                     points[id] += value
                     last_time = time
                     last_value = value
-                else:    
+                else:
                     points[id] += last_value
-                    print(f'id={id}, time={time}, points={last_value}')
-                value -=1    
-            print('')
-    sorted_points = sorted(points.items(), key = lambda item: -item[1])
+                    print(f"id={id}, time={time}, points={last_value}")
+                value -= 1
+            print("")
+    sorted_points = sorted(points.items(), key=lambda item: -item[1])
     checksum = 0
     last_score = None
     last_weight = None
     for i in range(len(sorted_points)):
         score = sorted_points[i][1]
         if score != last_score:
-            checksum += (i+1) * score
-            print(f'{i+1}. points={score}')
+            checksum += (i + 1) * score
+            print(f"{i+1}. points={score}")
             last_score = score
             last_weight = i + 1
         else:
-            print(f'{last_weight}. points={score}')
-            checksum += last_weight * score    
-    return checksum    
+            print(f"{last_weight}. points={score}")
+            checksum += last_weight * score
+    return checksum
+
 
 if __name__ == "__main__":
     Run_2026_04().run_cmdline()

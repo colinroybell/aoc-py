@@ -13,14 +13,14 @@ class Test_2026_04:
         assert self.day.run_part("2", "test2") == 6470
 
     def test_bringup_3_1(self):
-          assert self.day.run_part("3", "test3") == 2998
+        assert self.day.run_part("3", "test3") == 2998
 
     def test_bringup_3_2(self):
-          assert self.day.run_part("3", "test4") == 3004
+        assert self.day.run_part("3", "test4") == 3004
 
     def test_bringup_3_3(self):
-            assert self.day.run_part("3", "test5") == 6232480
-            
+        assert self.day.run_part("3", "test5") == 6232480
+
     def test_regression_1(self):
         assert self.day.run_part("1") == 198726
 
