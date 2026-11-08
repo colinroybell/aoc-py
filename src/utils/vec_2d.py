@@ -97,3 +97,29 @@ def opposite_direction(dir):
         "^": "v",
         "v": "^",
     }[dir]
+
+
+def rotate_clockwise(dir):
+    return {
+        "R": "D",
+        "D": "L",
+        "L": "U",
+        "U": "R",
+        ">": "v",
+        "v": "<",
+        "<": "^",
+        "^": ">",
+    }[dir]
+
+
+def rotate_anticlockwise(dir):
+    return {
+        "R": "U",
+        "U": "L",
+        "L": "D",
+        "D": "R",
+        ">": "^",
+        "^": "<",
+        "<": "v",
+        "v": ">",
+    }[dir]
