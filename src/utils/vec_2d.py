@@ -70,6 +70,9 @@ class Vec2d:
     def __mul__(self, mul):
         return Vec2d(self.x * mul, self.y * mul)
 
+    def __rmul__(self, mul):
+        return Vec2d(self.x * mul, self.y * mul)
+
     def __repr__(self):
         return "({},{})".format(self.x, self.y)
 
