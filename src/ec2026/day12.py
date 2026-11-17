@@ -10,7 +10,7 @@ class Run_2026_12(DayBase):
     PREFIX = "ec"
 
 
-# TODO: part 1 and 2 work. part 3 doesn't. I've ended up with a hacky set of cases - sure there must be a better way to think about this.
+# TODO: could be tidied up, maybe a generic rectangle function?
 
 
 def part_1(input):
@@ -77,26 +77,27 @@ def part_2(input):
                 if pos not in found:
                     y_arm = w - num_missing(found, pos, Vec2d(1, 0))
                     x_arm = h - num_missing(found, pos, Vec2d(0, 1))
-                    double_dir_score = y_arm + x_arm
                     case_found = True
                 pos = Vec2d(max_x, min_y)
                 if pos not in found:
                     y_arm = w - num_missing(found, pos, Vec2d(-1, 0))
                     x_arm = h - num_missing(found, pos, Vec2d(0, 1))
-                    double_dir_score = y_arm + x_arm
                     case_found = True
                 pos = Vec2d(min_x, max_y)
                 if pos not in found:
                     y_arm = w - num_missing(found, pos, Vec2d(1, 0))
                     x_arm = h - num_missing(found, pos, Vec2d(0, -1))
-                    double_dir_score = y_arm + x_arm
                     case_found = True
                 pos = Vec2d(max_x, max_y)
                 if pos not in found:
                     y_arm = w - num_missing(found, pos, Vec2d(-1, 0))
                     x_arm = h - num_missing(found, pos, Vec2d(0, -1))
-                    double_dir_score = y_arm + x_arm
                     case_found = True
+
+                if case_found:
+                    case1 = min(w, y_arm) + min(x_arm, h - y_arm)
+                    case2 = min(w - x_arm, y_arm) + min(x_arm, h)
+                    double_dir_score = min(case1, case2)
 
                 if not case_found and len(found) < w * h:
                     # case 3. We have a hole
@@ -107,18 +108,28 @@ def part_2(input):
                             if pos not in found:
                                 x_gap = num_missing(found, pos, Vec2d(1, 0))
                                 y_gap = num_missing(found, pos, Vec2d(0, 1))
-                                print("part3", w, x_gap, h, y_gap)
-                                part3_score = min(
-                                    w + h - x_gap - y_gap, w + x_gap, h + y_gap
+
+                                # horiz case is where we split into three horizontally, vert case similar.
+                                case_horiz = (
+                                    h
+                                    - y_gap
+                                    + min(xx, y_gap)
+                                    + min(w - xx - x_gap, y_gap)
                                 )
-                                print("score", part3_score)
+                                case_vert = (
+                                    w
+                                    - x_gap
+                                    + min(yy, x_gap)
+                                    + min(h - yy - y_gap, x_gap)
+                                )
+                                part3_score = min(case_horiz, case_vert)
+
                                 break
                         if part3_score:
                             break
                     total += part3_score
                 else:
                     total += min(single_dir_score, double_dir_score)
-                print("total", total, single_dir_score, double_dir_score)
     return total
 
 
